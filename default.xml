@@ -422,7 +422,7 @@
   <project path="tools/swt" name="platform/tools/swt" groups="notdefault,tools" />
 
   <!-- Asteroid specific repositories -->
-  <project path="build" name="platform_build" remote="github" revision="master" >
+  <project path="build" name="AsteroidOS/android_build" remote="github" revision="master" >
     <copyfile src="core/root.mk" dest="Makefile" />
   </project>
   <project path="bionic" name="Asteroid-Project/android_bionic" remote="github" revision="master" />
