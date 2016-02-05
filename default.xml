@@ -430,4 +430,6 @@
   <project path="frameworks/native" name="Asteroid-Project/android_frameworks_native" remote="github" revision="master" />
   <project path="hardware/libhardware" name="Asteroid-Project/android_hardware_libhardware" remote="github" revision="master" />
   <project path="system/core" name="Asteroid-Project/android_system_core" remote="github" revision="master" />
+  
+  <project path="libhybris" name="libhybris/libhybris" remote="github" revision="master" />
 </manifest>
