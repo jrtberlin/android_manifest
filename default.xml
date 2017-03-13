@@ -322,6 +322,7 @@
   <project path="hardware/qcom/audio" name="platform/hardware/qcom/audio" groups="qcom,qcom_audio" />
   <project path="hardware/qcom/bt" name="platform/hardware/qcom/bt" groups="qcom" />
   <project path="hardware/qcom/camera" name="platform/hardware/qcom/camera" groups="qcom" />
+  <project path="hardware/qcom/display" name="platform/hardware/qcom/display" groups="qcom" />
   <project path="hardware/qcom/gps" name="platform/hardware/qcom/gps" groups="qcom,qcom_gps" />
   <project path="hardware/qcom/keymaster" name="platform/hardware/qcom/keymaster" groups="qcom,qcom_keymaster" />
   <project path="hardware/qcom/media" name="platform/hardware/qcom/media" groups="qcom" />
@@ -399,17 +400,17 @@
   <project path="tools/swt" name="platform/tools/swt" groups="notdefault,tools" />
   <project path="tools/tradefederation" name="platform/tools/tradefederation" groups="notdefault,tradefed" />
 
-  <project path="build" name="AsteroidOS/android_build" >
+  <project path="build" name="AsteroidOS/android_build" remote="github" revision="master" >
     <copyfile src="core/root.mk" dest="Makefile" />
   </project>
-  <project path="external/skia" name="AsteroidOS/android_external_skia" />
-  <project path="hardware/libhardware" name="AsteroidOS/android_hardware_libhardware"/>
-  <project path="system/core" name="AsteroidOS/android_system_core"/>
+  <project path="external/skia" name="platform/external/skia" revision="marshmallow-dr1.5-release" />
+  <project path="hardware/libhardware" name="platform/hardware/libhardware" revision="marshmallow-dr1.5-release" />
+  <project path="system/core" name="platform/system/core" revision="marshmallow-dr1.5-release"/>
 
 <!--   Asteroid specific repositories -->
   <project path="bionic" name="AsteroidOS/android_bionic" remote="github" />
   <project path="frameworks/native" name="AsteroidOS/android_frameworks_native" remote="github" />
-  <project path="hardware/qcom/display" name="AsteroidOS/android_hardware_qcom_display" remote="github" />
+  <!-- <project path="hardware/qcom/display" name="AsteroidOS/android_hardware_qcom_display" remote="github" /> -->
   
   <project path="libhybris" name="libhybris/libhybris" remote="github" revision="master" />
 </manifest>

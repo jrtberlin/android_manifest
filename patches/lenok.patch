@@ -1,0 +1,4920 @@
+
+project bionic/
+diff --git a/bionic/benchmarks/Android.mk b/bionic/benchmarks/Android.mk
+index e1580fe..9aea569 100644
+--- a/bionic/benchmarks/Android.mk
++++ b/bionic/benchmarks/Android.mk
+@@ -25,7 +25,7 @@ benchmark_cflags := \
+     -fno-builtin \
+     -Wall \
+     -Wextra \
+-    -Werror \
++     \
+     -Wunused \
+ 
+ benchmark_cppflags := \
+diff --git a/bionic/libc/Android.mk b/bionic/libc/Android.mk
+index 4215c1b..80f3e04 100644
+--- a/bionic/libc/Android.mk
++++ b/bionic/libc/Android.mk
+@@ -588,7 +588,6 @@ libc_common_cflags += \
+     -Werror=pointer-to-int-cast \
+     -Werror=int-to-pointer-cast \
+     -Werror=type-limits \
+-    -Werror \
+ 
+ ifeq ($(strip $(DEBUG_BIONIC_LIBC)),true)
+   libc_common_cflags += -DDEBUG
+@@ -1421,7 +1420,7 @@ LOCAL_LDFLAGS_x86 := -Wl,--exclude-libs=libgcc_eh.a
+ LOCAL_LDFLAGS_x86_64 := $(LOCAL_LDFLAGS_x86)
+ 
+ LOCAL_SRC_FILES:= hybris/libdsyscalls.c
+-LOCAL_CFLAGS := -Wall -Wextra -Wunused -Werror
++LOCAL_CFLAGS := -Wall -Wextra -Wunused 
+ 
+ LOCAL_MODULE := libdsyscalls
+ LOCAL_ADDITIONAL_DEPENDENCIES := 
+diff --git a/bionic/libdl/Android.mk b/bionic/libdl/Android.mk
+index 7b97dc4..e8e6f10 100644
+--- a/bionic/libdl/Android.mk
++++ b/bionic/libdl/Android.mk
+@@ -22,7 +22,7 @@ LOCAL_LDFLAGS_x86 := -Wl,--exclude-libs=libgcc_eh.a
+ LOCAL_LDFLAGS_x86_64 := $(LOCAL_LDFLAGS_x86)
+ 
+ LOCAL_SRC_FILES:= libdl.c
+-LOCAL_CFLAGS := -Wall -Wextra -Wunused -Werror
++LOCAL_CFLAGS := -Wall -Wextra -Wunused 
+ LOCAL_CXX_STL := none
+ 
+ LOCAL_MODULE := libdl
+@@ -44,7 +44,7 @@ include $(BUILD_SHARED_LIBRARY)
+ # returns 0, as would happen if the user iterated over every phdr).
+ include $(CLEAR_VARS)
+ LOCAL_SRC_FILES:= libdl.c
+-LOCAL_CFLAGS := -Wall -Wextra -Wunused -Werror
++LOCAL_CFLAGS := -Wall -Wextra -Wunused 
+ LOCAL_CXX_STL := none
+ 
+ LOCAL_MODULE := libdl
+diff --git a/bionic/linker/Android.mk b/bionic/linker/Android.mk
+index 7a9b5d9..7441a45 100644
+--- a/bionic/linker/Android.mk
++++ b/bionic/linker/Android.mk
+@@ -33,7 +33,7 @@ LOCAL_CFLAGS += \
+     -fno-stack-protector \
+     -Wstrict-overflow=5 \
+     -fvisibility=hidden \
+-    -Wall -Wextra -Wunused -Werror \
++    -Wall -Wextra -Wunused  \
+ 
+ LOCAL_CFLAGS_arm += -D__work_around_b_19059885__
+ LOCAL_CFLAGS_x86 += -D__work_around_b_19059885__
+diff --git a/bionic/linker/tests/Android.mk b/bionic/linker/tests/Android.mk
+index 35992c5..1101460 100644
+--- a/bionic/linker/tests/Android.mk
++++ b/bionic/linker/tests/Android.mk
+@@ -23,7 +23,7 @@ LOCAL_MODULE_STEM_64 := $(LOCAL_MODULE)64
+ 
+ LOCAL_ADDITIONAL_DEPENDENCIES := $(LOCAL_PATH)/Android.mk
+ 
+-LOCAL_CFLAGS += -g -Wall -Wextra -Wunused -Werror -std=gnu++11
++LOCAL_CFLAGS += -g -Wall -Wextra -Wunused  -std=gnu++11
+ LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../libc/
+ 
+ LOCAL_SRC_FILES := \
+diff --git a/bionic/tests/Android.mk b/bionic/tests/Android.mk
+index dc2e410..79201df 100644
+--- a/bionic/tests/Android.mk
++++ b/bionic/tests/Android.mk
+@@ -35,7 +35,7 @@ test_cflags = \
+     -fstack-protector-all \
+     -g \
+     -Wall -Wextra -Wunused \
+-    -Werror \
++     \
+     -fno-builtin \
+ 
+ test_cflags += -D__STDC_LIMIT_MACROS  # For glibc.
+diff --git a/bionic/tools/relocation_packer/Android.mk b/bionic/tools/relocation_packer/Android.mk
+index 4e2fd97..24f5a3c 100644
+--- a/bionic/tools/relocation_packer/Android.mk
++++ b/bionic/tools/relocation_packer/Android.mk
+@@ -15,7 +15,7 @@
+ #
+ 
+ ifeq ($(HOST_OS),linux)
+-common_cppflags := -Wall -Wextra -Wunused -Werror -Wold-style-cast
++common_cppflags := -Wall -Wextra -Wunused  -Wold-style-cast
+ 
+ LOCAL_PATH := $(call my-dir)
+ 
+
+project build/
+diff --git a/build/core/binary.mk b/build/core/binary.mk
+index 69131c3..00e0b52 100644
+--- a/build/core/binary.mk
++++ b/build/core/binary.mk
+@@ -437,7 +437,7 @@ endif
+ 
+ # Turn on all warnings and warnings as errors for RS compiles.
+ # This can be disabled with LOCAL_RENDERSCRIPT_FLAGS := -Wno-error
+-renderscript_flags := -Wall -Werror
++renderscript_flags := -Wall 
+ renderscript_flags += $(LOCAL_RENDERSCRIPT_FLAGS)
+ # -m32 or -m64
+ renderscript_flags += -m$(my_32_64_bit_suffix)
+diff --git a/build/core/combo/TARGET_linux-arm.mk b/build/core/combo/TARGET_linux-arm.mk
+index 564aa7c..08d0dae 100644
+--- a/build/core/combo/TARGET_linux-arm.mk
++++ b/build/core/combo/TARGET_linux-arm.mk
+@@ -101,7 +101,6 @@ $(combo_2nd_arch_prefix)TARGET_GLOBAL_CFLAGS += \
+ 			-funwind-tables \
+ 			-fstack-protector \
+ 			-Wa,--noexecstack \
+-			-Werror=format-security \
+ 			-D_FORTIFY_SOURCE=2 \
+ 			-fno-short-enums \
+ 			-no-canonical-prefixes \
+@@ -111,7 +110,7 @@ $(combo_2nd_arch_prefix)TARGET_GLOBAL_CFLAGS += \
+ 			-I $(dir $(android_config_h))
+ 
+ # The "-Wunused-but-set-variable" option often breaks projects that enable
+-# "-Wall -Werror" due to a commom idiom "ALOGV(mesg)" where ALOGV is turned
++# "-Wall " due to a commom idiom "ALOGV(mesg)" where ALOGV is turned
+ # into no-op in some builds while mesg is defined earlier. So we explicitly
+ # disable "-Wunused-but-set-variable" here.
+ ifneq ($(filter 4.6 4.6.% 4.7 4.7.% 4.8 4.9, $($(combo_2nd_arch_prefix)TARGET_GCC_VERSION)),)
+diff --git a/build/core/combo/TARGET_linux-arm64.mk b/build/core/combo/TARGET_linux-arm64.mk
+index 07a1de9..e1e7882 100644
+--- a/build/core/combo/TARGET_linux-arm64.mk
++++ b/build/core/combo/TARGET_linux-arm64.mk
+@@ -78,7 +78,7 @@ TARGET_GLOBAL_CFLAGS += \
+ 			-fdata-sections \
+ 			-funwind-tables \
+ 			-Wa,--noexecstack \
+-			-Werror=format-security \
++			=format-security \
+ 			-D_FORTIFY_SOURCE=2 \
+ 			-fno-short-enums \
+ 			-no-canonical-prefixes \
+@@ -89,9 +89,9 @@ TARGET_GLOBAL_CFLAGS += \
+ 
+ # Help catch common 32/64-bit errors.
+ TARGET_GLOBAL_CFLAGS += \
+-    -Werror=pointer-to-int-cast \
+-    -Werror=int-to-pointer-cast \
+-    -Werror=implicit-function-declaration \
++    =pointer-to-int-cast \
++    =int-to-pointer-cast \
++    =implicit-function-declaration \
+ 
+ TARGET_GLOBAL_CFLAGS += -fno-strict-volatile-bitfields
+ 
+diff --git a/build/core/combo/TARGET_linux-mips.mk b/build/core/combo/TARGET_linux-mips.mk
+index 55566eb..3b6bece 100644
+--- a/build/core/combo/TARGET_linux-mips.mk
++++ b/build/core/combo/TARGET_linux-mips.mk
+@@ -88,7 +88,7 @@ $(combo_2nd_arch_prefix)TARGET_GLOBAL_CFLAGS += \
+ 			-fdata-sections \
+ 			-funwind-tables \
+ 			-Wa,--noexecstack \
+-			-Werror=format-security \
++			=format-security \
+ 			-D_FORTIFY_SOURCE=2 \
+ 			-no-canonical-prefixes \
+ 			-fno-canonical-system-headers \
+diff --git a/build/core/combo/TARGET_linux-mips64.mk b/build/core/combo/TARGET_linux-mips64.mk
+index c6f9f29..5bc0ade 100644
+--- a/build/core/combo/TARGET_linux-mips64.mk
++++ b/build/core/combo/TARGET_linux-mips64.mk
+@@ -88,7 +88,7 @@ TARGET_GLOBAL_CFLAGS += \
+ 			-fdata-sections \
+ 			-funwind-tables \
+ 			-Wa,--noexecstack \
+-			-Werror=format-security \
++			=format-security \
+ 			-D_FORTIFY_SOURCE=2 \
+ 			-no-canonical-prefixes \
+ 			-fno-canonical-system-headers \
+@@ -98,9 +98,9 @@ TARGET_GLOBAL_CFLAGS += \
+ 
+ # Help catch common 32/64-bit errors.
+ TARGET_GLOBAL_CFLAGS += \
+-    -Werror=pointer-to-int-cast \
+-    -Werror=int-to-pointer-cast \
+-    -Werror=implicit-function-declaration \
++    =pointer-to-int-cast \
++    =int-to-pointer-cast \
++    =implicit-function-declaration \
+ 
+ ifneq ($(ARCH_MIPS_PAGE_SHIFT),)
+ TARGET_GLOBAL_CFLAGS += -DPAGE_SHIFT=$(ARCH_MIPS_PAGE_SHIFT)
+diff --git a/build/core/combo/TARGET_linux-x86.mk b/build/core/combo/TARGET_linux-x86.mk
+index f17a514..ed4b9c1 100644
+--- a/build/core/combo/TARGET_linux-x86.mk
++++ b/build/core/combo/TARGET_linux-x86.mk
+@@ -80,7 +80,7 @@ android_config_h := $(call select-android-config-h,target_linux-x86)
+ $(combo_2nd_arch_prefix)TARGET_GLOBAL_CFLAGS += \
+ 			-O2 \
+ 			-Wa,--noexecstack \
+-			-Werror=format-security \
++			=format-security \
+ 			-D_FORTIFY_SOURCE=2 \
+ 			-Wstrict-aliasing=2 \
+ 			-ffunction-sections \
+diff --git a/build/core/combo/TARGET_linux-x86_64.mk b/build/core/combo/TARGET_linux-x86_64.mk
+index 2adb157..15973dc 100644
+--- a/build/core/combo/TARGET_linux-x86_64.mk
++++ b/build/core/combo/TARGET_linux-x86_64.mk
+@@ -78,7 +78,7 @@ KERNEL_HEADERS := $(KERNEL_HEADERS_COMMON) $(KERNEL_HEADERS_ARCH)
+ TARGET_GLOBAL_CFLAGS += \
+ 			-O2 \
+ 			-Wa,--noexecstack \
+-			-Werror=format-security \
++			=format-security \
+ 			-D_FORTIFY_SOURCE=2 \
+ 			-Wstrict-aliasing=2 \
+ 			-ffunction-sections \
+@@ -95,9 +95,9 @@ TARGET_GLOBAL_CFLAGS += \
+ 
+ # Help catch common 32/64-bit errors.
+ TARGET_GLOBAL_CFLAGS += \
+-    -Werror=pointer-to-int-cast \
+-    -Werror=int-to-pointer-cast \
+-    -Werror=implicit-function-declaration \
++    =pointer-to-int-cast \
++    =int-to-pointer-cast \
++    =implicit-function-declaration \
+ 
+ android_config_h := $(call select-android-config-h,target_linux-x86)
+ TARGET_ANDROID_CONFIG_CFLAGS := -include $(android_config_h) -I $(dir $(android_config_h))
+diff --git a/build/core/java.mk b/build/core/java.mk
+index fc4703c..1fffeeb 100644
+--- a/build/core/java.mk
++++ b/build/core/java.mk
+@@ -159,7 +159,7 @@ endif
+ 
+ # Turn on all warnings and warnings as errors for RS compiles.
+ # This can be disabled with LOCAL_RENDERSCRIPT_FLAGS := -Wno-error
+-renderscript_flags := -Wall -Werror
++renderscript_flags := -Wall 
+ renderscript_flags += $(LOCAL_RENDERSCRIPT_FLAGS)
+ 
+ # prepend the RenderScript system include path
+diff --git a/build/tools/fs_config/Android.mk b/build/tools/fs_config/Android.mk
+index f4c871a..8525bc8 100644
+--- a/build/tools/fs_config/Android.mk
++++ b/build/tools/fs_config/Android.mk
+@@ -19,6 +19,6 @@ LOCAL_SRC_FILES := fs_config.c
+ LOCAL_MODULE := fs_config
+ LOCAL_STATIC_LIBRARIES := libcutils liblog libselinux
+ LOCAL_FORCE_STATIC_EXECUTABLE := true
+-LOCAL_CFLAGS := -Werror
++LOCAL_CFLAGS := 
+ 
+ include $(BUILD_HOST_EXECUTABLE)
+
+project development/
+diff --git a/development/ndk/platforms/android-18/samples/gles3jni/jni/Android-11.mk b/development/ndk/platforms/android-18/samples/gles3jni/jni/Android-11.mk
+index baf17d2..46cb346 100644
+--- a/development/ndk/platforms/android-18/samples/gles3jni/jni/Android-11.mk
++++ b/development/ndk/platforms/android-18/samples/gles3jni/jni/Android-11.mk
+@@ -17,7 +17,7 @@ LOCAL_PATH:= $(call my-dir)
+ include $(CLEAR_VARS)
+ 
+ LOCAL_MODULE     := libgles3jni
+-LOCAL_CFLAGS     := -Werror -DDYNAMIC_ES3
++LOCAL_CFLAGS     :=  -DDYNAMIC_ES3
+ LOCAL_SRC_FILES  := gles3jni.cpp \
+ 				   RendererES2.cpp \
+ 				   RendererES3.cpp \
+diff --git a/development/ndk/platforms/android-18/samples/gles3jni/jni/Android-18.mk b/development/ndk/platforms/android-18/samples/gles3jni/jni/Android-18.mk
+index 5111de5..560af90 100644
+--- a/development/ndk/platforms/android-18/samples/gles3jni/jni/Android-18.mk
++++ b/development/ndk/platforms/android-18/samples/gles3jni/jni/Android-18.mk
+@@ -17,7 +17,7 @@ LOCAL_PATH:= $(call my-dir)
+ include $(CLEAR_VARS)
+ 
+ LOCAL_MODULE    := libgles3jni
+-LOCAL_CFLAGS    := -Werror
++LOCAL_CFLAGS    := 
+ LOCAL_SRC_FILES := gles3jni.cpp \
+ 				   RendererES2.cpp \
+ 				   RendererES3.cpp
+diff --git a/development/ndk/platforms/android-5/samples/hello-gl2/Android.mk b/development/ndk/platforms/android-5/samples/hello-gl2/Android.mk
+index 2e36165..45fbe21 100644
+--- a/development/ndk/platforms/android-5/samples/hello-gl2/Android.mk
++++ b/development/ndk/platforms/android-5/samples/hello-gl2/Android.mk
+@@ -3,7 +3,7 @@ LOCAL_PATH:= $(LOCAL_PATH)/jni
+ include $(CLEAR_VARS)
+ 
+ LOCAL_MODULE    := libgl2jni
+-LOCAL_CFLAGS    := -Werror
++LOCAL_CFLAGS    := 
+ LOCAL_SRC_FILES := gl_code.cpp
+ LOCAL_LDLIBS    := -llog -lGLESv2
+ 
+diff --git a/development/ndk/platforms/android-5/samples/hello-gl2/jni/Android.mk b/development/ndk/platforms/android-5/samples/hello-gl2/jni/Android.mk
+index a995c86..91b949c 100644
+--- a/development/ndk/platforms/android-5/samples/hello-gl2/jni/Android.mk
++++ b/development/ndk/platforms/android-5/samples/hello-gl2/jni/Android.mk
+@@ -17,7 +17,7 @@ LOCAL_PATH:= $(call my-dir)
+ include $(CLEAR_VARS)
+ 
+ LOCAL_MODULE    := libgl2jni
+-LOCAL_CFLAGS    := -Werror
++LOCAL_CFLAGS    := 
+ LOCAL_SRC_FILES := gl_code.cpp
+ LOCAL_LDLIBS    := -llog -lGLESv2
+ 
+
+project device/lge/bullhead/
+diff --git a/device/lge/bullhead/dataservices/rmnetctl/cli/Android.mk b/device/lge/bullhead/dataservices/rmnetctl/cli/Android.mk
+index 27281ff..1d15167 100644
+--- a/device/lge/bullhead/dataservices/rmnetctl/cli/Android.mk
++++ b/device/lge/bullhead/dataservices/rmnetctl/cli/Android.mk
+@@ -3,7 +3,7 @@ LOCAL_PATH := $(call my-dir)
+ include $(CLEAR_VARS)
+ 
+ LOCAL_SRC_FILES := rmnetcli.c
+-LOCAL_CFLAGS := -Wall -Werror
++LOCAL_CFLAGS := -Wall 
+ 
+ LOCAL_C_INCLUDES := $(LOCAL_PATH)/../inc
+ LOCAL_C_INCLUDES += $(LOCAL_PATH)/../src
+diff --git a/device/lge/bullhead/dataservices/rmnetctl/src/Android.mk b/device/lge/bullhead/dataservices/rmnetctl/src/Android.mk
+index 434ddd2..d6419b5 100644
+--- a/device/lge/bullhead/dataservices/rmnetctl/src/Android.mk
++++ b/device/lge/bullhead/dataservices/rmnetctl/src/Android.mk
+@@ -5,7 +5,7 @@ LOCAL_COPY_HEADERS_TO   := dataservices/rmnetctl
+ LOCAL_COPY_HEADERS      := ../inc/librmnetctl.h
+ 
+ LOCAL_SRC_FILES := librmnetctl.c
+-LOCAL_CFLAGS := -Wall -Werror
++LOCAL_CFLAGS := -Wall 
+ 
+ LOCAL_C_INCLUDES := $(LOCAL_PATH)/../inc
+ LOCAL_C_INCLUDES += $(LOCAL_PATH)
+
+project external/android-clat/
+diff --git a/external/android-clat/Android.mk b/external/android-clat/Android.mk
+index 5f2fe63..01704c1 100644
+--- a/external/android-clat/Android.mk
++++ b/external/android-clat/Android.mk
+@@ -3,7 +3,7 @@ include $(CLEAR_VARS)
+ 
+ LOCAL_SRC_FILES:=clatd.c dump.c checksum.c translate.c icmp.c ipv4.c ipv6.c config.c dns64.c logging.c getaddr.c netlink_callbacks.c netlink_msg.c setif.c mtu.c tun.c ring.c
+ 
+-LOCAL_CFLAGS := -Wall -Werror -Wunused-parameter
++LOCAL_CFLAGS := -Wall  -Wunused-parameter
+ LOCAL_C_INCLUDES := external/libnl/include bionic/libc/dns/include
+ LOCAL_STATIC_LIBRARIES := libnl
+ LOCAL_SHARED_LIBRARIES := libcutils liblog libnetutils
+@@ -29,7 +29,7 @@ include $(BUILD_PREBUILT)
+ include $(CLEAR_VARS)
+ 
+ LOCAL_MODULE := clatd_test
+-LOCAL_CFLAGS := -Wall -Werror -Wunused-parameter
++LOCAL_CFLAGS := -Wall  -Wunused-parameter
+ LOCAL_SRC_FILES := clatd_test.cpp checksum.c translate.c icmp.c ipv4.c ipv6.c logging.c config.c tun.c
+ LOCAL_MODULE_TAGS := eng tests
+ LOCAL_SHARED_LIBRARIES := liblog
+@@ -40,7 +40,7 @@ include $(BUILD_NATIVE_TEST)
+ include $(CLEAR_VARS)
+ 
+ LOCAL_MODULE := clatd_microbenchmark
+-LOCAL_CFLAGS := -Wall -Werror -Wunused-parameter
++LOCAL_CFLAGS := -Wall  -Wunused-parameter
+ LOCAL_SRC_FILES := clatd_microbenchmark.c checksum.c tun.c
+ LOCAL_MODULE_TAGS := eng tests
+ 
+
+project external/boringssl/
+diff --git a/external/boringssl/Android.mk b/external/boringssl/Android.mk
+index 66f6033..40c2ab5 100644
+--- a/external/boringssl/Android.mk
++++ b/external/boringssl/Android.mk
+@@ -44,7 +44,7 @@ include $(BUILD_SHARED_LIBRARY)
+ 
+ # Target static tool
+ include $(CLEAR_VARS)
+-LOCAL_CFLAGS += -Wall -Werror -std=c++0x
++LOCAL_CFLAGS += -Wall  -std=c++0x
+ LOCAL_CPP_EXTENSION := cc
+ LOCAL_MODULE := bssl
+ LOCAL_MODULE_TAGS := optional
+
+project external/compiler-rt/
+diff --git a/external/compiler-rt/lib/sanitizer_common/Android.mk b/external/compiler-rt/lib/sanitizer_common/Android.mk
+index 9436a43..00c40ad 100644
+--- a/external/compiler-rt/lib/sanitizer_common/Android.mk
++++ b/external/compiler-rt/lib/sanitizer_common/Android.mk
+@@ -66,7 +66,7 @@ san_rtl_cppflags := \
+     -fno-exceptions \
+     -std=c++11 \
+     -Wall \
+-    -Werror \
++     \
+     -Wno-unused-parameter \
+ 
+ san_rtl_c_includes := \
+diff --git a/external/compiler-rt/lib/sanitizer_common/tests/Android.mk b/external/compiler-rt/lib/sanitizer_common/tests/Android.mk
+index 5c5a58f..34dfbd7 100644
+--- a/external/compiler-rt/lib/sanitizer_common/tests/Android.mk
++++ b/external/compiler-rt/lib/sanitizer_common/tests/Android.mk
+@@ -49,7 +49,7 @@ san_test_cppflags := \
+     -fno-rtti \
+     -std=c++11 \
+     -Wall \
+-    -Werror \
++     \
+     -Wno-unused-parameter \
+     -Wno-non-virtual-dtor \
+ 
+diff --git a/external/compiler-rt/lib/ubsan/Android.mk b/external/compiler-rt/lib/ubsan/Android.mk
+index 2df7fdd..d315f69 100644
+--- a/external/compiler-rt/lib/ubsan/Android.mk
++++ b/external/compiler-rt/lib/ubsan/Android.mk
+@@ -33,7 +33,7 @@ ubsan_rtl_cppflags := \
+     -fno-exceptions \
+     -std=c++11 \
+     -Wall \
+-    -Werror \
++     \
+     -Wno-unused-parameter \
+     -Wno-non-virtual-dtor \
+ 
+diff --git a/external/compiler-rt/make/options.mk b/external/compiler-rt/make/options.mk
+index 67197de..d7143f0 100644
+--- a/external/compiler-rt/make/options.mk
++++ b/external/compiler-rt/make/options.mk
+@@ -7,7 +7,7 @@
+ CC := gcc
+ 
+ # The compiler flags to use.
+-CFLAGS := -Wall -Werror
++CFLAGS := -Wall 
+ 
+ # The list of functions to include in the library.
+ FUNCTIONS :=
+diff --git a/external/compiler-rt/make/platform/clang_darwin.mk b/external/compiler-rt/make/platform/clang_darwin.mk
+index 61250c7..1903afc 100644
+--- a/external/compiler-rt/make/platform/clang_darwin.mk
++++ b/external/compiler-rt/make/platform/clang_darwin.mk
+@@ -156,7 +156,7 @@ $(foreach config,$(Configs),\
+ override CC := $(subst -arch ,-arch_,$(CC))
+ override CC := $(patsubst -arch_%,,$(CC))
+ 
+-CFLAGS := -Wall -Werror -O3 -fomit-frame-pointer
++CFLAGS := -Wall  -O3 -fomit-frame-pointer
+ 
+ # Always set deployment target arguments for every build, these libraries should
+ # never depend on the environmental overrides. We simply set them to minimum
+diff --git a/external/compiler-rt/make/platform/clang_linux.mk b/external/compiler-rt/make/platform/clang_linux.mk
+index 4585cd9..5aa792e 100644
+--- a/external/compiler-rt/make/platform/clang_linux.mk
++++ b/external/compiler-rt/make/platform/clang_linux.mk
+@@ -67,7 +67,7 @@ endif
+ 
+ ###
+ 
+-CFLAGS := -Wall -Werror -O3 -fomit-frame-pointer
++CFLAGS := -Wall  -O3 -fomit-frame-pointer
+ 
+ CFLAGS.builtins-i386 := $(CFLAGS) -m32
+ CFLAGS.builtins-x86_64 := $(CFLAGS) -m64
+diff --git a/external/compiler-rt/make/platform/clang_macho_embedded.mk b/external/compiler-rt/make/platform/clang_macho_embedded.mk
+index 76e43e6..b797e8f 100644
+--- a/external/compiler-rt/make/platform/clang_macho_embedded.mk
++++ b/external/compiler-rt/make/platform/clang_macho_embedded.mk
+@@ -60,7 +60,7 @@ Configs += $(if $(UniversalArchs.soft_pic),soft_pic)
+ UniversalArchs.hard_pic := $(call CheckArches,armv7em armv7 i386 x86_64,hard_pic)
+ Configs += $(if $(UniversalArchs.hard_pic),hard_pic)
+ 
+-CFLAGS := -Wall -Werror -Oz -fomit-frame-pointer -ffreestanding
++CFLAGS := -Wall  -Oz -fomit-frame-pointer -ffreestanding
+ 
+ PIC_CFLAGS := -fPIC
+ STATIC_CFLAGS := -static
+diff --git a/external/compiler-rt/make/platform/multi_arch.mk b/external/compiler-rt/make/platform/multi_arch.mk
+index fe6ac4b..3cc073f 100644
+--- a/external/compiler-rt/make/platform/multi_arch.mk
++++ b/external/compiler-rt/make/platform/multi_arch.mk
+@@ -7,7 +7,7 @@ Arch.m64 := x86_64
+ 
+ CC := clang
+ 
+-CFLAGS := -Wall -Werror
++CFLAGS := -Wall 
+ CFLAGS.m32 := $(CFLAGS) -m32 -O3
+ CFLAGS.m64 := $(CFLAGS) -m64 -O3
+ 
+
+project external/conscrypt/
+diff --git a/external/conscrypt/Android.mk b/external/conscrypt/Android.mk
+index 3e39a7e..1eae8e6 100644
+--- a/external/conscrypt/Android.mk
++++ b/external/conscrypt/Android.mk
+@@ -43,8 +43,8 @@ LOCAL_PATH := $(call my-dir)
+ local_javac_flags:=-Xmaxwarns 9999999
+ #local_javac_flags+=-Xlint:all -Xlint:-serial,-deprecation,-unchecked
+ 
+-core_cflags := -Wall -Wextra -Werror -Wunused
+-core_cppflags := -std=gnu++11 -Wall -Wextra -Werror -Wunused
++core_cflags := -Wall -Wextra  -Wunused
++core_cppflags := -std=gnu++11 -Wall -Wextra  -Wunused
+ 
+ #
+ # Build for the target (device).
+diff --git a/external/conscrypt/src/main/native/sub.mk b/external/conscrypt/src/main/native/sub.mk
+index 88bdec9..17cb748 100644
+--- a/external/conscrypt/src/main/native/sub.mk
++++ b/external/conscrypt/src/main/native/sub.mk
+@@ -9,7 +9,7 @@ LOCAL_SRC_FILES := \
+ LOCAL_C_INCLUDES += \
+ 	libcore/luni/src/main/native
+ 
+-LOCAL_C_FLAGS += -Wno-unused-parameter -Werror
++LOCAL_C_FLAGS += -Wno-unused-parameter 
+ 
+ # Any shared/static libs that are listed here must also
+ # be listed in libs/nativehelper/Android.mk.
+
+project external/dhcpcd/
+diff --git a/external/dhcpcd/Android.mk b/external/dhcpcd/Android.mk
+index 108451c..355cce0 100644
+--- a/external/dhcpcd/Android.mk
++++ b/external/dhcpcd/Android.mk
+@@ -56,7 +56,7 @@ include $(BUILD_PREBUILT)
+ # Unit tests.
+ include $(CLEAR_VARS)
+ LOCAL_MODULE := dhcpcd_test
+-LOCAL_CFLAGS := -Wall -Werror -Wunused-parameter
++LOCAL_CFLAGS := -Wall  -Wunused-parameter
+ LOCAL_SRC_FILES := dhcpcd_test.cpp dhcp.c common.c
+ LOCAL_CLANG_CFLAGS := -Wno-error=duplicate-decl-specifier
+ LOCAL_MODULE_TAGS := eng tests
+
+project external/elfutils/
+diff --git a/external/elfutils/src/libdw/Android.mk b/external/elfutils/src/libdw/Android.mk
+index b0a1c99..3c3745a 100755
+--- a/external/elfutils/src/libdw/Android.mk
++++ b/external/elfutils/src/libdw/Android.mk
+@@ -190,7 +190,7 @@ LOCAL_C_INCLUDES += $(LOCAL_PATH)/../../bionic-fixup
+ 
+ LOCAL_CFLAGS += -include $(LOCAL_PATH)/../../bionic-fixup/AndroidFixup.h
+ 
+-LOCAL_CFLAGS += -DHAVE_CONFIG_H -std=gnu99 -D_GNU_SOURCE -D_BSD_SOURCE -DIS_LIBDW -Werror
++LOCAL_CFLAGS += -DHAVE_CONFIG_H -std=gnu99 -D_GNU_SOURCE -D_BSD_SOURCE -DIS_LIBDW 
+ 
+ # to suppress the "pointer of type ‘void *’ used in arithmetic" warning
+ LOCAL_CFLAGS += -Wno-pointer-arith
+diff --git a/external/elfutils/src/libdwelf/Android.mk b/external/elfutils/src/libdwelf/Android.mk
+index a91aa87..75f32a2 100755
+--- a/external/elfutils/src/libdwelf/Android.mk
++++ b/external/elfutils/src/libdwelf/Android.mk
+@@ -79,7 +79,7 @@ LOCAL_C_INCLUDES += $(LOCAL_PATH)/../../bionic-fixup
+ 
+ LOCAL_CFLAGS += -include $(LOCAL_PATH)/../../bionic-fixup/AndroidFixup.h
+ 
+-LOCAL_CFLAGS += -DHAVE_CONFIG_H -std=gnu99 -D_GNU_SOURCE -D_BSD_SOURCE -Werror
++LOCAL_CFLAGS += -DHAVE_CONFIG_H -std=gnu99 -D_GNU_SOURCE -D_BSD_SOURCE 
+ 
+ # to suppress the "pointer of type ‘void *’ used in arithmetic" warning
+ LOCAL_CFLAGS += -Wno-pointer-arith
+diff --git a/external/elfutils/src/libdwfl/Android.mk b/external/elfutils/src/libdwfl/Android.mk
+index 2198fce..6b85f4c 100755
+--- a/external/elfutils/src/libdwfl/Android.mk
++++ b/external/elfutils/src/libdwfl/Android.mk
+@@ -146,7 +146,7 @@ LOCAL_C_INCLUDES += $(LOCAL_PATH)/../../bionic-fixup
+ 
+ LOCAL_CFLAGS += -include $(LOCAL_PATH)/../../bionic-fixup/AndroidFixup.h
+ 
+-LOCAL_CFLAGS += -DHAVE_CONFIG_H -std=gnu99 -D_GNU_SOURCE -Werror
++LOCAL_CFLAGS += -DHAVE_CONFIG_H -std=gnu99 -D_GNU_SOURCE 
+ 
+ # to suppress the "pointer of type ‘void *’ used in arithmetic" warning
+ LOCAL_CFLAGS += -Wno-pointer-arith
+diff --git a/external/elfutils/src/libebl/Android.mk b/external/elfutils/src/libebl/Android.mk
+index 0baa6b3..3652db3 100755
+--- a/external/elfutils/src/libebl/Android.mk
++++ b/external/elfutils/src/libebl/Android.mk
+@@ -126,7 +126,7 @@ LOCAL_C_INCLUDES += $(LOCAL_PATH)/../../bionic-fixup
+ 
+ LOCAL_CFLAGS += -include $(LOCAL_PATH)/../../bionic-fixup/AndroidFixup.h
+ 
+-LOCAL_CFLAGS += -DHAVE_CONFIG_H -std=gnu99 -D_GNU_SOURCE -Werror -Wno-error=pointer-arith
++LOCAL_CFLAGS += -DHAVE_CONFIG_H -std=gnu99 -D_GNU_SOURCE  -Wno-error=pointer-arith
+ 
+ LOCAL_MODULE:= libebl
+ 
+
+project external/iproute2/
+diff --git a/external/iproute2/ip/Android.mk b/external/iproute2/ip/Android.mk
+index 6c3afe1..28954b6 100644
+--- a/external/iproute2/ip/Android.mk
++++ b/external/iproute2/ip/Android.mk
+@@ -27,7 +27,7 @@ LOCAL_CFLAGS := \
+     -Wno-missing-field-initializers \
+     -Wno-pointer-arith \
+     -Wno-sign-compare \
+-    -Werror \
++     \
+     -D_GNU_SOURCE \
+     -DHAVE_SETNS \
+ 
+diff --git a/external/iproute2/lib/Android.mk b/external/iproute2/lib/Android.mk
+index f0b12ad..1dfc667 100644
+--- a/external/iproute2/lib/Android.mk
++++ b/external/iproute2/lib/Android.mk
+@@ -33,7 +33,7 @@ LOCAL_CFLAGS := -O2 -g -W -Wall \
+ 	-Wno-pointer-arith \
+ 	-Wno-sign-compare \
+ 	-Wno-unused-parameter \
+-	-Werror
++	
+ 
+ # This is a work around for b/18403920
+ LOCAL_LDFLAGS := -Wl,--no-gc-sections
+@@ -72,6 +72,6 @@ LOCAL_CFLAGS := -O2 -g -W -Wall \
+ 	-Wno-pointer-arith \
+ 	-Wno-sign-compare \
+ 	-Wno-unused-parameter \
+-	-Werror
++	
+ 
+ include $(BUILD_SHARED_LIBRARY)
+diff --git a/external/iproute2/tc/Android.mk b/external/iproute2/tc/Android.mk
+index f137d3e..68fe77a 100644
+--- a/external/iproute2/tc/Android.mk
++++ b/external/iproute2/tc/Android.mk
+@@ -16,7 +16,7 @@ LOCAL_SHARED_LIBRARIES += libiprouteutil libnetlink
+ 
+ LOCAL_C_INCLUDES := $(LOCAL_PATH)/../include
+ 
+-LOCAL_CFLAGS := -O2 -g -W -Wall -Wno-pointer-arith -Wno-sign-compare -Werror \
++LOCAL_CFLAGS := -O2 -g -W -Wall -Wno-pointer-arith -Wno-sign-compare  \
+     -Wno-unused-parameter \
+     -Wno-missing-field-initializers
+ 
+
+project external/ipsec-tools/
+diff --git a/external/ipsec-tools/Android.mk b/external/ipsec-tools/Android.mk
+index 5d8be8c..52d5c03 100644
+--- a/external/ipsec-tools/Android.mk
++++ b/external/ipsec-tools/Android.mk
+@@ -72,7 +72,7 @@ endif
+ 
+ LOCAL_CFLAGS := -DANDROID_CHANGES -DHAVE_CONFIG_H -DHAVE_OPENSSL_ENGINE_H -D_BSD_SOURCE=1
+ 
+-LOCAL_CFLAGS += -Wno-sign-compare -Wno-missing-field-initializers -Wno-unused-parameter -Wno-pointer-sign -Werror
++LOCAL_CFLAGS += -Wno-sign-compare -Wno-missing-field-initializers -Wno-unused-parameter -Wno-pointer-sign 
+ 
+ # Turn off unused XXX warnings. Should be removed/fixed when syncing with upstream. b/18523687, b/18632512
+ LOCAL_CFLAGS += -Wno-unused-variable \
+@@ -99,7 +99,7 @@ LOCAL_SRC_FILES := \
+ 
+ LOCAL_CFLAGS := -DANDROID_CHANGES -DHAVE_CONFIG_H -DHAVE_OPENSSL_ENGINE_H
+ 
+-LOCAL_CFLAGS += -Wno-sign-compare -Wno-missing-field-initializers -Wno-unused-parameter -Wno-pointer-sign -Werror
++LOCAL_CFLAGS += -Wno-sign-compare -Wno-missing-field-initializers -Wno-unused-parameter -Wno-pointer-sign 
+ 
+ # pfkey.c has some K&R warnings,
+ # to be ignored until they are fixed from upstream.
+
+project external/iptables/
+diff --git a/external/iptables/extensions/Android.mk b/external/iptables/extensions/Android.mk
+index 0dd3452..a66f3f7 100644
+--- a/external/iptables/extensions/Android.mk
++++ b/external/iptables/extensions/Android.mk
+@@ -15,7 +15,7 @@ MY_pf6_build_mod := $(filter-out ${MY_excluded_modules} dccp ipvs,${MY_pf6_build
+ MY_pfx_objs      := $(patsubst %,libxt_%.o,${MY_pfx_build_mod})
+ MY_pf4_objs      := $(patsubst %,libipt_%.o,${MY_pf4_build_mod})
+ MY_pf6_objs      := $(patsubst %,libip6t_%.o,${MY_pf6_build_mod})
+-# libxt_recent.c:202:11: error: address of array 'info->name' will always evaluate to 'true' [-Werror,-Wpointer-bool-conversion]
++# libxt_recent.c:202:11: error: address of array 'info->name' will always evaluate to 'true' [,-Wpointer-bool-conversion]
+ MY_warnings      := \
+     -Wno-unused-parameter -Wno-missing-field-initializers \
+     -Wno-sign-compare -Wno-pointer-arith \
+
+project external/libcxxabi/
+diff --git a/external/libcxxabi/Android.mk b/external/libcxxabi/Android.mk
+index a09c322..b05730a 100644
+--- a/external/libcxxabi/Android.mk
++++ b/external/libcxxabi/Android.mk
+@@ -57,7 +57,7 @@ LIBCXXABI_CPPFLAGS := \
+     -Wall \
+     -Wextra \
+     -Wno-unused-function \
+-    -Werror \
++     \
+ 
+ include $(CLEAR_VARS)
+ LOCAL_MODULE := libunwind_llvm
+
+project external/libunwind/
+diff --git a/external/libunwind/Android.mk b/external/libunwind/Android.mk
+index 0b94b48..6b6951d 100644
+--- a/external/libunwind/Android.mk
++++ b/external/libunwind/Android.mk
+@@ -31,7 +31,7 @@ libunwind_common_cppflags := \
+ 
+ libunwind_common_cflags := \
+     -Wno-unused-parameter \
+-    -Werror \
++     \
+ 
+ # gcc 4.8 appears to be overeager declaring that a variable is uninitialized,
+ # under certain circumstances. Turn off this warning only for target so that
+
+project external/mdnsresponder/
+diff --git a/external/mdnsresponder/Android.mk b/external/mdnsresponder/Android.mk
+index 6c4a68a..a6d946c 100644
+--- a/external/mdnsresponder/Android.mk
++++ b/external/mdnsresponder/Android.mk
+@@ -28,7 +28,7 @@ commonFlags := \
+     -Wno-unused \
+     -Wno-unused-but-set-variable \
+     -Wno-unused-parameter \
+-    -Werror=implicit-function-declaration \
++    =implicit-function-declaration \
+ 
+ #########################
+ 
+
+project external/parameter-framework/
+diff --git a/external/parameter-framework/bindings/python/Android.mk b/external/parameter-framework/bindings/python/Android.mk
+index b4b6277..f587d34 100644
+--- a/external/parameter-framework/bindings/python/Android.mk
++++ b/external/parameter-framework/bindings/python/Android.mk
+@@ -104,7 +104,7 @@ $(generated-sources-dir)/pfw_wrap.cxx: $(LOCAL_PATH)/pfw.i
+ 	prebuilts/misc/$(HOST_OS)-$(HOST_ARCH)/swig/swig \
+ 		-Iprebuilts/misc/common/swig/include/2.0.11/python/ \
+ 		-Iprebuilts/misc/common/swig/include/2.0.11/ \
+-		-Wall -Werror -v -python -c++ -outdir $(HOST_LIBRARY_PATH)/ -o $@ $^
++		-Wall  -v -python -c++ -outdir $(HOST_LIBRARY_PATH)/ -o $@ $^
+ 
+ include $(BUILD_HOST_SHARED_LIBRARY)
+ 
+diff --git a/external/parameter-framework/parameter/Android.mk b/external/parameter-framework/parameter/Android.mk
+index 7fa83fc..fde2cf1 100644
+--- a/external/parameter-framework/parameter/Android.mk
++++ b/external/parameter-framework/parameter/Android.mk
+@@ -123,7 +123,7 @@ common_module_tags := optional
+ 
+ common_cflags := \
+         -Wall \
+-        -Werror \
++         \
+         -Wextra \
+         -Wno-unused-parameter \
+         -Wno-maybe-uninitialized
+diff --git a/external/parameter-framework/remote-process/Android.mk b/external/parameter-framework/remote-process/Android.mk
+index a29b834..21b425b 100644
+--- a/external/parameter-framework/remote-process/Android.mk
++++ b/external/parameter-framework/remote-process/Android.mk
+@@ -39,7 +39,7 @@ common_module_tags := optional
+ 
+ common_cflags := \
+         -Wall \
+-        -Werror \
++         \
+         -Wextra \
+         -Wno-unused-parameter
+ 
+diff --git a/external/parameter-framework/remote-processor/Android.mk b/external/parameter-framework/remote-processor/Android.mk
+index 124eb71..e54b45a 100644
+--- a/external/parameter-framework/remote-processor/Android.mk
++++ b/external/parameter-framework/remote-processor/Android.mk
+@@ -46,7 +46,7 @@ common_module_tags := optional
+ 
+ common_cflags := \
+         -Wall \
+-        -Werror \
++         \
+         -Wextra \
+         -Wno-unused-parameter \
+ 
+diff --git a/external/parameter-framework/utility/Android.mk b/external/parameter-framework/utility/Android.mk
+index acafaef..c692994 100644
+--- a/external/parameter-framework/utility/Android.mk
++++ b/external/parameter-framework/utility/Android.mk
+@@ -42,7 +42,7 @@ common_module_tags := optional
+ 
+ common_cflags := \
+         -Wall \
+-        -Werror \
++         \
+         -Wextra \
+         -Wno-unused-parameter
+ 
+diff --git a/external/parameter-framework/xmlserializer/Android.mk b/external/parameter-framework/xmlserializer/Android.mk
+index 2c66caf..6c278ca 100644
+--- a/external/parameter-framework/xmlserializer/Android.mk
++++ b/external/parameter-framework/xmlserializer/Android.mk
+@@ -43,7 +43,7 @@ common_module := libxmlserializer
+ 
+ common_module_tags := optional
+ 
+-# Do not use the '-Werror' flag because of a compilation issue in libxml
++# Do not use the '' flag because of a compilation issue in libxml
+ common_cflags := \
+         -Wall \
+         -Wextra \
+
+project external/ppp/
+diff --git a/external/ppp/pppd/Android.mk b/external/ppp/pppd/Android.mk
+index 88cfe35..39dd987 100644
+--- a/external/ppp/pppd/Android.mk
++++ b/external/ppp/pppd/Android.mk
+@@ -27,7 +27,7 @@ LOCAL_SRC_FILES:= \
+ 	utils.c
+ 
+ # options.c:623:21: error: passing 'const char *' to parameter of type 'char *' discards qualifiers.
+-# [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
++# [,-Wincompatible-pointer-types-discards-qualifiers]
+ LOCAL_CLANG_CFLAGS += -Wno-incompatible-pointer-types-discards-qualifiers
+ 
+ LOCAL_SHARED_LIBRARIES := \
+@@ -36,7 +36,7 @@ LOCAL_SHARED_LIBRARIES := \
+ LOCAL_C_INCLUDES := \
+ 	$(LOCAL_PATH)/include
+ 
+-LOCAL_CFLAGS := -DCHAPMS=1 -DMPPE=1 -DINET6=1 -DUSE_OPENSSL=1 -Wno-unused-parameter -Wno-empty-body -Wno-missing-field-initializers -Wno-attributes -Wno-sign-compare -Wno-pointer-sign -Werror
++LOCAL_CFLAGS := -DCHAPMS=1 -DMPPE=1 -DINET6=1 -DUSE_OPENSSL=1 -Wno-unused-parameter -Wno-empty-body -Wno-missing-field-initializers -Wno-attributes -Wno-sign-compare -Wno-pointer-sign 
+ 
+ # Turn off warnings for now until this is fixed upstream. b/18632512
+ LOCAL_CFLAGS += -Wno-unused-variable
+
+project external/sepolicy/
+diff --git a/external/sepolicy/tools/Android.mk b/external/sepolicy/tools/Android.mk
+index 2a2e83d..5fd24a2 100644
+--- a/external/sepolicy/tools/Android.mk
++++ b/external/sepolicy/tools/Android.mk
+@@ -5,7 +5,7 @@ include $(CLEAR_VARS)
+ LOCAL_MODULE := checkseapp
+ LOCAL_MODULE_TAGS := optional
+ LOCAL_C_INCLUDES := external/selinux/libsepol/include/
+-LOCAL_CFLAGS := -DLINK_SEPOL_STATIC -Wall -Werror
++LOCAL_CFLAGS := -DLINK_SEPOL_STATIC -Wall 
+ LOCAL_SRC_FILES := check_seapp.c
+ LOCAL_STATIC_LIBRARIES := libsepol
+ LOCAL_CXX_STL := none
+@@ -19,7 +19,7 @@ LOCAL_MODULE := checkfc
+ LOCAL_MODULE_TAGS := optional
+ LOCAL_C_INCLUDES := external/selinux/libsepol/include \
+                     external/libselinux/include
+-LOCAL_CFLAGS := -Wall -Werror
++LOCAL_CFLAGS := -Wall 
+ LOCAL_SRC_FILES := checkfc.c
+ LOCAL_STATIC_LIBRARIES := libsepol libselinux
+ LOCAL_CXX_STL := none
+@@ -42,7 +42,7 @@ include $(CLEAR_VARS)
+ LOCAL_MODULE := sepolicy-check
+ LOCAL_MODULE_TAGS := optional
+ LOCAL_C_INCLUDES := external/selinux/libsepol/include
+-LOCAL_CFLAGS := -Wall -Werror
++LOCAL_CFLAGS := -Wall 
+ LOCAL_SRC_FILES := sepolicy-check.c
+ LOCAL_STATIC_LIBRARIES := libsepol
+ LOCAL_CXX_STL := none
+diff --git a/external/sepolicy/tools/sepolicy-analyze/Android.mk b/external/sepolicy/tools/sepolicy-analyze/Android.mk
+index 7568351..3d6471c 100644
+--- a/external/sepolicy/tools/sepolicy-analyze/Android.mk
++++ b/external/sepolicy/tools/sepolicy-analyze/Android.mk
+@@ -6,7 +6,7 @@ include $(CLEAR_VARS)
+ LOCAL_MODULE := sepolicy-analyze
+ LOCAL_MODULE_TAGS := optional
+ LOCAL_C_INCLUDES := external/selinux/libsepol/include
+-LOCAL_CFLAGS := -Wall -Werror
++LOCAL_CFLAGS := -Wall 
+ LOCAL_SRC_FILES := sepolicy-analyze.c dups.c neverallow.c perm.c typecmp.c booleans.c attribute.c utils.c
+ LOCAL_STATIC_LIBRARIES := libsepol
+ LOCAL_CXX_STL := none
+
+project external/sfntly/
+diff --git a/external/sfntly/Android.mk b/external/sfntly/Android.mk
+index 40e35d2..f3dd6f1 100644
+--- a/external/sfntly/Android.mk
++++ b/external/sfntly/Android.mk
+@@ -74,7 +74,7 @@ LOCAL_SRC_FILES := \
+ MY_CFLAGS_Debug := \
+ 	-fstack-protector \
+ 	--param=ssp-buffer-size=4 \
+-	-Werror \
++	 \
+ 	-fno-exceptions \
+ 	-fno-strict-aliasing \
+ 	-Wall \
+@@ -153,7 +153,7 @@ LOCAL_CPPFLAGS_Debug := \
+ MY_CFLAGS_Release := \
+ 	-fstack-protector \
+ 	--param=ssp-buffer-size=4 \
+-	-Werror \
++	 \
+ 	-fno-exceptions \
+ 	-fno-strict-aliasing \
+ 	-Wall \
+
+project external/sqlite/
+diff --git a/external/sqlite/android/Android.mk b/external/sqlite/android/Android.mk
+index c7cc6d6..0be8ead 100644
+--- a/external/sqlite/android/Android.mk
++++ b/external/sqlite/android/Android.mk
+@@ -41,7 +41,7 @@ include $(CLEAR_VARS)
+ 
+ LOCAL_MODULE:= libsqlite3_phone_number_utils_test
+ 
+-LOCAL_CFLAGS += -Wall -Werror
++LOCAL_CFLAGS += -Wall 
+ 
+ LOCAL_SRC_FILES := \
+ 	PhoneNumberUtils.cpp \
+
+project external/srtp/
+diff --git a/external/srtp/Android.mk b/external/srtp/Android.mk
+index 4e54347..b1f92f0 100644
+--- a/external/srtp/Android.mk
++++ b/external/srtp/Android.mk
+@@ -30,7 +30,7 @@ common_SRC_FILES := \
+ 
+ common_CFLAGS := \
+     -DPOSIX -iquote$(LOCAL_PATH)/crypto/include \
+-    -Werror \
++     \
+     -Wno-ignored-qualifiers \
+     -Wno-sign-compare \
+     -Wno-missing-field-initializers \
+
+project external/vixl/
+diff --git a/external/vixl/Android.mk b/external/vixl/Android.mk
+index c09ded1..cee18d3 100644
+--- a/external/vixl/Android.mk
++++ b/external/vixl/Android.mk
+@@ -84,7 +84,7 @@ vixl_cpp_flags := \
+   -DUSE_SIMULATOR \
+   -Wall \
+   -Wextra \
+-  -Werror \
++   \
+   -fdiagnostics-show-option \
+   -Wredundant-decls \
+   -Wunreachable-code \
+
+project external/wpa_supplicant_8/
+diff --git a/external/wpa_supplicant_8/wpa_supplicant/Android.mk b/external/wpa_supplicant_8/wpa_supplicant/Android.mk
+index 4b45f8c..1d371a2 100644
+--- a/external/wpa_supplicant_8/wpa_supplicant/Android.mk
++++ b/external/wpa_supplicant_8/wpa_supplicant/Android.mk
+@@ -143,7 +143,7 @@ L_CFLAGS += -DCONFIG_ELOOP_EPOLL
+ endif
+ 
+ ifdef CONFIG_EAPOL_TEST
+-L_CFLAGS += -Werror -DEAPOL_TEST
++L_CFLAGS +=  -DEAPOL_TEST
+ endif
+ 
+ ifdef CONFIG_HT_OVERRIDES
+
+project frameworks/av/
+diff --git a/frameworks/av/cmds/stagefright/Android.mk b/frameworks/av/cmds/stagefright/Android.mk
+index 20c0094..9f534c6 100644
+--- a/frameworks/av/cmds/stagefright/Android.mk
++++ b/frameworks/av/cmds/stagefright/Android.mk
+@@ -17,7 +17,7 @@ LOCAL_C_INCLUDES:= \
+ 	$(TOP)/frameworks/native/include/media/openmax \
+ 	external/jpeg \
+ 
+-LOCAL_CFLAGS += -Wno-multichar -Werror -Wall
++LOCAL_CFLAGS += -Wno-multichar  -Wall
+ LOCAL_CLANG := true
+ 
+ LOCAL_MODULE_TAGS := optional
+@@ -41,7 +41,7 @@ LOCAL_C_INCLUDES:= \
+ 	frameworks/av/media/libstagefright \
+ 	$(TOP)/frameworks/native/include/media/openmax
+ 
+-LOCAL_CFLAGS += -Wno-multichar -Werror -Wall
++LOCAL_CFLAGS += -Wno-multichar  -Wall
+ LOCAL_CLANG := true
+ 
+ LOCAL_MODULE_TAGS := optional
+@@ -65,7 +65,7 @@ LOCAL_C_INCLUDES:= \
+ 	frameworks/av/media/libstagefright \
+ 	$(TOP)/frameworks/native/include/media/openmax
+ 
+-LOCAL_CFLAGS += -Wno-multichar -Werror -Wall
++LOCAL_CFLAGS += -Wno-multichar  -Wall
+ LOCAL_CLANG := true
+ 
+ LOCAL_MODULE_TAGS := optional
+@@ -90,7 +90,7 @@ LOCAL_C_INCLUDES:= \
+ 	frameworks/av/media/libstagefright \
+ 	$(TOP)/frameworks/native/include/media/openmax
+ 
+-LOCAL_CFLAGS += -Wno-multichar -Werror -Wall
++LOCAL_CFLAGS += -Wno-multichar  -Wall
+ LOCAL_CLANG := true
+ 
+ LOCAL_MODULE_TAGS := optional
+@@ -114,7 +114,7 @@ LOCAL_C_INCLUDES:= \
+ 	frameworks/av/media/libstagefright \
+ 	$(TOP)/frameworks/native/include/media/openmax
+ 
+-LOCAL_CFLAGS += -Wno-multichar -Werror -Wall
++LOCAL_CFLAGS += -Wno-multichar  -Wall
+ LOCAL_CLANG := true
+ 
+ LOCAL_MODULE_TAGS := optional
+@@ -138,7 +138,7 @@ LOCAL_C_INCLUDES:= \
+ 	frameworks/av/media/libstagefright \
+ 	$(TOP)/frameworks/native/include/media/openmax
+ 
+-LOCAL_CFLAGS += -Wno-multichar -Werror -Wall
++LOCAL_CFLAGS += -Wno-multichar  -Wall
+ LOCAL_CLANG := true
+ 
+ LOCAL_MODULE_TAGS := optional
+@@ -163,7 +163,7 @@ LOCAL_C_INCLUDES:= \
+ 	frameworks/av/media/libstagefright \
+ 	$(TOP)/frameworks/native/include/media/openmax
+ 
+-LOCAL_CFLAGS += -Wno-multichar -Werror -Wall
++LOCAL_CFLAGS += -Wno-multichar  -Wall
+ LOCAL_CLANG := true
+ 
+ LOCAL_MODULE_TAGS := optional
+@@ -206,7 +206,7 @@ LOCAL_C_INCLUDES += $(intermediates)
+ LOCAL_STATIC_LIBRARIES:= \
+ 	libstagefright_mediafilter
+ 
+-LOCAL_CFLAGS += -Wno-multichar -Werror -Wall
++LOCAL_CFLAGS += -Wno-multichar  -Wall
+ LOCAL_CLANG := true
+ 
+ LOCAL_MODULE_TAGS := optional
+@@ -230,7 +230,7 @@ LOCAL_C_INCLUDES:= \
+ 	frameworks/av/media/libstagefright \
+ 	$(TOP)/frameworks/native/include/media/openmax
+ 
+-LOCAL_CFLAGS += -Wno-multichar -Werror -Wall
++LOCAL_CFLAGS += -Wno-multichar  -Wall
+ LOCAL_CLANG := true
+ 
+ LOCAL_MODULE_TAGS := optional
+diff --git a/frameworks/av/media/img_utils/src/Android.mk b/frameworks/av/media/img_utils/src/Android.mk
+index 4074849..d6b4843 100644
+--- a/frameworks/av/media/img_utils/src/Android.mk
++++ b/frameworks/av/media/img_utils/src/Android.mk
+@@ -47,7 +47,7 @@ LOCAL_C_INCLUDES += \
+ LOCAL_CFLAGS += \
+   -Wall \
+   -Wextra \
+-  -Werror \
++   \
+   -fvisibility=hidden
+ 
+ ifneq ($(filter userdebug eng,$(TARGET_BUILD_VARIANT)),)
+diff --git a/frameworks/av/media/libcpustats/Android.mk b/frameworks/av/media/libcpustats/Android.mk
+index ee283a6..d55be1b 100644
+--- a/frameworks/av/media/libcpustats/Android.mk
++++ b/frameworks/av/media/libcpustats/Android.mk
+@@ -8,6 +8,6 @@ LOCAL_SRC_FILES :=     \
+ 
+ LOCAL_MODULE := libcpustats
+ 
+-LOCAL_CFLAGS := -std=gnu++11 -Werror
++LOCAL_CFLAGS := -std=gnu++11 
+ 
+ include $(BUILD_STATIC_LIBRARY)
+diff --git a/frameworks/av/media/libmedia/Android.mk b/frameworks/av/media/libmedia/Android.mk
+index a3c3d3c..abfd4be 100644
+--- a/frameworks/av/media/libmedia/Android.mk
++++ b/frameworks/av/media/libmedia/Android.mk
+@@ -7,9 +7,11 @@ LOCAL_SRC_FILES:= \
+ LOCAL_MODULE:= libmedia_helper
+ LOCAL_MODULE_TAGS := optional
+ 
+-LOCAL_C_FLAGS += -Werror -Wno-error=deprecated-declarations -Wall
++LOCAL_C_FLAGS +=  -Wno-error=deprecated-declarations -Wall
+ LOCAL_CLANG := true
+ 
++LOCAL_CFLAGS += -isystem $(TOP)/system/media/audio/include
++
+ include $(BUILD_STATIC_LIBRARY)
+ 
+ include $(CLEAR_VARS)
+@@ -69,6 +71,8 @@ LOCAL_SRC_FILES:= \
+     StringArray.cpp \
+     AudioPolicy.cpp
+ 
++LOCAL_CFLAGS += -isystem $(TOP)/system/media/audio/include
++
+ LOCAL_SHARED_LIBRARIES := \
+ 	libui liblog libcutils libutils libbinder libsonivox libicuuc libicui18n libexpat \
+         libcamera_client libstagefright_foundation \
+@@ -84,10 +88,11 @@ LOCAL_C_INCLUDES := \
+     $(TOP)/frameworks/native/include/media/openmax \
+     $(TOP)/frameworks/av/include/media/ \
+     $(TOP)/frameworks/av/media/libstagefright \
++	$(TOP)/system/media/audio/include \
+     $(call include-path-for, audio-effects) \
+     $(call include-path-for, audio-utils)
+ 
+-LOCAL_CFLAGS += -Werror -Wno-error=deprecated-declarations -Wall
++LOCAL_CFLAGS +=  -Wno-error=deprecated-declarations -Wall
+ LOCAL_CLANG := true
+ 
+ include $(BUILD_SHARED_LIBRARY)
+diff --git a/frameworks/av/media/libmediaplayerservice/Android.mk b/frameworks/av/media/libmediaplayerservice/Android.mk
+index 4d1b587..0bdc92d 100644
+--- a/frameworks/av/media/libmediaplayerservice/Android.mk
++++ b/frameworks/av/media/libmediaplayerservice/Android.mk
+@@ -54,7 +54,7 @@ LOCAL_C_INCLUDES :=                                                 \
+     $(TOP)/frameworks/native/include/media/openmax                  \
+     $(TOP)/external/tremolo/Tremolo                                 \
+ 
+-LOCAL_CFLAGS += -Werror -Wno-error=deprecated-declarations -Wall
++LOCAL_CFLAGS +=  -Wno-error=deprecated-declarations -Wall
+ LOCAL_CLANG := true
+ 
+ LOCAL_MODULE:= libmediaplayerservice
+diff --git a/frameworks/av/media/libmediaplayerservice/nuplayer/Android.mk b/frameworks/av/media/libmediaplayerservice/nuplayer/Android.mk
+index cd20837..260cde4 100644
+--- a/frameworks/av/media/libmediaplayerservice/nuplayer/Android.mk
++++ b/frameworks/av/media/libmediaplayerservice/nuplayer/Android.mk
+@@ -25,7 +25,7 @@ LOCAL_C_INCLUDES := \
+ 	$(TOP)/frameworks/av/media/libmediaplayerservice              \
+ 	$(TOP)/frameworks/native/include/media/openmax
+ 
+-LOCAL_CFLAGS += -Werror -Wall
++LOCAL_CFLAGS +=  -Wall
+ 
+ # enable experiments only in userdebug and eng builds
+ ifneq (,$(filter userdebug eng,$(TARGET_BUILD_VARIANT)))
+diff --git a/frameworks/av/media/libmediaplayerservice/tests/Android.mk b/frameworks/av/media/libmediaplayerservice/tests/Android.mk
+index 8cbf782..7e9c2c0 100644
+--- a/frameworks/av/media/libmediaplayerservice/tests/Android.mk
++++ b/frameworks/av/media/libmediaplayerservice/tests/Android.mk
+@@ -18,7 +18,7 @@ LOCAL_C_INCLUDES := \
+ 	frameworks/av/include \
+ 	frameworks/av/media/libmediaplayerservice \
+ 
+-LOCAL_CFLAGS += -Werror -Wall
++LOCAL_CFLAGS +=  -Wall
+ LOCAL_CLANG := true
+ 
+ LOCAL_32_BIT_ONLY := true
+diff --git a/frameworks/av/media/libnbaio/Android.mk b/frameworks/av/media/libnbaio/Android.mk
+index 1353f28..597a2b9 100644
+--- a/frameworks/av/media/libnbaio/Android.mk
++++ b/frameworks/av/media/libnbaio/Android.mk
+@@ -2,6 +2,8 @@ LOCAL_PATH := $(call my-dir)
+ 
+ include $(CLEAR_VARS)
+ 
++LOCAL_CFLAGS += -isystem $(TOP)/system/media/audio/include
++
+ LOCAL_SRC_FILES := \
+     AudioBufferProviderSource.cpp   \
+     AudioStreamOutSink.cpp          \
+diff --git a/frameworks/av/media/libstagefright/Android.mk b/frameworks/av/media/libstagefright/Android.mk
+index 2529aa7..a7247a6 100644
+--- a/frameworks/av/media/libstagefright/Android.mk
++++ b/frameworks/av/media/libstagefright/Android.mk
+@@ -127,7 +127,7 @@ LOCAL_SHARED_LIBRARIES += \
+         libdl \
+         libRScpp \
+ 
+-LOCAL_CFLAGS += -Wno-multichar -Werror -Wno-error=deprecated-declarations -Wall
++LOCAL_CFLAGS += -Wno-multichar  -Wno-error=deprecated-declarations -Wall
+ 
+ # enable experiments only in userdebug and eng builds
+ ifneq (,$(filter userdebug eng,$(TARGET_BUILD_VARIANT)))
+diff --git a/frameworks/av/media/libstagefright/codecs/aacdec/Android.mk b/frameworks/av/media/libstagefright/codecs/aacdec/Android.mk
+index afb00aa..e24c56a 100644
+--- a/frameworks/av/media/libstagefright/codecs/aacdec/Android.mk
++++ b/frameworks/av/media/libstagefright/codecs/aacdec/Android.mk
+@@ -18,7 +18,7 @@ LOCAL_C_INCLUDES := \
+ 
+ LOCAL_CFLAGS :=
+ 
+-LOCAL_CFLAGS += -Werror
++LOCAL_CFLAGS += 
+ 
+ LOCAL_STATIC_LIBRARIES := libFraunhoferAAC
+ 
+diff --git a/frameworks/av/media/libstagefright/codecs/aacenc/Android.mk b/frameworks/av/media/libstagefright/codecs/aacenc/Android.mk
+index 58ec3ba..c9f121d 100644
+--- a/frameworks/av/media/libstagefright/codecs/aacenc/Android.mk
++++ b/frameworks/av/media/libstagefright/codecs/aacenc/Android.mk
+@@ -82,7 +82,7 @@ LOCAL_C_INCLUDES += $(LOCAL_PATH)/src/asm/ARMV5E
+ LOCAL_C_INCLUDES += $(LOCAL_PATH)/src/asm/ARMV7
+ endif
+ 
+-LOCAL_CFLAGS += -Werror
++LOCAL_CFLAGS += 
+ 
+ include $(BUILD_STATIC_LIBRARY)
+ 
+@@ -108,7 +108,7 @@ ifeq ($(AAC_LIBRARY), fraunhofer)
+ 
+   LOCAL_CFLAGS :=
+ 
+-  LOCAL_CFLAGS += -Werror
++  LOCAL_CFLAGS += 
+ 
+   LOCAL_STATIC_LIBRARIES := libFraunhoferAAC
+ 
+@@ -132,7 +132,7 @@ else # visualon
+ 
+   LOCAL_CFLAGS := -DOSCL_IMPORT_REF=
+ 
+-  LOCAL_CFLAGS += -Werror
++  LOCAL_CFLAGS += 
+ 
+   LOCAL_STATIC_LIBRARIES := \
+           libstagefright_aacenc
+diff --git a/frameworks/av/media/libstagefright/codecs/amrnb/common/Android.mk b/frameworks/av/media/libstagefright/codecs/amrnb/common/Android.mk
+index 5e632a6..6e9e2ad 100644
+--- a/frameworks/av/media/libstagefright/codecs/amrnb/common/Android.mk
++++ b/frameworks/av/media/libstagefright/codecs/amrnb/common/Android.mk
+@@ -69,7 +69,7 @@ LOCAL_C_INCLUDES := \
+ LOCAL_CFLAGS := \
+         -D"OSCL_UNUSED_ARG(x)=(void)(x)" -DOSCL_IMPORT_REF= -DOSCL_EXPORT_REF=
+ 
+-LOCAL_CFLAGS += -Werror
++LOCAL_CFLAGS += 
+ 
+ LOCAL_MODULE := libstagefright_amrnb_common
+ 
+diff --git a/frameworks/av/media/libstagefright/codecs/amrnb/dec/Android.mk b/frameworks/av/media/libstagefright/codecs/amrnb/dec/Android.mk
+index 76a7f40..8c7725d 100644
+--- a/frameworks/av/media/libstagefright/codecs/amrnb/dec/Android.mk
++++ b/frameworks/av/media/libstagefright/codecs/amrnb/dec/Android.mk
+@@ -47,7 +47,7 @@ LOCAL_C_INCLUDES := \
+ LOCAL_CFLAGS := \
+         -D"OSCL_UNUSED_ARG(x)=(void)(x)" -DOSCL_IMPORT_REF=
+ 
+-LOCAL_CFLAGS += -Werror
++LOCAL_CFLAGS += 
+ 
+ LOCAL_MODULE := libstagefright_amrnbdec
+ 
+@@ -70,7 +70,7 @@ LOCAL_C_INCLUDES := \
+ 
+ LOCAL_CFLAGS := -DOSCL_IMPORT_REF=
+ 
+-LOCAL_CFLAGS += -Werror
++LOCAL_CFLAGS += 
+ 
+ LOCAL_STATIC_LIBRARIES := \
+         libstagefright_amrnbdec libstagefright_amrwbdec
+diff --git a/frameworks/av/media/libstagefright/codecs/amrnb/enc/Android.mk b/frameworks/av/media/libstagefright/codecs/amrnb/enc/Android.mk
+index bdba8a9..d7f59f2 100644
+--- a/frameworks/av/media/libstagefright/codecs/amrnb/enc/Android.mk
++++ b/frameworks/av/media/libstagefright/codecs/amrnb/enc/Android.mk
+@@ -69,7 +69,7 @@ LOCAL_C_INCLUDES := \
+ LOCAL_CFLAGS := \
+         -D"OSCL_UNUSED_ARG(x)=(void)(x)"
+ 
+-LOCAL_CFLAGS += -Werror
++LOCAL_CFLAGS += 
+ 
+ LOCAL_MODULE := libstagefright_amrnbenc
+ 
+@@ -90,7 +90,7 @@ LOCAL_C_INCLUDES := \
+         $(LOCAL_PATH)/../common/include \
+         $(LOCAL_PATH)/../common
+ 
+-LOCAL_CFLAGS += -Werror
++LOCAL_CFLAGS += 
+ 
+ LOCAL_STATIC_LIBRARIES := \
+         libstagefright_amrnbenc
+diff --git a/frameworks/av/media/libstagefright/codecs/amrwb/Android.mk b/frameworks/av/media/libstagefright/codecs/amrwb/Android.mk
+index 686f7a3..e98e1a6 100644
+--- a/frameworks/av/media/libstagefright/codecs/amrwb/Android.mk
++++ b/frameworks/av/media/libstagefright/codecs/amrwb/Android.mk
+@@ -50,7 +50,7 @@ LOCAL_C_INCLUDES := \
+ LOCAL_CFLAGS := \
+         -D"OSCL_UNUSED_ARG(x)=(void)(x)" -DOSCL_IMPORT_REF=
+ 
+-LOCAL_CFLAGS += -Werror
++LOCAL_CFLAGS += 
+ 
+ LOCAL_MODULE := libstagefright_amrwbdec
+ 
+diff --git a/frameworks/av/media/libstagefright/codecs/amrwbenc/Android.mk b/frameworks/av/media/libstagefright/codecs/amrwbenc/Android.mk
+index 024a292..ff28e5c 100644
+--- a/frameworks/av/media/libstagefright/codecs/amrwbenc/Android.mk
++++ b/frameworks/av/media/libstagefright/codecs/amrwbenc/Android.mk
+@@ -115,7 +115,7 @@ LOCAL_C_INCLUDES += $(LOCAL_PATH)/src/asm/ARMV5E
+ LOCAL_C_INCLUDES += $(LOCAL_PATH)/src/asm/ARMV7
+ endif
+ 
+-LOCAL_CFLAGS += -Werror
++LOCAL_CFLAGS += 
+ 
+ include $(BUILD_STATIC_LIBRARY)
+ 
+@@ -131,7 +131,7 @@ LOCAL_C_INCLUDES := \
+ 	frameworks/av/media/libstagefright/codecs/common/include \
+ 	frameworks/native/include/media/openmax
+ 
+-LOCAL_CFLAGS += -Werror
++LOCAL_CFLAGS += 
+ 
+ LOCAL_STATIC_LIBRARIES := \
+         libstagefright_amrwbenc
+diff --git a/frameworks/av/media/libstagefright/codecs/avc/common/Android.mk b/frameworks/av/media/libstagefright/codecs/avc/common/Android.mk
+index 844ef0a..1dcbc62 100644
+--- a/frameworks/av/media/libstagefright/codecs/avc/common/Android.mk
++++ b/frameworks/av/media/libstagefright/codecs/avc/common/Android.mk
+@@ -16,6 +16,6 @@ LOCAL_C_INCLUDES := \
+ 	$(LOCAL_PATH)/src \
+  	$(LOCAL_PATH)/include
+ 
+-LOCAL_CFLAGS += -Werror
++LOCAL_CFLAGS += 
+ 
+ include $(BUILD_SHARED_LIBRARY)
+diff --git a/frameworks/av/media/libstagefright/codecs/avc/enc/Android.mk b/frameworks/av/media/libstagefright/codecs/avc/enc/Android.mk
+index 2ceebc8..b082541 100644
+--- a/frameworks/av/media/libstagefright/codecs/avc/enc/Android.mk
++++ b/frameworks/av/media/libstagefright/codecs/avc/enc/Android.mk
+@@ -30,7 +30,7 @@ LOCAL_C_INCLUDES := \
+ LOCAL_CFLAGS := \
+     -DOSCL_IMPORT_REF= -D"OSCL_UNUSED_ARG(x)=(void)(x)" -DOSCL_EXPORT_REF=
+ 
+-LOCAL_CFLAGS += -Werror
++LOCAL_CFLAGS += 
+ 
+ include $(BUILD_STATIC_LIBRARY)
+ 
+@@ -71,6 +71,6 @@ LOCAL_SHARED_LIBRARIES := \
+ LOCAL_MODULE := libstagefright_soft_h264enc
+ LOCAL_MODULE_TAGS := optional
+ 
+-LOCAL_CFLAGS += -Werror
++LOCAL_CFLAGS += 
+ 
+ include $(BUILD_SHARED_LIBRARY)
+diff --git a/frameworks/av/media/libstagefright/codecs/common/Android.mk b/frameworks/av/media/libstagefright/codecs/common/Android.mk
+index b0010ff..fae3988 100644
+--- a/frameworks/av/media/libstagefright/codecs/common/Android.mk
++++ b/frameworks/av/media/libstagefright/codecs/common/Android.mk
+@@ -14,7 +14,7 @@ LOCAL_STATIC_LIBRARIES :=
+ LOCAL_C_INCLUDES := \
+ 	$(LOCAL_PATH)/include
+ 
+-LOCAL_CFLAGS += -Werror
++LOCAL_CFLAGS += 
+ 
+ include $(BUILD_SHARED_LIBRARY)
+ 
+diff --git a/frameworks/av/media/libstagefright/codecs/flac/enc/Android.mk b/frameworks/av/media/libstagefright/codecs/flac/enc/Android.mk
+index 59a11de..3d4a85a 100644
+--- a/frameworks/av/media/libstagefright/codecs/flac/enc/Android.mk
++++ b/frameworks/av/media/libstagefright/codecs/flac/enc/Android.mk
+@@ -9,7 +9,7 @@ LOCAL_C_INCLUDES := \
+         frameworks/native/include/media/openmax \
+         external/flac/include
+ 
+-LOCAL_CFLAGS += -Werror
++LOCAL_CFLAGS += 
+ 
+ LOCAL_SHARED_LIBRARIES := \
+         libstagefright libstagefright_omx libstagefright_foundation libutils liblog
+diff --git a/frameworks/av/media/libstagefright/codecs/g711/dec/Android.mk b/frameworks/av/media/libstagefright/codecs/g711/dec/Android.mk
+index a0112e1..72f2d9f 100644
+--- a/frameworks/av/media/libstagefright/codecs/g711/dec/Android.mk
++++ b/frameworks/av/media/libstagefright/codecs/g711/dec/Android.mk
+@@ -14,6 +14,6 @@ LOCAL_SHARED_LIBRARIES := \
+ LOCAL_MODULE := libstagefright_soft_g711dec
+ LOCAL_MODULE_TAGS := optional
+ 
+-LOCAL_CFLAGS += -Werror
++LOCAL_CFLAGS += 
+ 
+ include $(BUILD_SHARED_LIBRARY)
+diff --git a/frameworks/av/media/libstagefright/codecs/gsm/dec/Android.mk b/frameworks/av/media/libstagefright/codecs/gsm/dec/Android.mk
+index 30868d5..1d54ea7 100644
+--- a/frameworks/av/media/libstagefright/codecs/gsm/dec/Android.mk
++++ b/frameworks/av/media/libstagefright/codecs/gsm/dec/Android.mk
+@@ -9,7 +9,7 @@ LOCAL_C_INCLUDES := \
+         frameworks/native/include/media/openmax \
+         external/libgsm/inc
+ 
+-LOCAL_CFLAGS += -Werror
++LOCAL_CFLAGS += 
+ 
+ LOCAL_SHARED_LIBRARIES := \
+         libstagefright libstagefright_omx libstagefright_foundation libutils liblog
+diff --git a/frameworks/av/media/libstagefright/codecs/m4v_h263/dec/Android.mk b/frameworks/av/media/libstagefright/codecs/m4v_h263/dec/Android.mk
+index 1d232c6..8c27217 100644
+--- a/frameworks/av/media/libstagefright/codecs/m4v_h263/dec/Android.mk
++++ b/frameworks/av/media/libstagefright/codecs/m4v_h263/dec/Android.mk
+@@ -46,7 +46,7 @@ LOCAL_C_INCLUDES := \
+ 
+ LOCAL_CFLAGS := -DOSCL_EXPORT_REF= -DOSCL_IMPORT_REF=
+ 
+-LOCAL_CFLAGS += -Werror
++LOCAL_CFLAGS += 
+ 
+ include $(BUILD_STATIC_LIBRARY)
+ 
+@@ -74,6 +74,6 @@ LOCAL_SHARED_LIBRARIES := \
+ LOCAL_MODULE := libstagefright_soft_mpeg4dec
+ LOCAL_MODULE_TAGS := optional
+ 
+-LOCAL_CFLAGS += -Werror
++LOCAL_CFLAGS += 
+ 
+ include $(BUILD_SHARED_LIBRARY)
+diff --git a/frameworks/av/media/libstagefright/codecs/m4v_h263/enc/Android.mk b/frameworks/av/media/libstagefright/codecs/m4v_h263/enc/Android.mk
+index 7117692..3c1c3d0 100644
+--- a/frameworks/av/media/libstagefright/codecs/m4v_h263/enc/Android.mk
++++ b/frameworks/av/media/libstagefright/codecs/m4v_h263/enc/Android.mk
+@@ -33,7 +33,7 @@ LOCAL_C_INCLUDES := \
+     $(TOP)/frameworks/av/media/libstagefright/include \
+     $(TOP)/frameworks/native/include/media/openmax
+ 
+-LOCAL_CFLAGS += -Werror
++LOCAL_CFLAGS += 
+ 
+ include $(BUILD_STATIC_LIBRARY)
+ 
+@@ -74,6 +74,6 @@ LOCAL_SHARED_LIBRARIES := \
+ LOCAL_MODULE := libstagefright_soft_mpeg4enc
+ LOCAL_MODULE_TAGS := optional
+ 
+-LOCAL_CFLAGS += -Werror
++LOCAL_CFLAGS += 
+ 
+ include $(BUILD_SHARED_LIBRARY)
+diff --git a/frameworks/av/media/libstagefright/codecs/mp3dec/Android.mk b/frameworks/av/media/libstagefright/codecs/mp3dec/Android.mk
+index 948ae29..6d977d0 100644
+--- a/frameworks/av/media/libstagefright/codecs/mp3dec/Android.mk
++++ b/frameworks/av/media/libstagefright/codecs/mp3dec/Android.mk
+@@ -50,7 +50,7 @@ LOCAL_C_INCLUDES := \
+ LOCAL_CFLAGS := \
+         -D"OSCL_UNUSED_ARG(x)=(void)(x)"
+ 
+-LOCAL_CFLAGS += -Werror
++LOCAL_CFLAGS += 
+ 
+ LOCAL_MODULE := libstagefright_mp3dec
+ 
+@@ -71,7 +71,7 @@ LOCAL_C_INCLUDES := \
+         $(LOCAL_PATH)/src \
+         $(LOCAL_PATH)/include
+ 
+-LOCAL_CFLAGS += -Werror
++LOCAL_CFLAGS += 
+ 
+ LOCAL_SHARED_LIBRARIES := \
+         libstagefright libstagefright_omx libstagefright_foundation libutils liblog
+diff --git a/frameworks/av/media/libstagefright/codecs/on2/dec/Android.mk b/frameworks/av/media/libstagefright/codecs/on2/dec/Android.mk
+index 93ff64c..97d50d9 100644
+--- a/frameworks/av/media/libstagefright/codecs/on2/dec/Android.mk
++++ b/frameworks/av/media/libstagefright/codecs/on2/dec/Android.mk
+@@ -20,6 +20,6 @@ LOCAL_SHARED_LIBRARIES := \
+ LOCAL_MODULE := libstagefright_soft_vpxdec
+ LOCAL_MODULE_TAGS := optional
+ 
+-LOCAL_CFLAGS += -Werror
++LOCAL_CFLAGS += 
+ 
+ include $(BUILD_SHARED_LIBRARY)
+diff --git a/frameworks/av/media/libstagefright/codecs/raw/Android.mk b/frameworks/av/media/libstagefright/codecs/raw/Android.mk
+index 87080e7..6328944 100644
+--- a/frameworks/av/media/libstagefright/codecs/raw/Android.mk
++++ b/frameworks/av/media/libstagefright/codecs/raw/Android.mk
+@@ -8,7 +8,7 @@ LOCAL_C_INCLUDES := \
+         frameworks/av/media/libstagefright/include \
+         frameworks/native/include/media/openmax
+ 
+-LOCAL_CFLAGS += -Werror
++LOCAL_CFLAGS += 
+ 
+ LOCAL_SHARED_LIBRARIES := \
+         libstagefright_omx libstagefright_foundation libutils liblog
+diff --git a/frameworks/av/media/libstagefright/codecs/vorbis/dec/Android.mk b/frameworks/av/media/libstagefright/codecs/vorbis/dec/Android.mk
+index 217a6d2..f446cef 100644
+--- a/frameworks/av/media/libstagefright/codecs/vorbis/dec/Android.mk
++++ b/frameworks/av/media/libstagefright/codecs/vorbis/dec/Android.mk
+@@ -16,6 +16,6 @@ LOCAL_SHARED_LIBRARIES := \
+ LOCAL_MODULE := libstagefright_soft_vorbisdec
+ LOCAL_MODULE_TAGS := optional
+ 
+-LOCAL_CFLAGS += -Werror
++LOCAL_CFLAGS += 
+ 
+ include $(BUILD_SHARED_LIBRARY)
+diff --git a/frameworks/av/media/libstagefright/colorconversion/Android.mk b/frameworks/av/media/libstagefright/colorconversion/Android.mk
+index 4f7c48f..3d6ab4b 100644
+--- a/frameworks/av/media/libstagefright/colorconversion/Android.mk
++++ b/frameworks/av/media/libstagefright/colorconversion/Android.mk
+@@ -9,7 +9,7 @@ LOCAL_C_INCLUDES := \
+         $(TOP)/frameworks/native/include/media/openmax \
+         $(TOP)/hardware/msm7k
+ 
+-LOCAL_CFLAGS += -Werror
++LOCAL_CFLAGS += 
+ LOCAL_CLANG := true
+ 
+ LOCAL_MODULE:= libstagefright_color_conversion
+diff --git a/frameworks/av/media/libstagefright/filters/Android.mk b/frameworks/av/media/libstagefright/filters/Android.mk
+index 179f054..913ae5e 100644
+--- a/frameworks/av/media/libstagefright/filters/Android.mk
++++ b/frameworks/av/media/libstagefright/filters/Android.mk
+@@ -20,7 +20,7 @@ LOCAL_C_INCLUDES := \
+ intermediates := $(call intermediates-dir-for,STATIC_LIBRARIES,libRS,TARGET,)
+ LOCAL_C_INCLUDES += $(intermediates)
+ 
+-LOCAL_CFLAGS += -Wno-multichar -Werror -Wall
++LOCAL_CFLAGS += -Wno-multichar  -Wall
+ LOCAL_CLANG := true
+ 
+ LOCAL_MODULE:= libstagefright_mediafilter
+diff --git a/frameworks/av/media/libstagefright/foundation/Android.mk b/frameworks/av/media/libstagefright/foundation/Android.mk
+index c68264c..9e1b6b5 100644
+--- a/frameworks/av/media/libstagefright/foundation/Android.mk
++++ b/frameworks/av/media/libstagefright/foundation/Android.mk
+@@ -29,7 +29,7 @@ LOCAL_SHARED_LIBRARIES := \
+         liblog            \
+         libpowermanager
+ 
+-LOCAL_CFLAGS += -Wno-multichar -Werror -Wall
++LOCAL_CFLAGS += -Wno-multichar  -Wall
+ LOCAL_CLANG := true
+ 
+ LOCAL_MODULE:= libstagefright_foundation
+diff --git a/frameworks/av/media/libstagefright/http/Android.mk b/frameworks/av/media/libstagefright/http/Android.mk
+index 5fb51c1..1ff748f 100644
+--- a/frameworks/av/media/libstagefright/http/Android.mk
++++ b/frameworks/av/media/libstagefright/http/Android.mk
+@@ -21,7 +21,7 @@ LOCAL_MODULE:= libstagefright_http_support
+ 
+ LOCAL_CFLAGS += -Wno-multichar
+ 
+-LOCAL_CFLAGS += -Werror -Wall
++LOCAL_CFLAGS +=  -Wall
+ LOCAL_CLANG := true
+ 
+ include $(BUILD_SHARED_LIBRARY)
+diff --git a/frameworks/av/media/libstagefright/httplive/Android.mk b/frameworks/av/media/libstagefright/httplive/Android.mk
+index fc85835..adb3675 100644
+--- a/frameworks/av/media/libstagefright/httplive/Android.mk
++++ b/frameworks/av/media/libstagefright/httplive/Android.mk
+@@ -13,7 +13,7 @@ LOCAL_C_INCLUDES:= \
+ 	$(TOP)/frameworks/av/media/libstagefright \
+ 	$(TOP)/frameworks/native/include/media/openmax
+ 
+-LOCAL_CFLAGS += -Werror -Wall
++LOCAL_CFLAGS +=  -Wall
+ LOCAL_CLANG := true
+ 
+ LOCAL_SHARED_LIBRARIES := \
+diff --git a/frameworks/av/media/libstagefright/id3/Android.mk b/frameworks/av/media/libstagefright/id3/Android.mk
+index 68bd017..a78c798 100644
+--- a/frameworks/av/media/libstagefright/id3/Android.mk
++++ b/frameworks/av/media/libstagefright/id3/Android.mk
+@@ -4,7 +4,7 @@ include $(CLEAR_VARS)
+ LOCAL_SRC_FILES := \
+ 	ID3.cpp
+ 
+-LOCAL_CFLAGS += -Werror -Wall
++LOCAL_CFLAGS +=  -Wall
+ LOCAL_CLANG := true
+ 
+ LOCAL_MODULE := libstagefright_id3
+@@ -18,7 +18,7 @@ include $(CLEAR_VARS)
+ LOCAL_SRC_FILES := \
+ 	testid3.cpp
+ 
+-LOCAL_CFLAGS += -Werror -Wall
++LOCAL_CFLAGS +=  -Wall
+ LOCAL_CLANG := true
+ 
+ LOCAL_SHARED_LIBRARIES := \
+diff --git a/frameworks/av/media/libstagefright/matroska/Android.mk b/frameworks/av/media/libstagefright/matroska/Android.mk
+index 1e8c2b2..de66952 100644
+--- a/frameworks/av/media/libstagefright/matroska/Android.mk
++++ b/frameworks/av/media/libstagefright/matroska/Android.mk
+@@ -8,7 +8,7 @@ LOCAL_C_INCLUDES:= \
+         $(TOP)/external/libvpx/libwebm \
+         $(TOP)/frameworks/native/include/media/openmax \
+ 
+-LOCAL_CFLAGS += -Wno-multichar -Werror -Wall
++LOCAL_CFLAGS += -Wno-multichar  -Wall
+ LOCAL_CLANG := true
+ 
+ LOCAL_MODULE:= libstagefright_matroska
+diff --git a/frameworks/av/media/libstagefright/mpeg2ts/Android.mk b/frameworks/av/media/libstagefright/mpeg2ts/Android.mk
+index 16b0160..e98309e 100644
+--- a/frameworks/av/media/libstagefright/mpeg2ts/Android.mk
++++ b/frameworks/av/media/libstagefright/mpeg2ts/Android.mk
+@@ -13,7 +13,7 @@ LOCAL_C_INCLUDES:= \
+ 	$(TOP)/frameworks/av/media/libstagefright \
+ 	$(TOP)/frameworks/native/include/media/openmax
+ 
+-LOCAL_CFLAGS += -Werror -Wall
++LOCAL_CFLAGS +=  -Wall
+ LOCAL_CLANG := true
+ 
+ LOCAL_MODULE:= libstagefright_mpeg2ts
+diff --git a/frameworks/av/media/libstagefright/omx/Android.mk b/frameworks/av/media/libstagefright/omx/Android.mk
+index 5f0f567..1060ac6 100644
+--- a/frameworks/av/media/libstagefright/omx/Android.mk
++++ b/frameworks/av/media/libstagefright/omx/Android.mk
+@@ -31,7 +31,7 @@ LOCAL_SHARED_LIBRARIES :=               \
+         libdl
+ 
+ LOCAL_MODULE:= libstagefright_omx
+-LOCAL_CFLAGS += -Werror -Wall
++LOCAL_CFLAGS +=  -Wall
+ LOCAL_CLANG := true
+ 
+ include $(BUILD_SHARED_LIBRARY)
+diff --git a/frameworks/av/media/libstagefright/omx/tests/Android.mk b/frameworks/av/media/libstagefright/omx/tests/Android.mk
+index 02e97f1..f12780d 100644
+--- a/frameworks/av/media/libstagefright/omx/tests/Android.mk
++++ b/frameworks/av/media/libstagefright/omx/tests/Android.mk
+@@ -11,7 +11,7 @@ LOCAL_C_INCLUDES := \
+ 	$(TOP)/frameworks/av/media/libstagefright \
+ 	$(TOP)/frameworks/native/include/media/openmax
+ 
+-LOCAL_CFLAGS += -Werror -Wall
++LOCAL_CFLAGS +=  -Wall
+ LOCAL_CLANG := true
+ 
+ LOCAL_MODULE := omx_tests
+@@ -38,7 +38,7 @@ LOCAL_SHARED_LIBRARIES := \
+ LOCAL_C_INCLUDES := \
+ 	frameworks/av/media/libstagefright/omx \
+ 
+-LOCAL_CFLAGS += -Werror -Wall
++LOCAL_CFLAGS +=  -Wall
+ LOCAL_CLANG := true
+ 
+ include $(BUILD_NATIVE_TEST)
+diff --git a/frameworks/av/media/libstagefright/rtsp/Android.mk b/frameworks/av/media/libstagefright/rtsp/Android.mk
+index c5e8c35..4561a0f 100644
+--- a/frameworks/av/media/libstagefright/rtsp/Android.mk
++++ b/frameworks/av/media/libstagefright/rtsp/Android.mk
+@@ -31,7 +31,7 @@ ifeq ($(TARGET_ARCH),arm)
+     LOCAL_CFLAGS += -Wno-psabi
+ endif
+ 
+-LOCAL_CFLAGS += -Werror -Wall
++LOCAL_CFLAGS +=  -Wall
+ LOCAL_CLANG := true
+ 
+ LOCAL_ADDITIONAL_DEPENDENCIES := $(LOCAL_PATH)/Android.mk
+@@ -55,7 +55,7 @@ LOCAL_C_INCLUDES:= \
+ 	frameworks/av/media/libstagefright \
+ 	$(TOP)/frameworks/native/include/media/openmax
+ 
+-LOCAL_CFLAGS += -Wno-multichar -Werror -Wall
++LOCAL_CFLAGS += -Wno-multichar  -Wall
+ LOCAL_CLANG := true
+ 
+ LOCAL_MODULE_TAGS := optional
+diff --git a/frameworks/av/media/libstagefright/tests/Android.mk b/frameworks/av/media/libstagefright/tests/Android.mk
+index 111e6c5..903e2c5 100644
+--- a/frameworks/av/media/libstagefright/tests/Android.mk
++++ b/frameworks/av/media/libstagefright/tests/Android.mk
+@@ -31,7 +31,7 @@ LOCAL_C_INCLUDES := \
+ 	frameworks/av/media/libstagefright/include \
+ 	$(TOP)/frameworks/native/include/media/openmax \
+ 
+-LOCAL_CFLAGS += -Werror -Wall
++LOCAL_CFLAGS +=  -Wall
+ LOCAL_CLANG := true
+ 
+ LOCAL_32_BIT_ONLY := true
+@@ -63,7 +63,7 @@ LOCAL_C_INCLUDES := \
+ 	frameworks/av/media/libstagefright/include \
+ 	$(TOP)/frameworks/native/include/media/openmax \
+ 
+-LOCAL_CFLAGS += -Werror -Wall
++LOCAL_CFLAGS +=  -Wall
+ LOCAL_CLANG := true
+ 
+ include $(BUILD_NATIVE_TEST)
+@@ -93,7 +93,7 @@ LOCAL_C_INCLUDES := \
+ 
+ LOCAL_32_BIT_ONLY := true
+ 
+-LOCAL_CFLAGS += -Werror -Wall
++LOCAL_CFLAGS +=  -Wall
+ LOCAL_CLANG := true
+ 
+ include $(BUILD_NATIVE_TEST)
+diff --git a/frameworks/av/media/libstagefright/timedtext/Android.mk b/frameworks/av/media/libstagefright/timedtext/Android.mk
+index 58fb12f..ea04fc5 100644
+--- a/frameworks/av/media/libstagefright/timedtext/Android.mk
++++ b/frameworks/av/media/libstagefright/timedtext/Android.mk
+@@ -9,7 +9,7 @@ LOCAL_SRC_FILES:=                 \
+         TimedTextSRTSource.cpp    \
+         TimedTextPlayer.cpp
+ 
+-LOCAL_CFLAGS += -Wno-multichar -Werror -Wall
++LOCAL_CFLAGS += -Wno-multichar  -Wall
+ LOCAL_CLANG := true
+ 
+ LOCAL_C_INCLUDES:= \
+diff --git a/frameworks/av/media/libstagefright/timedtext/test/Android.mk b/frameworks/av/media/libstagefright/timedtext/test/Android.mk
+index e0e0e0d..df3f535 100644
+--- a/frameworks/av/media/libstagefright/timedtext/test/Android.mk
++++ b/frameworks/av/media/libstagefright/timedtext/test/Android.mk
+@@ -26,7 +26,7 @@ LOCAL_SHARED_LIBRARIES := \
+     libstagefright_foundation \
+     libutils
+ 
+-LOCAL_CFLAGS += -Werror -Wall
++LOCAL_CFLAGS +=  -Wall
+ LOCAL_CLANG := true
+ 
+ include $(BUILD_NATIVE_TEST)
+diff --git a/frameworks/av/media/libstagefright/webm/Android.mk b/frameworks/av/media/libstagefright/webm/Android.mk
+index bc53c56..6220bbf 100644
+--- a/frameworks/av/media/libstagefright/webm/Android.mk
++++ b/frameworks/av/media/libstagefright/webm/Android.mk
+@@ -3,7 +3,7 @@ include $(CLEAR_VARS)
+ 
+ LOCAL_CPPFLAGS += -D__STDINT_LIMITS
+ 
+-LOCAL_CFLAGS += -Werror -Wall
++LOCAL_CFLAGS +=  -Wall
+ LOCAL_CLANG := true
+ 
+ LOCAL_SRC_FILES:= EbmlUtil.cpp        \
+diff --git a/frameworks/av/media/libstagefright/wifi-display/Android.mk b/frameworks/av/media/libstagefright/wifi-display/Android.mk
+index fb28624..849a84e 100644
+--- a/frameworks/av/media/libstagefright/wifi-display/Android.mk
++++ b/frameworks/av/media/libstagefright/wifi-display/Android.mk
+@@ -30,7 +30,7 @@ LOCAL_SHARED_LIBRARIES:= \
+         libui                           \
+         libutils                        \
+ 
+-LOCAL_CFLAGS += -Wno-multichar -Werror -Wall
++LOCAL_CFLAGS += -Wno-multichar  -Wall
+ LOCAL_CLANG := true
+ 
+ LOCAL_MODULE:= libstagefright_wfd
+diff --git a/frameworks/av/media/libstagefright/yuv/Android.mk b/frameworks/av/media/libstagefright/yuv/Android.mk
+index dc67288..8ea12fa 100644
+--- a/frameworks/av/media/libstagefright/yuv/Android.mk
++++ b/frameworks/av/media/libstagefright/yuv/Android.mk
+@@ -12,7 +12,7 @@ LOCAL_SHARED_LIBRARIES :=       \
+ LOCAL_MODULE:= libstagefright_yuv
+ 
+ 
+-LOCAL_CFLAGS += -Werror -Wall
++LOCAL_CFLAGS +=  -Wall
+ LOCAL_CLANG := true
+ 
+ include $(BUILD_SHARED_LIBRARY)
+diff --git a/frameworks/av/media/utils/Android.mk b/frameworks/av/media/utils/Android.mk
+index 54d22b1..722b588 100644
+--- a/frameworks/av/media/utils/Android.mk
++++ b/frameworks/av/media/utils/Android.mk
+@@ -32,7 +32,7 @@ LOCAL_C_INCLUDES := $(LOCAL_PATH)/include
+ LOCAL_CFLAGS += \
+   -Wall \
+   -Wextra \
+-  -Werror \
++   \
+ 
+ LOCAL_EXPORT_C_INCLUDE_DIRS := $(LOCAL_PATH)/include
+ 
+diff --git a/frameworks/av/services/audiopolicy/engineconfigurable/Android.mk b/frameworks/av/services/audiopolicy/engineconfigurable/Android.mk
+index b18c520..794efc6 100755
+--- a/frameworks/av/services/audiopolicy/engineconfigurable/Android.mk
++++ b/frameworks/av/services/audiopolicy/engineconfigurable/Android.mk
+@@ -22,7 +22,7 @@ audio_policy_engine_includes_common := \
+ 
+ LOCAL_CFLAGS += \
+     -Wall \
+-    -Werror \
++     \
+     -Wextra \
+ 
+ LOCAL_EXPORT_C_INCLUDE_DIRS := \
+diff --git a/frameworks/av/services/audiopolicy/engineconfigurable/parameter-framework/plugin/Android.mk b/frameworks/av/services/audiopolicy/engineconfigurable/parameter-framework/plugin/Android.mk
+index a523656..919ac8c 100755
+--- a/frameworks/av/services/audiopolicy/engineconfigurable/parameter-framework/plugin/Android.mk
++++ b/frameworks/av/services/audiopolicy/engineconfigurable/parameter-framework/plugin/Android.mk
+@@ -14,7 +14,7 @@ LOCAL_SRC_FILES := \
+ 
+ LOCAL_CFLAGS += \
+     -Wall \
+-    -Werror \
++     \
+     -Wextra \
+ 
+ LOCAL_C_INCLUDES := \
+diff --git a/frameworks/av/services/audiopolicy/engineconfigurable/wrapper/Android.mk b/frameworks/av/services/audiopolicy/engineconfigurable/wrapper/Android.mk
+index 096f913..b1b7838 100644
+--- a/frameworks/av/services/audiopolicy/engineconfigurable/wrapper/Android.mk
++++ b/frameworks/av/services/audiopolicy/engineconfigurable/wrapper/Android.mk
+@@ -22,7 +22,7 @@ LOCAL_MODULE:= libaudiopolicypfwwrapper
+ LOCAL_EXPORT_C_INCLUDE_DIRS := $(LOCAL_PATH)/include
+ 
+ LOCAL_MODULE_TAGS := optional
+-LOCAL_CFLAGS := -Wall -Werror -Wextra
++LOCAL_CFLAGS := -Wall  -Wextra
+ 
+ include $(BUILD_STATIC_LIBRARY)
+ 
+diff --git a/frameworks/av/services/audiopolicy/enginedefault/Android.mk b/frameworks/av/services/audiopolicy/enginedefault/Android.mk
+index 8d43b89..afa8866 100755
+--- a/frameworks/av/services/audiopolicy/enginedefault/Android.mk
++++ b/frameworks/av/services/audiopolicy/enginedefault/Android.mk
+@@ -17,7 +17,7 @@ audio_policy_engine_includes_common := \
+ 
+ LOCAL_CFLAGS += \
+     -Wall \
+-    -Werror \
++     \
+     -Wextra \
+ 
+ LOCAL_EXPORT_C_INCLUDE_DIRS := \
+diff --git a/frameworks/av/services/mediaresourcemanager/Android.mk b/frameworks/av/services/mediaresourcemanager/Android.mk
+index b72230f..8a47557 100644
+--- a/frameworks/av/services/mediaresourcemanager/Android.mk
++++ b/frameworks/av/services/mediaresourcemanager/Android.mk
+@@ -13,7 +13,7 @@ LOCAL_32_BIT_ONLY := true
+ LOCAL_C_INCLUDES += \
+     $(TOPDIR)frameworks/av/include
+ 
+-LOCAL_CFLAGS += -Werror -Wall
++LOCAL_CFLAGS +=  -Wall
+ LOCAL_CLANG := true
+ 
+ include $(BUILD_SHARED_LIBRARY)
+diff --git a/frameworks/av/services/mediaresourcemanager/test/Android.mk b/frameworks/av/services/mediaresourcemanager/test/Android.mk
+index 3b4ef0d..b6589f9 100644
+--- a/frameworks/av/services/mediaresourcemanager/test/Android.mk
++++ b/frameworks/av/services/mediaresourcemanager/test/Android.mk
+@@ -20,7 +20,7 @@ LOCAL_C_INCLUDES := \
+   frameworks/av/include \
+   frameworks/av/services/mediaresourcemanager \
+ 
+-LOCAL_CFLAGS += -Werror -Wall
++LOCAL_CFLAGS +=  -Wall
+ LOCAL_CLANG := true
+ 
+ LOCAL_32_BIT_ONLY := true
+@@ -46,7 +46,7 @@ LOCAL_C_INCLUDES := \
+   frameworks/av/include \
+   frameworks/av/services/mediaresourcemanager \
+ 
+-LOCAL_CFLAGS += -Werror -Wall
++LOCAL_CFLAGS +=  -Wall
+ LOCAL_CLANG := true
+ 
+ LOCAL_32_BIT_ONLY := true
+
+project frameworks/base/
+diff --git a/frameworks/base/cmds/app_process/Android.mk b/frameworks/base/cmds/app_process/Android.mk
+index 7ce0846..14e095f 100644
+--- a/frameworks/base/cmds/app_process/Android.mk
++++ b/frameworks/base/cmds/app_process/Android.mk
+@@ -30,7 +30,7 @@ LOCAL_MULTILIB := both
+ LOCAL_MODULE_STEM_32 := app_process32
+ LOCAL_MODULE_STEM_64 := app_process64
+ 
+-LOCAL_CFLAGS += -Wall -Werror -Wunused -Wunreachable-code
++LOCAL_CFLAGS += -Wall  -Wunused -Wunreachable-code
+ 
+ include $(BUILD_EXECUTABLE)
+ 
+@@ -69,7 +69,7 @@ LOCAL_ADDRESS_SANITIZER := true
+ LOCAL_CLANG := true
+ LOCAL_MODULE_PATH := $(TARGET_OUT_EXECUTABLES)/asan
+ 
+-LOCAL_CFLAGS += -Wall -Werror -Wunused -Wunreachable-code
++LOCAL_CFLAGS += -Wall  -Wunused -Wunreachable-code
+ 
+ include $(BUILD_EXECUTABLE)
+ 
+diff --git a/frameworks/base/cmds/backup/Android.mk b/frameworks/base/cmds/backup/Android.mk
+index 8e1508c..3ee59a3 100644
+--- a/frameworks/base/cmds/backup/Android.mk
++++ b/frameworks/base/cmds/backup/Android.mk
+@@ -12,6 +12,6 @@ LOCAL_MODULE:= btool
+ LOCAL_MODULE_PATH := $(TARGET_OUT_OPTIONAL_EXECUTABLES)
+ LOCAL_MODULE_TAGS := optional
+ 
+-LOCAL_CFLAGS += -Wall -Werror -Wunused -Wunreachable-code
++LOCAL_CFLAGS += -Wall  -Wunused -Wunreachable-code
+ 
+ include $(BUILD_EXECUTABLE)
+diff --git a/frameworks/base/cmds/bootanimation/Android.mk b/frameworks/base/cmds/bootanimation/Android.mk
+index 2ee586f..f731f16 100644
+--- a/frameworks/base/cmds/bootanimation/Android.mk
++++ b/frameworks/base/cmds/bootanimation/Android.mk
+@@ -8,7 +8,7 @@ LOCAL_SRC_FILES:= \
+ 
+ LOCAL_CFLAGS += -DGL_GLEXT_PROTOTYPES -DEGL_EGLEXT_PROTOTYPES
+ 
+-LOCAL_CFLAGS += -Wall -Werror -Wunused -Wunreachable-code
++LOCAL_CFLAGS += -Wall  -Wunused -Wunreachable-code
+ 
+ LOCAL_C_INCLUDES += external/tinyalsa/include
+ 
+diff --git a/frameworks/base/cmds/idmap/Android.mk b/frameworks/base/cmds/idmap/Android.mk
+index 50ccb07..6b9c26f 100644
+--- a/frameworks/base/cmds/idmap/Android.mk
++++ b/frameworks/base/cmds/idmap/Android.mk
+@@ -25,6 +25,6 @@ LOCAL_C_INCLUDES := external/zlib
+ 
+ LOCAL_MODULE_TAGS := optional
+ 
+-LOCAL_CFLAGS += -Wall -Werror -Wunused -Wunreachable-code
++LOCAL_CFLAGS += -Wall  -Wunused -Wunreachable-code
+ 
+ include $(BUILD_EXECUTABLE)
+diff --git a/frameworks/base/cmds/interrupter/Android.mk b/frameworks/base/cmds/interrupter/Android.mk
+index 97a96bf..1fd5a12 100644
+--- a/frameworks/base/cmds/interrupter/Android.mk
++++ b/frameworks/base/cmds/interrupter/Android.mk
+@@ -7,7 +7,7 @@ LOCAL_SRC_FILES := \
+ LOCAL_MODULE := interrupter
+ LOCAL_MODULE_TAGS := eng tests
+ LOCAL_LDFLAGS := -ldl
+-LOCAL_CFLAGS := -Wall -Werror -Wunused -Wunreachable-code
++LOCAL_CFLAGS := -Wall  -Wunused -Wunreachable-code
+ 
+ include $(BUILD_SHARED_LIBRARY)
+ 
+@@ -18,6 +18,6 @@ LOCAL_SRC_FILES := \
+ LOCAL_MODULE := interrupter
+ LOCAL_MODULE_TAGS := eng tests
+ LOCAL_LDFLAGS := -ldl
+-LOCAL_CFLAGS := -Wall -Werror -Wunused -Wunreachable-code
++LOCAL_CFLAGS := -Wall  -Wunused -Wunreachable-code
+ 
+ include $(BUILD_HOST_SHARED_LIBRARY)
+diff --git a/frameworks/base/cmds/screencap/Android.mk b/frameworks/base/cmds/screencap/Android.mk
+index b0dc422..9e89f48 100644
+--- a/frameworks/base/cmds/screencap/Android.mk
++++ b/frameworks/base/cmds/screencap/Android.mk
+@@ -16,6 +16,6 @@ LOCAL_MODULE:= screencap
+ 
+ LOCAL_MODULE_TAGS := optional
+ 
+-LOCAL_CFLAGS += -Wall -Werror -Wunused -Wunreachable-code
++LOCAL_CFLAGS += -Wall  -Wunused -Wunreachable-code
+ 
+ include $(BUILD_EXECUTABLE)
+diff --git a/frameworks/base/core/jni/Android.mk b/frameworks/base/core/jni/Android.mk
+index fc15b96..2a200f8 100644
+--- a/frameworks/base/core/jni/Android.mk
++++ b/frameworks/base/core/jni/Android.mk
+@@ -266,7 +266,7 @@ LOCAL_MODULE:= libandroid_runtime
+ 
+ # -Wno-unknown-pragmas: necessary for Clang as the GL bindings need to turn
+ #                       off a GCC warning that Clang doesn't know.
+-LOCAL_CFLAGS += -Wall -Werror -Wno-error=deprecated-declarations -Wunused -Wunreachable-code \
++LOCAL_CFLAGS += -Wall  -Wno-error=deprecated-declarations -Wunused -Wunreachable-code \
+         -Wno-unknown-pragmas
+ 
+ # -Wno-c++11-extensions: Clang warns about Skia using the C++11 override keyword, but this project
+diff --git a/frameworks/base/core/tests/hosttests/test-apps/MultiDexLegacyVersionedTestApp_v1/Android.mk b/frameworks/base/core/tests/hosttests/test-apps/MultiDexLegacyVersionedTestApp_v1/Android.mk
+index 0f1d9c0..f9365df 100644
+--- a/frameworks/base/core/tests/hosttests/test-apps/MultiDexLegacyVersionedTestApp_v1/Android.mk
++++ b/frameworks/base/core/tests/hosttests/test-apps/MultiDexLegacyVersionedTestApp_v1/Android.mk
+@@ -36,7 +36,7 @@ LOCAL_JACK_FLAGS := -D jack.dex.output.policy=minimal-multidex -D jack.preproces
+     -D jack.preprocessor.file=$(LOCAL_PATH)/test.jpp -D jack.dex.output.multidex.legacy=true
+ 
+ #################################
+-include $(BUILD_SYSTEM)/configure_local_jack.mk
++#include $(BUILD_SYSTEM)/configure_local_jack.mk
+ #################################
+ 
+ ifdef LOCAL_JACK_ENABLED
+@@ -52,4 +52,4 @@ $(mainDexList): $(full_classes_proguard_jar) | $(HOST_OUT_EXECUTABLES)/mainDexCl
+ 	echo "com/android/framework/multidexlegacyversionedtestapp/MultiDexUpdateTest.class" >> $@
+ 
+ $(built_dex_intermediate): $(mainDexList)
+-endif
+\ No newline at end of file
++endif
+diff --git a/frameworks/base/drm/jni/Android.mk b/frameworks/base/drm/jni/Android.mk
+index 08c7b95..5d14804 100644
+--- a/frameworks/base/drm/jni/Android.mk
++++ b/frameworks/base/drm/jni/Android.mk
+@@ -41,6 +41,6 @@ LOCAL_C_INCLUDES += \
+ 
+ LOCAL_MODULE_TAGS := optional
+ 
+-LOCAL_CFLAGS += -Wall -Werror -Wunused -Wunreachable-code
++LOCAL_CFLAGS += -Wall  -Wunused -Wunreachable-code
+ 
+ include $(BUILD_SHARED_LIBRARY)
+diff --git a/frameworks/base/libs/androidfw/Android.mk b/frameworks/base/libs/androidfw/Android.mk
+index 2f28700..17ab863 100644
+--- a/frameworks/base/libs/androidfw/Android.mk
++++ b/frameworks/base/libs/androidfw/Android.mk
+@@ -45,7 +45,7 @@ LOCAL_ADDITIONAL_DEPENDENCIES := $(LOCAL_PATH)/Android.mk
+ LOCAL_MODULE:= libandroidfw
+ LOCAL_MODULE_TAGS := optional
+ LOCAL_CFLAGS += -DSTATIC_ANDROIDFW_FOR_TOOLS
+-LOCAL_CFLAGS += -Wall -Werror -Wunused -Wunreachable-code
++LOCAL_CFLAGS += -Wall  -Wunused -Wunreachable-code
+ LOCAL_SRC_FILES:= $(hostSources)
+ LOCAL_C_INCLUDES := external/zlib
+ 
+@@ -72,7 +72,7 @@ LOCAL_SHARED_LIBRARIES := \
+     libutils \
+     libz
+ 
+-LOCAL_CFLAGS += -Wall -Werror -Wunused -Wunreachable-code
++LOCAL_CFLAGS += -Wall  -Wunused -Wunreachable-code
+ 
+ include $(BUILD_SHARED_LIBRARY)
+ 
+diff --git a/frameworks/base/libs/androidfw/tests/Android.mk b/frameworks/base/libs/androidfw/tests/Android.mk
+index a353575..bd743d5 100644
+--- a/frameworks/base/libs/androidfw/tests/Android.mk
++++ b/frameworks/base/libs/androidfw/tests/Android.mk
+@@ -35,7 +35,7 @@ testFiles := \
+ 
+ androidfw_test_cflags := \
+     -Wall \
+-    -Werror \
++     \
+     -Wunused \
+     -Wunreachable-code \
+     -Wno-missing-field-initializers \
+diff --git a/frameworks/base/libs/common_time/Android.mk b/frameworks/base/libs/common_time/Android.mk
+index 1fec504..f9f9efe 100644
+--- a/frameworks/base/libs/common_time/Android.mk
++++ b/frameworks/base/libs/common_time/Android.mk
+@@ -33,6 +33,6 @@ LOCAL_SHARED_LIBRARIES := \
+ LOCAL_MODULE_TAGS := optional
+ LOCAL_MODULE := common_time
+ 
+-LOCAL_CFLAGS += -Wall -Werror -Wunused -Wunreachable-code
++LOCAL_CFLAGS += -Wall  -Wunused -Wunreachable-code
+ 
+ include $(BUILD_EXECUTABLE)
+diff --git a/frameworks/base/libs/hwui/Android.common.mk b/frameworks/base/libs/hwui/Android.common.mk
+index 38e8be9..7c3263d 100644
+--- a/frameworks/base/libs/hwui/Android.common.mk
++++ b/frameworks/base/libs/hwui/Android.common.mk
+@@ -123,5 +123,5 @@ LOCAL_CFLAGS += -ffast-math -O3
+ 
+ # b/21698669
+ ifneq ($(USE_CLANG_PLATFORM_BUILD),true)
+-    LOCAL_CFLAGS += -Werror
++    LOCAL_CFLAGS += 
+ endif
+diff --git a/frameworks/base/libs/input/Android.mk b/frameworks/base/libs/input/Android.mk
+index 2bbfdcc..f08a0f8 100644
+--- a/frameworks/base/libs/input/Android.mk
++++ b/frameworks/base/libs/input/Android.mk
+@@ -34,7 +34,7 @@ LOCAL_C_INCLUDES := \
+     frameworks/native/services
+ 
+ 
+-LOCAL_CFLAGS += -Wall -Werror -Wunused -Wunreachable-code
++LOCAL_CFLAGS += -Wall  -Wunused -Wunreachable-code
+ 
+ LOCAL_MODULE:= libinputservice
+ 
+diff --git a/frameworks/base/libs/storage/Android.mk b/frameworks/base/libs/storage/Android.mk
+index fae2bf7..44618b7 100644
+--- a/frameworks/base/libs/storage/Android.mk
++++ b/frameworks/base/libs/storage/Android.mk
+@@ -9,6 +9,6 @@ LOCAL_SRC_FILES:= \
+ 
+ LOCAL_MODULE:= libstorage
+ 
+-LOCAL_CFLAGS += -Wall -Werror
++LOCAL_CFLAGS += -Wall 
+ 
+ include $(BUILD_STATIC_LIBRARY)
+diff --git a/frameworks/base/media/jni/Android.mk b/frameworks/base/media/jni/Android.mk
+index 79557bc..33ce9f6 100644
+--- a/frameworks/base/media/jni/Android.mk
++++ b/frameworks/base/media/jni/Android.mk
+@@ -69,7 +69,7 @@ LOCAL_C_INCLUDES += \
+     $(PV_INCLUDES) \
+     $(JNI_H_INCLUDE)
+ 
+-LOCAL_CFLAGS += -Wall -Werror -Wno-error=deprecated-declarations -Wunused -Wunreachable-code
++LOCAL_CFLAGS += -Wall  -Wno-error=deprecated-declarations -Wunused -Wunreachable-code
+ 
+ LOCAL_MODULE:= libmedia_jni
+ 
+diff --git a/frameworks/base/media/jni/audioeffect/Android.mk b/frameworks/base/media/jni/audioeffect/Android.mk
+index 5c22c9b..aae2e3b 100644
+--- a/frameworks/base/media/jni/audioeffect/Android.mk
++++ b/frameworks/base/media/jni/audioeffect/Android.mk
+@@ -18,6 +18,6 @@ LOCAL_C_INCLUDES := \
+ 
+ LOCAL_MODULE:= libaudioeffect_jni
+ 
+-LOCAL_CFLAGS += -Wall -Werror -Wunused -Wunreachable-code
++LOCAL_CFLAGS += -Wall  -Wunused -Wunreachable-code
+ 
+ include $(BUILD_SHARED_LIBRARY)
+diff --git a/frameworks/base/media/jni/soundpool/Android.mk b/frameworks/base/media/jni/soundpool/Android.mk
+index 2bc41b5..3f7ce1d 100644
+--- a/frameworks/base/media/jni/soundpool/Android.mk
++++ b/frameworks/base/media/jni/soundpool/Android.mk
+@@ -18,6 +18,6 @@ LOCAL_SHARED_LIBRARIES := \
+ 
+ LOCAL_MODULE:= libsoundpool
+ 
+-LOCAL_CFLAGS += -Wall -Werror -Wno-error=deprecated-declarations -Wunused -Wunreachable-code
++LOCAL_CFLAGS += -Wall  -Wno-error=deprecated-declarations -Wunused -Wunreachable-code
+ 
+ include $(BUILD_SHARED_LIBRARY)
+diff --git a/frameworks/base/media/mca/filterfw/jni/Android.mk b/frameworks/base/media/mca/filterfw/jni/Android.mk
+index cba4e7e..027eec3 100644
+--- a/frameworks/base/media/mca/filterfw/jni/Android.mk
++++ b/frameworks/base/media/mca/filterfw/jni/Android.mk
+@@ -41,6 +41,6 @@ LOCAL_C_INCLUDES += \
+     $(JNI_H_INCLUDE) \
+     $(LOCAL_PATH)/..
+ 
+-LOCAL_CFLAGS += -Wall -Werror -Wunused -Wunreachable-code -Wno-unused-parameter
++LOCAL_CFLAGS += -Wall  -Wunused -Wunreachable-code -Wno-unused-parameter
+ 
+ include $(BUILD_STATIC_LIBRARY)
+diff --git a/frameworks/base/media/mca/filterfw/native/Android.mk b/frameworks/base/media/mca/filterfw/native/Android.mk
+index 7c4703f..b4b6206 100644
+--- a/frameworks/base/media/mca/filterfw/native/Android.mk
++++ b/frameworks/base/media/mca/filterfw/native/Android.mk
+@@ -39,7 +39,7 @@ include $(LOCAL_PATH)/libfilterfw.mk
+ # gcc should always be placed at the end.
+ LOCAL_EXPORT_LDLIBS := -llog -lgcc
+ 
+-LOCAL_CFLAGS += -Wall -Werror -Wunused -Wunreachable-code
++LOCAL_CFLAGS += -Wall  -Wunused -Wunreachable-code
+ 
+ # TODO: Build a shared library as well?
+ include $(BUILD_STATIC_LIBRARY)
+diff --git a/frameworks/base/media/mca/filterpacks/Android.mk b/frameworks/base/media/mca/filterpacks/Android.mk
+index 0ff7658..6718971 100644
+--- a/frameworks/base/media/mca/filterpacks/Android.mk
++++ b/frameworks/base/media/mca/filterpacks/Android.mk
+@@ -28,7 +28,7 @@ LOCAL_SRC_FILES := native/base/geometry.cpp \
+ 
+ LOCAL_CFLAGS := -DANDROID
+ 
+-LOCAL_CFLAGS += -Wall -Werror -Wunused -Wunreachable-code
++LOCAL_CFLAGS += -Wall  -Wunused -Wunreachable-code
+ 
+ include $(BUILD_STATIC_LIBRARY)
+ 
+@@ -48,6 +48,6 @@ LOCAL_SRC_FILES += native/imageproc/brightness.c \
+ 
+ LOCAL_SHARED_LIBRARIES := liblog libutils libfilterfw
+ 
+-LOCAL_CFLAGS += -Wall -Werror -Wunused -Wunreachable-code
++LOCAL_CFLAGS += -Wall  -Wunused -Wunreachable-code
+ 
+ include $(BUILD_SHARED_LIBRARY)
+diff --git a/frameworks/base/media/tests/audiotests/Android.mk b/frameworks/base/media/tests/audiotests/Android.mk
+index 3507434..edf295b 100644
+--- a/frameworks/base/media/tests/audiotests/Android.mk
++++ b/frameworks/base/media/tests/audiotests/Android.mk
+@@ -18,6 +18,6 @@ LOCAL_SHARED_LIBRARIES :=  \
+ 
+ LOCAL_MODULE_TAGS := tests
+ 
+-LOCAL_CFLAGS += -Wall -Werror -Wno-error=deprecated-declarations -Wunused -Wunreachable-code
++LOCAL_CFLAGS += -Wall  -Wno-error=deprecated-declarations -Wunused -Wunreachable-code
+ 
+ include $(BUILD_EXECUTABLE)
+diff --git a/frameworks/base/media/tests/players/Android.mk b/frameworks/base/media/tests/players/Android.mk
+index 7ab6458..72ea91b 100644
+--- a/frameworks/base/media/tests/players/Android.mk
++++ b/frameworks/base/media/tests/players/Android.mk
+@@ -26,6 +26,6 @@ LOCAL_SHARED_LIBRARIES:= \
+ LOCAL_MODULE:= invoke_mock_media_player
+ LOCAL_MODULE_TAGS := tests eng
+ 
+-LOCAL_CFLAGS += -Wall -Werror -Wunused -Wunreachable-code
++LOCAL_CFLAGS += -Wall  -Wunused -Wunreachable-code
+ 
+ include $(BUILD_SHARED_LIBRARY)
+diff --git a/frameworks/base/native/android/Android.mk b/frameworks/base/native/android/Android.mk
+index 1742bee..8a7c6dc 100644
+--- a/frameworks/base/native/android/Android.mk
++++ b/frameworks/base/native/android/Android.mk
+@@ -41,6 +41,6 @@ LOCAL_C_INCLUDES += \
+ 
+ LOCAL_MODULE := libandroid
+ 
+-LOCAL_CFLAGS += -Wall -Werror -Wunused -Wunreachable-code
++LOCAL_CFLAGS += -Wall  -Wunused -Wunreachable-code
+ 
+ include $(BUILD_SHARED_LIBRARY)
+diff --git a/frameworks/base/native/graphics/jni/Android.mk b/frameworks/base/native/graphics/jni/Android.mk
+index 1b684bb..03bb6f9 100644
+--- a/frameworks/base/native/graphics/jni/Android.mk
++++ b/frameworks/base/native/graphics/jni/Android.mk
+@@ -29,7 +29,7 @@ LOCAL_C_INCLUDES += \
+ 
+ LOCAL_MODULE:= libjnigraphics
+ 
+-LOCAL_CFLAGS += -Wall -Werror -Wunused -Wunreachable-code
++LOCAL_CFLAGS += -Wall  -Wunused -Wunreachable-code
+ 
+ # TODO: This is to work around b/19059885. Remove after root cause is fixed
+ LOCAL_LDFLAGS_arm := -Wl,--hash-style=both
+diff --git a/frameworks/base/packages/DefaultContainerService/jni/Android.mk b/frameworks/base/packages/DefaultContainerService/jni/Android.mk
+index 7808ae1..f25ead9 100644
+--- a/frameworks/base/packages/DefaultContainerService/jni/Android.mk
++++ b/frameworks/base/packages/DefaultContainerService/jni/Android.mk
+@@ -35,6 +35,6 @@ LOCAL_STATIC_LIBRARIES := \
+ LOCAL_MODULE := libdefcontainer_jni
+ LOCAL_MODULE_TAGS := optional
+ 
+-LOCAL_CFLAGS += -Wall -Werror -Wunused -Wunreachable-code
++LOCAL_CFLAGS += -Wall  -Wunused -Wunreachable-code
+ 
+ include $(BUILD_SHARED_LIBRARY)
+diff --git a/frameworks/base/packages/PrintSpooler/jni/Android.mk b/frameworks/base/packages/PrintSpooler/jni/Android.mk
+index 9fd4c84..ed1b4a6 100644
+--- a/frameworks/base/packages/PrintSpooler/jni/Android.mk
++++ b/frameworks/base/packages/PrintSpooler/jni/Android.mk
+@@ -16,6 +16,6 @@ LOCAL_SHARED_LIBRARIES := \
+ LOCAL_MODULE := libprintspooler_jni
+ LOCAL_MODULE_TAGS := optional
+ 
+-LOCAL_CFLAGS += -Wall -Werror -Wunused -Wunreachable-code
++LOCAL_CFLAGS += -Wall  -Wunused -Wunreachable-code
+ 
+ include $(BUILD_SHARED_LIBRARY)
+diff --git a/frameworks/base/packages/services/PacProcessor/jni/Android.mk b/frameworks/base/packages/services/PacProcessor/jni/Android.mk
+index 254cbc2..6837b54 100644
+--- a/frameworks/base/packages/services/PacProcessor/jni/Android.mk
++++ b/frameworks/base/packages/services/PacProcessor/jni/Android.mk
+@@ -36,6 +36,6 @@ LOCAL_SHARED_LIBRARIES := \
+ LOCAL_MODULE := libjni_pacprocessor
+ LOCAL_MODULE_TAGS := optional
+ 
+-LOCAL_CFLAGS += -Wall -Werror -Wunused -Wunreachable-code
++LOCAL_CFLAGS += -Wall  -Wunused -Wunreachable-code
+ 
+ include $(BUILD_SHARED_LIBRARY)
+diff --git a/frameworks/base/rs/jni/Android.mk b/frameworks/base/rs/jni/Android.mk
+index 0658620..00ab0df 100644
+--- a/frameworks/base/rs/jni/Android.mk
++++ b/frameworks/base/rs/jni/Android.mk
+@@ -29,7 +29,7 @@ LOCAL_C_INCLUDES += \
+     $(rs_generated_include_dir)
+ 
+ LOCAL_CFLAGS += -Wno-unused-parameter -std=c++11
+-LOCAL_CFLAGS += -Wall -Werror -Wunused -Wunreachable-code
++LOCAL_CFLAGS += -Wall  -Wunused -Wunreachable-code
+ 
+ LOCAL_ADDITIONAL_DEPENDENCIES := $(addprefix $(rs_generated_include_dir)/,rsgApiFuncDecl.h)
+ LOCAL_MODULE:= librs_jni
+diff --git a/frameworks/base/services/core/jni/Android.mk b/frameworks/base/services/core/jni/Android.mk
+index 98d8d08..eb684c6 100644
+--- a/frameworks/base/services/core/jni/Android.mk
++++ b/frameworks/base/services/core/jni/Android.mk
+@@ -2,7 +2,7 @@
+ # files
+ LOCAL_REL_DIR := core/jni
+ 
+-LOCAL_CFLAGS += -Wall -Werror -Wno-unused-parameter
++LOCAL_CFLAGS += -Wall  -Wno-unused-parameter
+ 
+ ifneq ($(ENABLE_CPUSETS),)
+ ifneq ($(ENABLE_SCHED_BOOST),)
+diff --git a/frameworks/base/tools/aapt/Android.mk b/frameworks/base/tools/aapt/Android.mk
+index b991d55..cc385bd 100644
+--- a/frameworks/base/tools/aapt/Android.mk
++++ b/frameworks/base/tools/aapt/Android.mk
+@@ -71,7 +71,7 @@ aaptHostStaticLibs := \
+     libbase
+ 
+ aaptCFlags := -DAAPT_VERSION=\"$(BUILD_NUMBER)\"
+-aaptCFlags += -Wall -Werror
++aaptCFlags += -Wall 
+ 
+ ifeq ($(HOST_OS),linux)
+     aaptHostLdLibs += -lrt -ldl -lpthread
+diff --git a/frameworks/base/tools/aapt2/Android.mk b/frameworks/base/tools/aapt2/Android.mk
+index 10f8150..bf85a7e 100644
+--- a/frameworks/base/tools/aapt2/Android.mk
++++ b/frameworks/base/tools/aapt2/Android.mk
+@@ -104,7 +104,7 @@ else
+ 	hostLdLibs += -lz
+ endif
+ 
+-cFlags := -Wall -Werror -Wno-unused-parameter -UNDEBUG
++cFlags := -Wall  -Wno-unused-parameter -UNDEBUG
+ cppFlags := -std=c++11 -Wno-missing-field-initializers -Wno-unused-private-field
+ 
+ # ==========================================================
+diff --git a/frameworks/base/tools/obbtool/Android.mk b/frameworks/base/tools/obbtool/Android.mk
+index 1b1f63e..c4a4378 100644
+--- a/frameworks/base/tools/obbtool/Android.mk
++++ b/frameworks/base/tools/obbtool/Android.mk
+@@ -13,7 +13,7 @@ include $(CLEAR_VARS)
+ LOCAL_SRC_FILES := \
+ 	Main.cpp
+ 
+-LOCAL_CFLAGS := -Wall -Werror -Wno-mismatched-tags
++LOCAL_CFLAGS := -Wall  -Wno-mismatched-tags
+ 
+ #LOCAL_C_INCLUDES +=
+ 
+@@ -36,7 +36,7 @@ include $(CLEAR_VARS)
+ 
+ LOCAL_MODULE := pbkdf2gen
+ LOCAL_MODULE_TAGS := optional
+-LOCAL_CFLAGS := -Wall -Werror -Wno-mismatched-tags
++LOCAL_CFLAGS := -Wall  -Wno-mismatched-tags
+ LOCAL_SRC_FILES := pbkdf2gen.cpp
+ LOCAL_LDLIBS += -ldl
+ LOCAL_STATIC_LIBRARIES := libcrypto_static
+diff --git a/frameworks/base/tools/split-select/Android.mk b/frameworks/base/tools/split-select/Android.mk
+index d9ddf08..89d9abc 100644
+--- a/frameworks/base/tools/split-select/Android.mk
++++ b/frameworks/base/tools/split-select/Android.mk
+@@ -55,7 +55,7 @@ hostStaticLibs := \
+     libziparchive-host \
+     libbase
+ 
+-cFlags := -Wall -Werror
++cFlags := -Wall 
+ 
+ ifeq ($(HOST_OS),linux)
+     hostLdLibs += -lrt -ldl -lpthread
+diff --git a/frameworks/base/tools/validatekeymaps/Android.mk b/frameworks/base/tools/validatekeymaps/Android.mk
+index 9af721d..fd32d93 100644
+--- a/frameworks/base/tools/validatekeymaps/Android.mk
++++ b/frameworks/base/tools/validatekeymaps/Android.mk
+@@ -13,7 +13,7 @@ include $(CLEAR_VARS)
+ LOCAL_SRC_FILES := \
+ 	Main.cpp
+ 
+-LOCAL_CFLAGS := -Wall -Werror
++LOCAL_CFLAGS := -Wall 
+ 
+ LOCAL_STATIC_LIBRARIES := \
+ 	libinput \
+
+project frameworks/compile/libbcc/
+diff --git a/frameworks/compile/libbcc/bcinfo/Android.mk b/frameworks/compile/libbcc/bcinfo/Android.mk
+index 5a55014..3f23ff5 100644
+--- a/frameworks/compile/libbcc/bcinfo/Android.mk
++++ b/frameworks/compile/libbcc/bcinfo/Android.mk
+@@ -14,7 +14,7 @@
+ # limitations under the License.
+ #
+ 
+-local_cflags_for_libbcinfo := -Wall -Wno-unused-parameter -Werror
++local_cflags_for_libbcinfo := -Wall -Wno-unused-parameter 
+ ifneq ($(TARGET_BUILD_VARIANT),eng)
+ local_cflags_for_libbcinfo += -D__DISABLE_ASSERTS
+ endif
+diff --git a/frameworks/compile/libbcc/libbcc-device-build.mk b/frameworks/compile/libbcc/libbcc-device-build.mk
+index 188f2f9..bcdcc34 100644
+--- a/frameworks/compile/libbcc/libbcc-device-build.mk
++++ b/frameworks/compile/libbcc/libbcc-device-build.mk
+@@ -19,7 +19,7 @@ LOCAL_CLANG := true
+ LOCAL_CFLAGS := \
+   -Wall \
+   -Wno-unused-parameter \
+-  -Werror \
++   \
+   -DTARGET_BUILD \
+   $(RS_VERSION_DEFINE) \
+   $(LOCAL_CFLAGS)
+diff --git a/frameworks/compile/libbcc/libbcc-host-build.mk b/frameworks/compile/libbcc/libbcc-host-build.mk
+index 3a8839f..5078691 100644
+--- a/frameworks/compile/libbcc/libbcc-host-build.mk
++++ b/frameworks/compile/libbcc/libbcc-host-build.mk
+@@ -21,7 +21,7 @@ endif
+ LOCAL_CFLAGS := \
+   -Wall \
+   -Wno-unused-parameter \
+-  -Werror \
++   \
+   -D__HOST__ \
+   $(RS_VERSION_DEFINE) \
+   $(LOCAL_CFLAGS)
+
+project frameworks/compile/mclinker/
+diff --git a/frameworks/compile/mclinker/mcld-device-build.mk b/frameworks/compile/mclinker/mcld-device-build.mk
+index 5734e91..a4a10c9 100644
+--- a/frameworks/compile/mclinker/mcld-device-build.mk
++++ b/frameworks/compile/mclinker/mcld-device-build.mk
+@@ -15,7 +15,7 @@ LOCAL_CPPFLAGS := \
+   -Wno-unused-parameter \
+   -Wno-unused-private-field \
+   -Wno-unused-const-variable \
+-  -Werror
++  
+ 
+ ifeq ($(MCLD_ENABLE_ASSERTION),true)
+   LOCAL_CPPFLAGS += \
+
+project frameworks/compile/slang/
+diff --git a/frameworks/compile/slang/Android.mk b/frameworks/compile/slang/Android.mk
+index e0556e2..d551941 100644
+--- a/frameworks/compile/slang/Android.mk
++++ b/frameworks/compile/slang/Android.mk
+@@ -20,7 +20,7 @@ SLANG_ENABLE_ASSERTIONS := false
+ ifeq ($(TARGET_BUILD_APPS),)
+ 
+ 
+-local_cflags_for_slang := -Wall -Werror -std=c++11
++local_cflags_for_slang := -Wall  -std=c++11
+ ifeq ($(TARGET_BUILD_VARIANT),eng)
+ local_cflags_for_slang += -O0
+ else
+
+project frameworks/native/
+diff --git a/frameworks/native/cmds/installd/Android.mk b/frameworks/native/cmds/installd/Android.mk
+index 6dec7f6..31f494c 100644
+--- a/frameworks/native/cmds/installd/Android.mk
++++ b/frameworks/native/cmds/installd/Android.mk
+@@ -1,7 +1,7 @@
+ LOCAL_PATH := $(call my-dir)
+ 
+ common_src_files := commands.cpp utils.cpp
+-common_cflags := -Wall -Werror
++common_cflags := -Wall 
+ 
+ #
+ # Static library used in testing and executable
+diff --git a/frameworks/native/libs/binder/Android.mk b/frameworks/native/libs/binder/Android.mk
+index d5860ef..cd4515c 100644
+--- a/frameworks/native/libs/binder/Android.mk
++++ b/frameworks/native/libs/binder/Android.mk
+@@ -49,7 +49,7 @@ ifneq ($(TARGET_IS_64_BIT),true)
+ LOCAL_CFLAGS += -DBINDER_IPC_32BIT=1
+ endif
+ endif
+-LOCAL_CFLAGS += -Werror
++LOCAL_CFLAGS += 
+ include $(BUILD_SHARED_LIBRARY)
+ 
+ include $(CLEAR_VARS)
+@@ -61,5 +61,5 @@ ifneq ($(TARGET_IS_64_BIT),true)
+ LOCAL_CFLAGS += -DBINDER_IPC_32BIT=1
+ endif
+ endif
+-LOCAL_CFLAGS += -Werror
++LOCAL_CFLAGS += 
+ include $(BUILD_STATIC_LIBRARY)
+diff --git a/frameworks/native/libs/gui/Android.mk b/frameworks/native/libs/gui/Android.mk
+index 8a965dd..adaa913 100644
+--- a/frameworks/native/libs/gui/Android.mk
++++ b/frameworks/native/libs/gui/Android.mk
+@@ -16,7 +16,7 @@ LOCAL_PATH := $(call my-dir)
+ include $(CLEAR_VARS)
+ 
+ LOCAL_CLANG := true
+-LOCAL_CPPFLAGS := -std=c++1y -Weverything -Werror
++LOCAL_CPPFLAGS := -std=c++1y -Weverything 
+ 
+ # The static constructors and destructors in this library have not been noted to
+ # introduce significant overheads
+diff --git a/frameworks/native/libs/ui/Android.mk b/frameworks/native/libs/ui/Android.mk
+index 1ce8626..d5dbeb1 100644
+--- a/frameworks/native/libs/ui/Android.mk
++++ b/frameworks/native/libs/ui/Android.mk
+@@ -16,7 +16,7 @@ LOCAL_PATH := $(call my-dir)
+ include $(CLEAR_VARS)
+ 
+ LOCAL_CLANG := true
+-LOCAL_CPPFLAGS := -std=c++1y -Weverything -Werror
++LOCAL_CPPFLAGS := -std=c++1y -Weverything
+ 
+ # The static constructors and destructors in this library have not been noted to
+ # introduce significant overheads
+diff --git a/frameworks/native/opengl/tests/gl2_jni/Android.mk b/frameworks/native/opengl/tests/gl2_jni/Android.mk
+index 409bd73..0f5da46 100644
+--- a/frameworks/native/opengl/tests/gl2_jni/Android.mk
++++ b/frameworks/native/opengl/tests/gl2_jni/Android.mk
+@@ -30,7 +30,7 @@ include $(CLEAR_VARS)
+ # Optional tag would mean it doesn't get installed by default
+ LOCAL_MODULE_TAGS := optional
+ 
+-LOCAL_CFLAGS := -Werror -Wno-error=unused-parameter
++LOCAL_CFLAGS :=  -Wno-error=unused-parameter
+ 
+ LOCAL_SRC_FILES:= \
+   gl_code.cpp
+diff --git a/frameworks/native/opengl/tests/gl_jni/Android.mk b/frameworks/native/opengl/tests/gl_jni/Android.mk
+index 11b4c8b..a40d0e6 100644
+--- a/frameworks/native/opengl/tests/gl_jni/Android.mk
++++ b/frameworks/native/opengl/tests/gl_jni/Android.mk
+@@ -30,7 +30,7 @@ include $(CLEAR_VARS)
+ # Optional tag would mean it doesn't get installed by default
+ LOCAL_MODULE_TAGS := optional
+ 
+-LOCAL_CFLAGS := -Werror -Wno-error=unused-parameter
++LOCAL_CFLAGS :=  -Wno-error=unused-parameter
+ 
+ LOCAL_SRC_FILES:= \
+   gl_code.cpp
+diff --git a/frameworks/native/opengl/tests/gl_perfapp/Android.mk b/frameworks/native/opengl/tests/gl_perfapp/Android.mk
+index 854b54f..9577c20 100644
+--- a/frameworks/native/opengl/tests/gl_perfapp/Android.mk
++++ b/frameworks/native/opengl/tests/gl_perfapp/Android.mk
+@@ -33,7 +33,7 @@ include $(CLEAR_VARS)
+ # Optional tag would mean it doesn't get installed by default
+ LOCAL_MODULE_TAGS := optional
+ 
+-LOCAL_CFLAGS := -Werror -Wno-error=unused-parameter
++LOCAL_CFLAGS :=  -Wno-error=unused-parameter
+ 
+ LOCAL_SRC_FILES:= \
+   gl_code.cpp
+diff --git a/frameworks/native/opengl/tests/gldual/Android.mk b/frameworks/native/opengl/tests/gldual/Android.mk
+index 1991ed9..4657f99 100644
+--- a/frameworks/native/opengl/tests/gldual/Android.mk
++++ b/frameworks/native/opengl/tests/gldual/Android.mk
+@@ -30,7 +30,7 @@ include $(CLEAR_VARS)
+ # Optional tag would mean it doesn't get installed by default
+ LOCAL_MODULE_TAGS := optional
+ 
+-LOCAL_CFLAGS := -Werror -Wno-error=unused-parameter
++LOCAL_CFLAGS :=  -Wno-error=unused-parameter
+ 
+ LOCAL_SRC_FILES:= \
+   gl_code.cpp
+diff --git a/frameworks/native/services/batteryservice/Android.mk b/frameworks/native/services/batteryservice/Android.mk
+index e4097d7..112ef2a 100644
+--- a/frameworks/native/services/batteryservice/Android.mk
++++ b/frameworks/native/services/batteryservice/Android.mk
+@@ -15,6 +15,6 @@ LOCAL_MODULE:= libbatteryservice
+ 
+ LOCAL_MODULE_TAGS := optional
+ 
+-LOCAL_CFLAGS += -Wall -Werror -Wunused -Wunreachable-code
++LOCAL_CFLAGS += -Wall  -Wunused -Wunreachable-code
+ 
+ include $(BUILD_STATIC_LIBRARY)
+diff --git a/frameworks/native/services/powermanager/Android.mk b/frameworks/native/services/powermanager/Android.mk
+index 7b24c65..340a1ef 100644
+--- a/frameworks/native/services/powermanager/Android.mk
++++ b/frameworks/native/services/powermanager/Android.mk
+@@ -12,6 +12,6 @@ LOCAL_MODULE:= libpowermanager
+ 
+ LOCAL_MODULE_TAGS := optional
+ 
+-LOCAL_CFLAGS += -Wall -Werror -Wunused -Wunreachable-code
++LOCAL_CFLAGS += -Wall  -Wunused -Wunreachable-code
+ 
+ include $(BUILD_SHARED_LIBRARY)
+diff --git a/frameworks/native/services/surfaceflinger/Android.mk b/frameworks/native/services/surfaceflinger/Android.mk
+index 1901ef9..0a5b84d 100644
+--- a/frameworks/native/services/surfaceflinger/Android.mk
++++ b/frameworks/native/services/surfaceflinger/Android.mk
+@@ -89,7 +89,7 @@ else
+     LOCAL_CFLAGS += -DMAX_VIRTUAL_DISPLAY_DIMENSION=0
+ endif
+ 
+-LOCAL_CFLAGS += -fvisibility=hidden -Werror=format
++LOCAL_CFLAGS += -fvisibility=hidden =format
+ LOCAL_CFLAGS += -std=c++11
+ 
+ LOCAL_SHARED_LIBRARIES := \
+@@ -108,7 +108,7 @@ LOCAL_SHARED_LIBRARIES := \
+ 
+ LOCAL_MODULE := libsurfaceflinger
+ 
+-LOCAL_CFLAGS += -Wall -Werror -Wunused -Wunreachable-code
++LOCAL_CFLAGS += -Wall  -Wunused -Wunreachable-code
+ 
+ include $(BUILD_SHARED_LIBRARY)
+ 
+@@ -145,7 +145,7 @@ ifdef TARGET_32_BIT_SURFACEFLINGER
+ LOCAL_32_BIT_ONLY := true
+ endif
+ 
+-LOCAL_CFLAGS += -Wall -Werror -Wunused -Wunreachable-code
++LOCAL_CFLAGS += -Wall  -Wunused -Wunreachable-code
+ 
+ include $(BUILD_EXECUTABLE)
+ 
+@@ -169,7 +169,7 @@ LOCAL_SHARED_LIBRARIES := \
+ 
+ LOCAL_MODULE := libsurfaceflinger_ddmconnection
+ 
+-LOCAL_CFLAGS += -Wall -Werror -Wunused -Wunreachable-code
++LOCAL_CFLAGS += -Wall  -Wunused -Wunreachable-code
+ 
+ include $(BUILD_SHARED_LIBRARY)
+ endif # libnativehelper
+
+project frameworks/opt/emoji/
+diff --git a/frameworks/opt/emoji/Android.mk b/frameworks/opt/emoji/Android.mk
+index 42b19ab..638befd 100644
+--- a/frameworks/opt/emoji/Android.mk
++++ b/frameworks/opt/emoji/Android.mk
+@@ -27,7 +27,7 @@ LOCAL_SHARED_LIBRARIES := \
+ 	liblog \
+ 	libdl
+ 
+-LOCAL_CFLAGS += -Wall -Werror
++LOCAL_CFLAGS += -Wall 
+ 
+ LOCAL_C_INCLUDES += \
+ 	$(base)/include/utils
+
+project frameworks/rs/
+diff --git a/frameworks/rs/Android.mk b/frameworks/rs/Android.mk
+index 81a30d8..b7d3e0b 100644
+--- a/frameworks/rs/Android.mk
++++ b/frameworks/rs/Android.mk
+@@ -1,7 +1,7 @@
+ 
+ LOCAL_PATH:=$(call my-dir)
+ 
+-rs_base_CFLAGS := -Werror -Wall -Wno-unused-parameter -Wno-unused-variable -fno-exceptions -std=c++11
++rs_base_CFLAGS :=  -Wall -Wno-unused-parameter -Wno-unused-variable -fno-exceptions -std=c++11
+ ifeq ($(TARGET_BUILD_PDK), true)
+   rs_base_CFLAGS += -D__RS_PDK__
+ endif
+diff --git a/frameworks/rs/cpp/Android.mk b/frameworks/rs/cpp/Android.mk
+index 8d754a8..fbc57ca 100644
+--- a/frameworks/rs/cpp/Android.mk
++++ b/frameworks/rs/cpp/Android.mk
+@@ -31,7 +31,7 @@ rs_cpp_SRC_FILES := \
+ LOCAL_ADDITIONAL_DEPENDENCIES := $(LOCAL_PATH)/Android.mk
+ include frameworks/compile/slang/rs_version.mk
+ local_cflags_for_rs_cpp += $(RS_VERSION_DEFINE)
+-local_cflags_for_rs_cpp += -Werror -Wall -Wno-unused-parameter -Wno-unused-variable -fno-exceptions -std=c++11
++local_cflags_for_rs_cpp +=  -Wall -Wno-unused-parameter -Wno-unused-variable -fno-exceptions -std=c++11
+ 
+ LOCAL_SRC_FILES := $(rs_cpp_SRC_FILES)
+ 
+diff --git a/frameworks/rs/cpu_ref/Android.mk b/frameworks/rs/cpu_ref/Android.mk
+index 2048fff..7df0d61 100644
+--- a/frameworks/rs/cpu_ref/Android.mk
++++ b/frameworks/rs/cpu_ref/Android.mk
+@@ -1,6 +1,6 @@
+ LOCAL_PATH:=$(call my-dir)
+ 
+-rs_base_CFLAGS := -Werror -Wall -Wno-unused-parameter -Wno-unused-variable \
++rs_base_CFLAGS :=  -Wall -Wno-unused-parameter -Wno-unused-variable \
+                   -fno-exceptions -std=c++11
+ ifeq ($(TARGET_BUILD_PDK), true)
+   rs_base_CFLAGS += -D__RS_PDK__
+
+project frameworks/support/
+diff --git a/frameworks/support/v8/renderscript/rs_support/Android.mk b/frameworks/support/v8/renderscript/rs_support/Android.mk
+index c3f2401..05fb6d9 100644
+--- a/frameworks/support/v8/renderscript/rs_support/Android.mk
++++ b/frameworks/support/v8/renderscript/rs_support/Android.mk
+@@ -1,6 +1,6 @@
+ 
+ LOCAL_PATH:=frameworks/rs
+-rs_base_CFLAGS := -Werror -Wall -Wno-unused-parameter -Wno-unused-variable \
++rs_base_CFLAGS :=  -Wall -Wno-unused-parameter -Wno-unused-variable \
+ 		  -Wno-overloaded-virtual -DRS_COMPATIBILITY_LIB -std=c++11
+ 
+ ifeq ($(ARCH_ARM_HAVE_NEON),true)
+
+project frameworks/webview/
+diff --git a/frameworks/webview/chromium/Android.mk b/frameworks/webview/chromium/Android.mk
+index 102afb1..9101947 100644
+--- a/frameworks/webview/chromium/Android.mk
++++ b/frameworks/webview/chromium/Android.mk
+@@ -64,7 +64,7 @@ LOCAL_SRC_FILES := \
+         loader/loader.cpp \
+ 
+ LOCAL_CFLAGS := \
+-        -Werror \
++         \
+ 
+ LOCAL_SHARED_LIBRARIES += \
+         libdl \
+
+project hardware/intel/audio_media/
+diff --git a/hardware/intel/audio_media/hdmi/Android.mk b/hardware/intel/audio_media/hdmi/Android.mk
+index cef79f2..6455b18 100644
+--- a/hardware/intel/audio_media/hdmi/Android.mk
++++ b/hardware/intel/audio_media/hdmi/Android.mk
+@@ -34,7 +34,7 @@ LOCAL_SHARED_LIBRARIES := liblog libcutils libtinyalsa
+ 
+ LOCAL_MODULE := audio.hdmi.$(TARGET_BOARD_PLATFORM)
+ LOCAL_MODULE_TAGS := optional
+-LOCAL_CFLAGS += -Werror
++LOCAL_CFLAGS += 
+ 
+ include $(BUILD_SHARED_LIBRARY)
+ 
+
+project hardware/intel/common/libmix/
+diff --git a/hardware/intel/common/libmix/videodecoder/Android.mk b/hardware/intel/common/libmix/videodecoder/Android.mk
+index 9d97150..8677468 100644
+--- a/hardware/intel/common/libmix/videodecoder/Android.mk
++++ b/hardware/intel/common/libmix/videodecoder/Android.mk
+@@ -72,7 +72,7 @@ ifneq ($(filter $(TARGET_BOARD_PLATFORM),$(PLATFORM_SUPPORT_SLICE_HEADER_PARSER)
+     LOCAL_COPY_HEADERS += securevideo/$(TARGET_BOARD_PLATFORM)/VideoFrameInfo.h
+ endif
+ 
+-LOCAL_CFLAGS += -Werror
++LOCAL_CFLAGS += 
+ LOCAL_MODULE_TAGS := optional
+ LOCAL_MODULE := libva_videodecoder
+ LOCAL_REQUIRED_MODULES :=libmixvbp
+diff --git a/hardware/intel/common/libmix/videoencoder/Android.mk b/hardware/intel/common/libmix/videoencoder/Android.mk
+index 8e2e1cd..bd95ef2 100644
+--- a/hardware/intel/common/libmix/videoencoder/Android.mk
++++ b/hardware/intel/common/libmix/videoencoder/Android.mk
+@@ -83,7 +83,7 @@ ifeq ($(ENABLE_IMG_GRAPHICS),true)
+     endif
+ endif
+ 
+-LOCAL_CFLAGS += -Werror
++LOCAL_CFLAGS += 
+ LOCAL_MODULE_TAGS := optional
+ LOCAL_MODULE := libva_videoencoder
+ 
+@@ -108,7 +108,7 @@ ifeq ($(INTEL_VIDEO_XPROC_SHARING),true)
+ LOCAL_SHARED_LIBRARIES := liblog libutils libbinder libgui \
+                           libui libcutils libhardware
+ endif
+-LOCAL_CFLAGS += -Werror
++LOCAL_CFLAGS += 
+ LOCAL_MODULE_TAGS := optional
+ LOCAL_MODULE := libintelmetadatabuffer
+ 
+
+project hardware/intel/common/libva/
+diff --git a/hardware/intel/common/libva/va/Android.mk b/hardware/intel/common/libva/va/Android.mk
+index 3a66ee5..9c4ecfe 100755
+--- a/hardware/intel/common/libva/va/Android.mk
++++ b/hardware/intel/common/libva/va/Android.mk
+@@ -72,7 +72,7 @@ LOCAL_COPY_HEADERS := \
+ 	va_enc_mpeg2.h \
+ 
+ LOCAL_COPY_HEADERS_TO := libva/va
+-LOCAL_CFLAGS += -Werror
++LOCAL_CFLAGS += 
+ LOCAL_MODULE_TAGS := optional
+ LOCAL_MODULE := libva
+ 
+@@ -110,7 +110,7 @@ LOCAL_C_INCLUDES := \
+ LOCAL_COPY_HEADERS_TO := libva/va
+ 
+ LOCAL_COPY_HEADERS := va_android.h		
+-LOCAL_CFLAGS += -Werror
++LOCAL_CFLAGS += 
+ LOCAL_MODULE_TAGS := optional
+ LOCAL_MODULE := libva-android
+ 
+@@ -137,7 +137,7 @@ LOCAL_C_INCLUDES := \
+ LOCAL_COPY_HEADERS_TO := libva/va
+ 
+ LOCAL_COPY_HEADERS := egl/va_egl.h egl/va_backend_egl.h
+-LOCAL_CFLAGS += -Werror
++LOCAL_CFLAGS += 
+ LOCAL_MODULE_TAGS := optional
+ LOCAL_MODULE := libva-egl
+ 
+@@ -168,7 +168,7 @@ LOCAL_COPY_HEADERS := \
+ 	va_backend_tpi.h
+ 
+ LOCAL_SHARED_LIBRARIES := libva
+-LOCAL_CFLAGS += -Werror
++LOCAL_CFLAGS += 
+ LOCAL_MODULE_TAGS := optional
+ LOCAL_MODULE := libva-tpi
+ 
+
+project hardware/intel/common/omx-components/
+diff --git a/hardware/intel/common/omx-components/videocodec/Android.mk b/hardware/intel/common/omx-components/videocodec/Android.mk
+index d868dcf..88e3993 100644
+--- a/hardware/intel/common/omx-components/videocodec/Android.mk
++++ b/hardware/intel/common/omx-components/videocodec/Android.mk
+@@ -42,7 +42,7 @@ LOCAL_SRC_FILES := \
+     OMXVideoDecoderBase.cpp \
+     OMXVideoDecoderAVC.cpp
+ 
+-LOCAL_CFLAGS += -Werror
++LOCAL_CFLAGS += 
+ LOCAL_MODULE_TAGS := optional
+ LOCAL_MODULE := libOMXVideoDecoderAVC
+ ifeq ($(TARGET_BOARD_PLATFORM),clovertrail)
+@@ -105,7 +105,7 @@ LOCAL_SRC_FILES := \
+     OMXVideoDecoderBase.cpp \
+     OMXVideoDecoderVP8.cpp
+ 
+-LOCAL_CFLAGS += -Werror
++LOCAL_CFLAGS += 
+ LOCAL_MODULE_TAGS := optional
+ LOCAL_MODULE := libOMXVideoDecoderVP8
+ 
+@@ -178,7 +178,7 @@ LOCAL_SRC_FILES := \
+     OMXVideoDecoderBase.cpp \
+     OMXVideoDecoderVP9HWR.cpp
+ 
+-LOCAL_CFLAGS += -Werror
++LOCAL_CFLAGS += 
+ LOCAL_MODULE_TAGS := optional
+ LOCAL_MODULE := libOMXVideoDecoderVP9HWR
+ 
+@@ -225,7 +225,7 @@ LOCAL_SRC_FILES := \
+     OMXVideoDecoderBase.cpp \
+     OMXVideoDecoderVP9Hybrid.cpp
+ 
+-LOCAL_CFLAGS += -Werror
++LOCAL_CFLAGS += 
+ LOCAL_MODULE_TAGS := optional
+ LOCAL_MODULE := libOMXVideoDecoderVP9Hybrid
+ 
+@@ -281,7 +281,7 @@ LOCAL_SRC_FILES := \
+     OMXVideoDecoderBase.cpp \
+     OMXVideoDecoderMPEG4.cpp
+ 
+-LOCAL_CFLAGS += -Werror
++LOCAL_CFLAGS += 
+ LOCAL_MODULE_TAGS := optional
+ LOCAL_MODULE := libOMXVideoDecoderMPEG4
+ ifeq ($(TARGET_BOARD_PLATFORM),clovertrail)
+@@ -339,7 +339,7 @@ LOCAL_SRC_FILES := \
+     OMXVideoDecoderBase.cpp \
+     OMXVideoDecoderH263.cpp
+ 
+-LOCAL_CFLAGS += -Werror
++LOCAL_CFLAGS += 
+ LOCAL_MODULE_TAGS := optional
+ LOCAL_MODULE := libOMXVideoDecoderH263
+ ifeq ($(TARGET_BOARD_PLATFORM),clovertrail)
+@@ -397,7 +397,7 @@ LOCAL_SRC_FILES := \
+     OMXVideoDecoderBase.cpp \
+     OMXVideoDecoderWMV.cpp
+ 
+-LOCAL_CFLAGS += -Werror
++LOCAL_CFLAGS += 
+ LOCAL_MODULE_TAGS := optional
+ LOCAL_MODULE := libOMXVideoDecoderWMV
+ ifeq ($(TARGET_BOARD_PLATFORM),clovertrail)
+@@ -463,7 +463,7 @@ LOCAL_CFLAGS += -DUSE_META_DATA
+ LOCAL_SHARED_LIBRARIES += libdl
+ endif
+ 
+-LOCAL_CFLAGS += -Werror
++LOCAL_CFLAGS += 
+ LOCAL_MODULE_TAGS := optional
+ LOCAL_MODULE := libOMXVideoDecoderAVCSecure
+ 
+@@ -553,7 +553,7 @@ LOCAL_SRC_FILES := \
+     OMXVideoEncoderAVC.cpp
+ 
+ LOCAL_CFLAGS += $(LOCAL_C_FLAGS)
+-LOCAL_CFLAGS += -Werror
++LOCAL_CFLAGS += 
+ LOCAL_MODULE_TAGS := optional
+ LOCAL_MODULE := libOMXVideoEncoderAVC
+ include $(BUILD_SHARED_LIBRARY)
+@@ -595,7 +595,7 @@ LOCAL_CFLAGS += $(LOCAL_C_FLAGS)
+ ifeq ($(SW_MPEG4_ENCODER),true)
+     LOCAL_CFLAGS += -DSYNC_MODE
+ endif
+-LOCAL_CFLAGS += -Werror
++LOCAL_CFLAGS += 
+ LOCAL_MODULE_TAGS := optional
+ LOCAL_MODULE := libOMXVideoEncoderH263
+ include $(BUILD_SHARED_LIBRARY)
+@@ -634,7 +634,7 @@ LOCAL_SRC_FILES := \
+ 
+ LOCAL_CFLAGS += $(LOCAL_C_FLAGS)
+ 
+-LOCAL_CFLAGS += -Werror
++LOCAL_CFLAGS += 
+ LOCAL_MODULE_TAGS := optional
+ LOCAL_MODULE := libOMXVideoEncoderMPEG4
+ include $(BUILD_SHARED_LIBRARY)
+@@ -667,7 +667,7 @@ LOCAL_SRC_FILES := \
+     OMXVideoDecoderBase.cpp \
+     OMXVideoDecoderPAVC.cpp
+ 
+-LOCAL_CFLAGS += -Werror
++LOCAL_CFLAGS += 
+ LOCAL_MODULE_TAGS := optional
+ LOCAL_MODULE := libOMXVideoDecoderPAVC
+ ifeq ($(TARGET_BOARD_PLATFORM),clovertrail)
+@@ -717,7 +717,7 @@ LOCAL_SRC_FILES := \
+     OMXVideoEncoderVP8.cpp
+ 
+ LOCAL_CFLAGS += $(LOCAL_C_FLAGS)
+-LOCAL_CFLAGS += -Werror
++LOCAL_CFLAGS += 
+ LOCAL_MODULE_TAGS := optional
+ LOCAL_MODULE := libOMXVideoEncoderVP8
+ include $(BUILD_SHARED_LIBRARY)
+diff --git a/hardware/intel/common/omx-components/videocodec/libvpx_internal/libvpx.mk b/hardware/intel/common/omx-components/videocodec/libvpx_internal/libvpx.mk
+index 5a95803..1917770 100644
+--- a/hardware/intel/common/omx-components/videocodec/libvpx_internal/libvpx.mk
++++ b/hardware/intel/common/omx-components/videocodec/libvpx_internal/libvpx.mk
+@@ -50,7 +50,7 @@ LOCAL_CFLAGS += -Wno-unused-function
+ # in vp[89]_[cd]x_iface.c
+ LOCAL_CLANG_CFLAGS += -Wno-missing-field-initializers
+ 
+-LOCAL_CFLAGS += -Werror
++LOCAL_CFLAGS += 
+ LOCAL_MODULE := libvpx_internal
+ 
+ LOCAL_MODULE_CLASS := STATIC_LIBRARIES
+
+project hardware/intel/common/utils/
+diff --git a/hardware/intel/common/utils/ISV/Android.mk b/hardware/intel/common/utils/ISV/Android.mk
+index 9808e6e..108e44c 100644
+--- a/hardware/intel/common/utils/ISV/Android.mk
++++ b/hardware/intel/common/utils/ISV/Android.mk
+@@ -44,7 +44,7 @@ ifeq ($(TARGET_VPP_USE_GEN),true)
+     LOCAL_CFLAGS += -DTARGET_VPP_USE_GEN
+ endif
+ 
+-LOCAL_CFLAGS += -Werror
++LOCAL_CFLAGS += 
+ 
+ include $(BUILD_SHARED_LIBRARY)
+ 
+diff --git a/hardware/intel/common/utils/media_resource_manager/arbitrator/Android.mk b/hardware/intel/common/utils/media_resource_manager/arbitrator/Android.mk
+index 382f29f..928f1fb 100644
+--- a/hardware/intel/common/utils/media_resource_manager/arbitrator/Android.mk
++++ b/hardware/intel/common/utils/media_resource_manager/arbitrator/Android.mk
+@@ -19,6 +19,6 @@ LOCAL_C_INCLUDES := \
+ LOCAL_MODULE_TAGS := optional
+ LOCAL_MODULE := libmrm_arbitrator
+ 
+-#LOCAL_CFLAGS += -Werror
++#LOCAL_CFLAGS += 
+ 
+ include $(BUILD_SHARED_LIBRARY)
+diff --git a/hardware/intel/common/utils/media_resource_manager/omx_adaptor/Android.mk b/hardware/intel/common/utils/media_resource_manager/omx_adaptor/Android.mk
+index d30b8c1..517a0cb 100644
+--- a/hardware/intel/common/utils/media_resource_manager/omx_adaptor/Android.mk
++++ b/hardware/intel/common/utils/media_resource_manager/omx_adaptor/Android.mk
+@@ -21,6 +21,6 @@ LOCAL_C_INCLUDES := \
+ LOCAL_MODULE_TAGS := optional
+ LOCAL_MODULE := libmrm_omx_adaptor
+ 
+-#LOCAL_CFLAGS += -Werror
++#LOCAL_CFLAGS += 
+ 
+ include $(BUILD_SHARED_LIBRARY)
+
+project hardware/intel/common/wrs_omxil_core/
+diff --git a/hardware/intel/common/wrs_omxil_core/Android.mk b/hardware/intel/common/wrs_omxil_core/Android.mk
+index d1f9747..e87040e 100644
+--- a/hardware/intel/common/wrs_omxil_core/Android.mk
++++ b/hardware/intel/common/wrs_omxil_core/Android.mk
+@@ -47,5 +47,5 @@ COMPONENT_SUPPORT_OPENCORE := false
+ # utility
+ -include $(WRS_OMXIL_CORE_ROOT)/utils/src/Android.mk
+ 
+-LOCAL_CFLAGS += -Werror
++LOCAL_CFLAGS += 
+ endif
+diff --git a/hardware/intel/common/wrs_omxil_core/base/src/Android.mk b/hardware/intel/common/wrs_omxil_core/base/src/Android.mk
+index b16b8e9..0ae8f7c 100644
+--- a/hardware/intel/common/wrs_omxil_core/base/src/Android.mk
++++ b/hardware/intel/common/wrs_omxil_core/base/src/Android.mk
+@@ -21,7 +21,7 @@ LOCAL_CPPFLAGS :=
+ 
+ LOCAL_LDFLAGS :=
+ 
+-LOCAL_CFLAGS += -Werror
++LOCAL_CFLAGS += 
+ ifeq ($(strip $(COMPONENT_SUPPORT_BUFFER_SHARING)), true)
+ LOCAL_CFLAGS += -DCOMPONENT_SUPPORT_BUFFER_SHARING
+ endif
+@@ -50,5 +50,5 @@ LOCAL_WHOLE_STATIC_LIBRARIES := \
+ LOCAL_SHARED_LIBRARIES := \
+ 	libdl \
+ 	liblog
+-LOCAL_CFLAGS += -Werror
++LOCAL_CFLAGS += 
+ include $(BUILD_SHARED_LIBRARY)
+diff --git a/hardware/intel/common/wrs_omxil_core/core/src/Android.mk b/hardware/intel/common/wrs_omxil_core/core/src/Android.mk
+index 6dc2f33..d65fd5e 100644
+--- a/hardware/intel/common/wrs_omxil_core/core/src/Android.mk
++++ b/hardware/intel/common/wrs_omxil_core/core/src/Android.mk
+@@ -26,5 +26,5 @@ LOCAL_C_INCLUDES := \
+         $(TOP)/frameworks/native/include/media/openmax \
+ 	$(PV_INCLUDES)
+ 
+-LOCAL_CFLAGS += -Werror
++LOCAL_CFLAGS += 
+ include $(BUILD_SHARED_LIBRARY)
+diff --git a/hardware/intel/common/wrs_omxil_core/utils/src/Android.mk b/hardware/intel/common/wrs_omxil_core/utils/src/Android.mk
+index 72885da..7620de4 100644
+--- a/hardware/intel/common/wrs_omxil_core/utils/src/Android.mk
++++ b/hardware/intel/common/wrs_omxil_core/utils/src/Android.mk
+@@ -22,6 +22,6 @@ LOCAL_SHARED_LIBRARIES :=
+ 
+ LOCAL_C_INCLUDES := \
+ 	$(WRS_OMXIL_CORE_ROOT)/utils/inc
+-LOCAL_CFLAGS += -Werror
++LOCAL_CFLAGS += 
+ 
+ include $(BUILD_STATIC_LIBRARY)
+
+project hardware/intel/img/hwcomposer/
+diff --git a/hardware/intel/img/hwcomposer/moorefield_hdmi/Android.mk b/hardware/intel/img/hwcomposer/moorefield_hdmi/Android.mk
+index 2d70051..4b9bb4a 100644
+--- a/hardware/intel/img/hwcomposer/moorefield_hdmi/Android.mk
++++ b/hardware/intel/img/hwcomposer/moorefield_hdmi/Android.mk
+@@ -26,7 +26,7 @@ LOCAL_CLANG_CFLAGS += -Wno-gnu-designator
+ LOCAL_MODULE_PATH := $(TARGET_OUT_SHARED_LIBRARIES)/hw
+ LOCAL_MODULE_TAGS := optional
+ LOCAL_MODULE := hwcomposer.$(TARGET_BOARD_PLATFORM)
+-LOCAL_CFLAGS := -Werror
++LOCAL_CFLAGS := 
+ 
+ LOCAL_SHARED_LIBRARIES := liblog libcutils libdrm \
+                           libwsbm libutils libhardware \
+
+project hardware/intel/img/psb_video/
+diff --git a/hardware/intel/img/psb_video/src/Android.mk b/hardware/intel/img/psb_video/src/Android.mk
+index 5cbe6b5..c8f6888 100644
+--- a/hardware/intel/img/psb_video/src/Android.mk
++++ b/hardware/intel/img/psb_video/src/Android.mk
+@@ -165,7 +165,7 @@ LOCAL_SRC_FILES += android/psb_mds.cpp
+ LOCAL_CFLAGS += -DTARGET_HAS_MULTIPLE_DISPLAY
+ LOCAL_SHARED_LIBRARIES += libmultidisplay
+ endif
+-LOCAL_CFLAGS += -Werror
++LOCAL_CFLAGS += 
+ 
+ LOCAL_MODULE_TAGS := optional
+ LOCAL_MODULE := pvr_drv_video
+
+project hardware/invensense/
+diff --git a/hardware/invensense/6515/libsensors_iio/Android.mk b/hardware/invensense/6515/libsensors_iio/Android.mk
+index f894e50..46b69a2 100755
+--- a/hardware/invensense/6515/libsensors_iio/Android.mk
++++ b/hardware/invensense/6515/libsensors_iio/Android.mk
+@@ -22,7 +22,7 @@ LOCAL_MODULE := libinvensense_hal
+ LOCAL_MODULE_TAGS := optional
+ LOCAL_MODULE_OWNER := invensense
+ 
+-LOCAL_CFLAGS := -DLOG_TAG=\"Sensors\" -Werror -Wall
++LOCAL_CFLAGS := -DLOG_TAG=\"Sensors\"  -Wall
+ 
+ # ANDROID version check
+ $(info YD>>PLATFORM_VERSION=$(PLATFORM_VERSION))
+@@ -146,7 +146,7 @@ LOCAL_C_INCLUDES += $(LOCAL_PATH)/software/core/driver/include
+ LOCAL_C_INCLUDES += $(LOCAL_PATH)/software/core/driver/include/linux
+ 
+ LOCAL_MODULE_TAGS := optional
+-LOCAL_CFLAGS := -DLOG_TAG=\"Sensors\" -Werror -Wall
++LOCAL_CFLAGS := -DLOG_TAG=\"Sensors\"  -Wall
+ 
+ ifeq ($(VERSION_KK),true)
+ LOCAL_CFLAGS += -DANDROID_KITKAT
+diff --git a/hardware/invensense/65xx/libsensors_iio/Android.mk b/hardware/invensense/65xx/libsensors_iio/Android.mk
+index ee4b021..a8762a4 100644
+--- a/hardware/invensense/65xx/libsensors_iio/Android.mk
++++ b/hardware/invensense/65xx/libsensors_iio/Android.mk
+@@ -29,7 +29,7 @@ LOCAL_MODULE := libinvensense_hal
+ LOCAL_MODULE_TAGS := optional
+ LOCAL_MODULE_OWNER := invensense
+ 
+-LOCAL_CFLAGS := -DLOG_TAG=\"Sensors\" -Werror -Wall
++LOCAL_CFLAGS := -DLOG_TAG=\"Sensors\"  -Wall
+ 
+ # ANDROID version check
+ MAJOR_VERSION :=$(shell echo $(PLATFORM_VERSION) | cut -f1 -d.)
+@@ -121,7 +121,7 @@ LOCAL_C_INCLUDES += $(LOCAL_PATH)/software/core/driver/include
+ LOCAL_C_INCLUDES += $(LOCAL_PATH)/software/core/driver/include/linux
+ 
+ LOCAL_MODULE_TAGS := optional
+-LOCAL_CFLAGS := -DLOG_TAG=\"Sensors\" -Werror -Wall
++LOCAL_CFLAGS := -DLOG_TAG=\"Sensors\"  -Wall
+ 
+ ifeq ($(VERSION_JB),true)
+ LOCAL_CFLAGS += -DANDROID_JELLYBEAN
+
+project hardware/qcom/camera/
+diff --git a/hardware/qcom/camera/QCamera2/Android.mk b/hardware/qcom/camera/QCamera2/Android.mk
+index 6fad221..e2514ec 100644
+--- a/hardware/qcom/camera/QCamera2/Android.mk
++++ b/hardware/qcom/camera/QCamera2/Android.mk
+@@ -35,7 +35,7 @@ LOCAL_SRC_FILES += \
+         HAL/QCameraParameters.cpp \
+         HAL/QCameraThermalAdapter.cpp
+ 
+-LOCAL_CFLAGS := -Wall -Wextra -Werror
++LOCAL_CFLAGS := -Wall -Wextra 
+ LOCAL_CFLAGS += -DHAS_MULTIMEDIA_HINTS
+ LOCAL_CFLAGS += -DENABLE_MODEL_INFO_EXIF
+ 
+diff --git a/hardware/qcom/camera/QCamera2/stack/mm-camera-interface/Android.mk b/hardware/qcom/camera/QCamera2/stack/mm-camera-interface/Android.mk
+index c354a46..c9a1625 100644
+--- a/hardware/qcom/camera/QCamera2/stack/mm-camera-interface/Android.mk
++++ b/hardware/qcom/camera/QCamera2/stack/mm-camera-interface/Android.mk
+@@ -40,7 +40,7 @@ ifneq (1,$(filter 1,$(shell echo "$$(( $(PLATFORM_SDK_VERSION) >= 17 ))" )))
+   LOCAL_CFLAGS += -include bionic/libc/kernel/common/linux/socket.h
+   LOCAL_CFLAGS += -include bionic/libc/kernel/common/linux/un.h
+ endif
+-LOCAL_CFLAGS += -Wall -Wextra -Werror
++LOCAL_CFLAGS += -Wall -Wextra 
+ 
+ LOCAL_SRC_FILES := $(MM_CAM_FILES)
+ 
+diff --git a/hardware/qcom/camera/QCamera2/stack/mm-camera-test/Android.mk b/hardware/qcom/camera/QCamera2/stack/mm-camera-test/Android.mk
+index 1d50614..158d6c1 100644
+--- a/hardware/qcom/camera/QCamera2/stack/mm-camera-test/Android.mk
++++ b/hardware/qcom/camera/QCamera2/stack/mm-camera-test/Android.mk
+@@ -97,7 +97,7 @@ else
+         LOCAL_CFLAGS += -DCAMERA_ION_FALLBACK_HEAP_ID=ION_CAMERA_HEAP_ID
+         LOCAL_CFLAGS += -DNUM_RECORDING_BUFFERS=5
+ endif
+-LOCAL_CFLAGS += -Wall -Wextra -Werror
++LOCAL_CFLAGS += -Wall -Wextra 
+ 
+ LOCAL_SHARED_LIBRARIES:= \
+          libcutils libdl libmmcamera_interface
+@@ -205,7 +205,7 @@ else
+         LOCAL_CFLAGS += -DCAMERA_ION_FALLBACK_HEAP_ID=ION_CAMERA_HEAP_ID
+         LOCAL_CFLAGS += -DNUM_RECORDING_BUFFERS=5
+ endif
+-LOCAL_CFLAGS += -Wall -Wextra -Werror
++LOCAL_CFLAGS += -Wall -Wextra 
+ 
+ LOCAL_SHARED_LIBRARIES:= \
+          libcutils libdl libmmcamera_interface
+diff --git a/hardware/qcom/camera/QCamera2/stack/mm-jpeg-interface/Android.mk b/hardware/qcom/camera/QCamera2/stack/mm-jpeg-interface/Android.mk
+index e1db79e..3446734 100644
+--- a/hardware/qcom/camera/QCamera2/stack/mm-jpeg-interface/Android.mk
++++ b/hardware/qcom/camera/QCamera2/stack/mm-jpeg-interface/Android.mk
+@@ -7,7 +7,7 @@ include $(CLEAR_VARS)
+ LOCAL_32_BIT_ONLY := $(BOARD_QTI_CAMERA_32BIT_ONLY)
+ LOCAL_CFLAGS+= -D_ANDROID_
+ 
+-LOCAL_CFLAGS += -Wall -Wextra -Werror -Wno-unused-parameter
++LOCAL_CFLAGS += -Wall -Wextra  -Wno-unused-parameter
+ 
+ LOCAL_C_INCLUDES+= $(kernel_includes)
+ LOCAL_ADDITIONAL_DEPENDENCIES := $(common_deps)
+diff --git a/hardware/qcom/camera/QCamera2/stack/mm-jpeg-interface/test/Android.mk b/hardware/qcom/camera/QCamera2/stack/mm-jpeg-interface/test/Android.mk
+index bc16678..f405315 100644
+--- a/hardware/qcom/camera/QCamera2/stack/mm-jpeg-interface/test/Android.mk
++++ b/hardware/qcom/camera/QCamera2/stack/mm-jpeg-interface/test/Android.mk
+@@ -8,7 +8,7 @@ LOCAL_PATH := $(MM_JPEG_TEST_PATH)
+ LOCAL_MODULE_TAGS := optional
+ 
+ LOCAL_CFLAGS := -DCAMERA_ION_HEAP_ID=ION_IOMMU_HEAP_ID
+-LOCAL_CFLAGS += -Wall -Wextra -Werror -Wno-unused-parameter
++LOCAL_CFLAGS += -Wall -Wextra  -Wno-unused-parameter
+ LOCAL_CFLAGS += -D_ANDROID_
+ 
+ ifeq ($(strip $(TARGET_USES_ION)),true)
+@@ -46,7 +46,7 @@ LOCAL_PATH := $(MM_JPEG_TEST_PATH)
+ LOCAL_MODULE_TAGS := optional
+ 
+ LOCAL_CFLAGS := -DCAMERA_ION_HEAP_ID=ION_IOMMU_HEAP_ID
+-LOCAL_CFLAGS += -Wall -Wextra -Werror -Wno-unused-parameter
++LOCAL_CFLAGS += -Wall -Wextra  -Wno-unused-parameter
+ 
+ LOCAL_CFLAGS += -D_ANDROID_
+ 
+diff --git a/hardware/qcom/camera/mm-image-codec/qomx_core/Android.mk b/hardware/qcom/camera/mm-image-codec/qomx_core/Android.mk
+index 4d4e39c..03c4896 100644
+--- a/hardware/qcom/camera/mm-image-codec/qomx_core/Android.mk
++++ b/hardware/qcom/camera/mm-image-codec/qomx_core/Android.mk
+@@ -8,7 +8,7 @@ include $(CLEAR_VARS)
+ LOCAL_PATH := $(OMX_CORE_PATH)
+ LOCAL_MODULE_TAGS := optional
+ 
+-omx_core_defines:= -Werror \
++omx_core_defines:=  \
+                    -g -O0
+ 
+ LOCAL_CFLAGS := $(omx_core_defines)
+
+project hardware/qcom/display/
+diff --git a/hardware/qcom/display/msm8084/common.mk b/hardware/qcom/display/msm8084/common.mk
+index 1a22381..b483250 100644
+--- a/hardware/qcom/display/msm8084/common.mk
++++ b/hardware/qcom/display/msm8084/common.mk
+@@ -20,7 +20,7 @@ common_libs := liblog libutils libcutils libhardware
+ 
+ #Common C flags
+ common_flags := -DDEBUG_CALC_FPS -Wno-missing-field-initializers
+-#TODO: Add -Werror back once all the current warnings are fixed
++#TODO: Add  back once all the current warnings are fixed
+ common_flags += -Wconversion -Wall
+ 
+ ifeq ($(ARCH_ARM_HAVE_NEON),true)
+diff --git a/hardware/qcom/display/msm8226/common.mk b/hardware/qcom/display/msm8226/common.mk
+index 1045945..2af8807 100644
+--- a/hardware/qcom/display/msm8226/common.mk
++++ b/hardware/qcom/display/msm8226/common.mk
+@@ -20,7 +20,7 @@ common_libs := liblog libutils libcutils libhardware
+ 
+ #Common C flags
+ common_flags := -DDEBUG_CALC_FPS -Wno-missing-field-initializers
+-#TODO: Add -Werror back once all the current warnings are fixed
++#TODO: Add  back once all the current warnings are fixed
+ common_flags += -Wconversion -Wall
+ 
+ ifeq ($(ARCH_ARM_HAVE_NEON),true)
+@@ -59,3 +59,5 @@ ifeq ($(call is-vendor-board-platform,QCOM),true)
+     common_deps += $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr
+     kernel_includes += $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr/include
+ endif
++kernel_includes += $(LOCAL_PATH)/../../../msm8x26/kernel-headers/
++kernel_includes += $(LOCAL_PATH)/../../../../../system/media/audio/include
+diff --git a/hardware/qcom/display/msm8909/common.mk b/hardware/qcom/display/msm8909/common.mk
+index 252de80..ea24419 100644
+--- a/hardware/qcom/display/msm8909/common.mk
++++ b/hardware/qcom/display/msm8909/common.mk
+@@ -19,7 +19,7 @@ common_libs := liblog libutils libcutils libhardware
+ 
+ #Common C flags
+ common_flags := -DDEBUG_CALC_FPS -Wno-missing-field-initializers
+-common_flags += -Wconversion -Wall -Werror
++common_flags += -Wconversion -Wall 
+ 
+ ifeq ($(ARCH_ARM_HAVE_NEON),true)
+     common_flags += -D__ARM_HAVE_NEON
+diff --git a/hardware/qcom/display/msm8909/libmemtrack/Android.mk b/hardware/qcom/display/msm8909/libmemtrack/Android.mk
+index 3ed37a3..315e6de 100644
+--- a/hardware/qcom/display/msm8909/libmemtrack/Android.mk
++++ b/hardware/qcom/display/msm8909/libmemtrack/Android.mk
+@@ -20,7 +20,7 @@ include $(CLEAR_VARS)
+ 
+ LOCAL_MODULE_RELATIVE_PATH := hw
+ LOCAL_C_INCLUDES += hardware/libhardware/include
+-LOCAL_CFAGS := -Wconversion -Wall -Werror
++LOCAL_CFAGS := -Wconversion -Wall 
+ LOCAL_SHARED_LIBRARIES := liblog
+ LOCAL_SRC_FILES := memtrack_msm.c kgsl.c
+ LOCAL_MODULE := memtrack.$(TARGET_BOARD_PLATFORM)
+diff --git a/hardware/qcom/display/msm8960/common.mk b/hardware/qcom/display/msm8960/common.mk
+index 0a4cd99..456171b 100644
+--- a/hardware/qcom/display/msm8960/common.mk
++++ b/hardware/qcom/display/msm8960/common.mk
+@@ -14,7 +14,7 @@ common_libs := liblog libutils libcutils libhardware
+ 
+ #Common C flags
+ common_flags := -DDEBUG_CALC_FPS -Wno-missing-field-initializers
+-common_flags += -Werror -Wno-unused-parameter
++common_flags +=  -Wno-unused-parameter
+ 
+ ifeq ($(ARCH_ARM_HAVE_NEON),true)
+     common_flags += -D__ARM_HAVE_NEON
+diff --git a/hardware/qcom/display/msm8974/common.mk b/hardware/qcom/display/msm8974/common.mk
+index 10e4316..1bedf47 100644
+--- a/hardware/qcom/display/msm8974/common.mk
++++ b/hardware/qcom/display/msm8974/common.mk
+@@ -14,7 +14,7 @@ common_libs := liblog libutils libcutils libhardware
+ 
+ #Common C flags
+ common_flags := -DDEBUG_CALC_FPS -Wno-missing-field-initializers
+-common_flags += -Werror -Wno-unused-parameter
++common_flags +=  -Wno-unused-parameter
+ 
+ ifeq ($(ARCH_ARM_HAVE_NEON),true)
+     common_flags += -D__ARM_HAVE_NEON
+diff --git a/hardware/qcom/display/msm8994/common.mk b/hardware/qcom/display/msm8994/common.mk
+index 3e0511d..1cc8fd9 100644
+--- a/hardware/qcom/display/msm8994/common.mk
++++ b/hardware/qcom/display/msm8994/common.mk
+@@ -14,7 +14,7 @@ common_libs := liblog libutils libcutils libhardware
+ 
+ #Common C flags
+ common_flags := -DDEBUG_CALC_FPS -Wno-missing-field-initializers
+-common_flags += -Wconversion -Wall -Werror
++common_flags += -Wconversion -Wall 
+ 
+ ifeq ($(TARGET_USES_POST_PROCESSING),true)
+     common_flags     += -DUSES_POST_PROCESSING
+diff --git a/hardware/qcom/display/msm8994/libmemtrack/Android.mk b/hardware/qcom/display/msm8994/libmemtrack/Android.mk
+index 3ed37a3..315e6de 100644
+--- a/hardware/qcom/display/msm8994/libmemtrack/Android.mk
++++ b/hardware/qcom/display/msm8994/libmemtrack/Android.mk
+@@ -20,7 +20,7 @@ include $(CLEAR_VARS)
+ 
+ LOCAL_MODULE_RELATIVE_PATH := hw
+ LOCAL_C_INCLUDES += hardware/libhardware/include
+-LOCAL_CFAGS := -Wconversion -Wall -Werror
++LOCAL_CFAGS := -Wconversion -Wall 
+ LOCAL_SHARED_LIBRARIES := liblog
+ LOCAL_SRC_FILES := memtrack_msm.c kgsl.c
+ LOCAL_MODULE := memtrack.$(TARGET_BOARD_PLATFORM)
+
+project hardware/ti/omap3/
+diff --git a/hardware/ti/omap3/dspbridge/libbridge/Android.mk b/hardware/ti/omap3/dspbridge/libbridge/Android.mk
+index d8cc59f..09505c0 100644
+--- a/hardware/ti/omap3/dspbridge/libbridge/Android.mk
++++ b/hardware/ti/omap3/dspbridge/libbridge/Android.mk
+@@ -17,7 +17,7 @@ LOCAL_SRC_FILES:= \
+ LOCAL_C_INCLUDES += \
+ 	$(LOCAL_PATH)/inc	
+ 
+-LOCAL_CFLAGS += -pipe -fomit-frame-pointer -Wall  -Wno-trigraphs -Werror-implicit-function-declaration  -fno-strict-aliasing -mapcs -mno-sched-prolog -mabi=aapcs-linux -mno-thumb-interwork -msoft-float -Uarm -DMODULE -D__LINUX_ARM_ARCH__=7  -fno-common -DLINUX -DOMAP_3430 -fpic
++LOCAL_CFLAGS += -pipe -fomit-frame-pointer -Wall  -Wno-trigraphs -implicit-function-declaration  -fno-strict-aliasing -mapcs -mno-sched-prolog -mabi=aapcs-linux -mno-thumb-interwork -msoft-float -Uarm -DMODULE -D__LINUX_ARM_ARCH__=7  -fno-common -DLINUX -DOMAP_3430 -fpic
+ 
+ LOCAL_MODULE:= libbridge
+ 
+
+project hardware/ti/omap4-aah/
+diff --git a/hardware/ti/omap4-aah/domx/make/build.mk b/hardware/ti/omap4-aah/domx/make/build.mk
+index 2faeffa..4fc903a 100644
+--- a/hardware/ti/omap4-aah/domx/make/build.mk
++++ b/hardware/ti/omap4-aah/domx/make/build.mk
+@@ -66,7 +66,7 @@ else
+ CFLAGS += -fomit-frame-pointer
+ endif
+ #   Warnings
+-CFLAGS += -Wall  -Wno-trigraphs -Werror-implicit-function-declaration #-Wno-format
++CFLAGS += -Wall  -Wno-trigraphs -implicit-function-declaration #-Wno-format
+ #   Optimizations
+ #CFLAGS += -O2 -fno-strict-aliasing
+ #CFLAGS += -Os -fno-strict-aliasing
+
+project hardware/ti/omap4xxx/
+diff --git a/hardware/ti/omap4xxx/domx/make/build.mk b/hardware/ti/omap4xxx/domx/make/build.mk
+index 2faeffa..4fc903a 100644
+--- a/hardware/ti/omap4xxx/domx/make/build.mk
++++ b/hardware/ti/omap4xxx/domx/make/build.mk
+@@ -66,7 +66,7 @@ else
+ CFLAGS += -fomit-frame-pointer
+ endif
+ #   Warnings
+-CFLAGS += -Wall  -Wno-trigraphs -Werror-implicit-function-declaration #-Wno-format
++CFLAGS += -Wall  -Wno-trigraphs -implicit-function-declaration #-Wno-format
+ #   Optimizations
+ #CFLAGS += -O2 -fno-strict-aliasing
+ #CFLAGS += -Os -fno-strict-aliasing
+
+project libcore/
+diff --git a/libcore/NativeCode.mk b/libcore/NativeCode.mk
+index b21dd2d..de403f0 100644
+--- a/libcore/NativeCode.mk
++++ b/libcore/NativeCode.mk
+@@ -66,7 +66,7 @@ $(foreach dir, \
+ core_c_includes := libcore/include $(LOCAL_C_INCLUDES)
+ core_shared_libraries := $(LOCAL_SHARED_LIBRARIES)
+ core_static_libraries := $(LOCAL_STATIC_LIBRARIES)
+-core_cflags := $(LOCAL_CFLAGS) -Wall -Wextra -Werror
++core_cflags := $(LOCAL_CFLAGS) -Wall -Wextra 
+ core_cppflags += -std=gnu++11 -DU_USING_ICU_NAMESPACE=0
+ 
+ core_test_files := \
+
+project libnativehelper/
+diff --git a/libnativehelper/Android.mk b/libnativehelper/Android.mk
+index a5ead4a..cb59b0a 100644
+--- a/libnativehelper/Android.mk
++++ b/libnativehelper/Android.mk
+@@ -33,7 +33,7 @@ LOCAL_SHARED_LIBRARIES := liblog
+ LOCAL_MODULE_TAGS := optional
+ LOCAL_MODULE := libnativehelper
+ LOCAL_CLANG := true
+-LOCAL_CFLAGS := -Werror -fvisibility=protected
++LOCAL_CFLAGS :=  -fvisibility=protected
+ LOCAL_C_INCLUDES := libcore/include
+ LOCAL_SHARED_LIBRARIES += libcutils libdl
+ LOCAL_ADDITIONAL_DEPENDENCIES := $(LOCAL_PATH)/Android.mk
+@@ -54,7 +54,7 @@ LOCAL_C_INCLUDES := \
+     $(LOCAL_PATH)/include/nativehelper
+ LOCAL_EXPORT_C_INCLUDE_DIRS := \
+     $(LOCAL_PATH)/include/nativehelper
+-LOCAL_CFLAGS := -Werror
++LOCAL_CFLAGS := 
+ LOCAL_SRC_FILES := $(local_src_files)
+ LOCAL_LDFLAGS := -llog -ldl
+ LOCAL_SDK_VERSION := 19
+@@ -74,7 +74,7 @@ LOCAL_CLANG := true
+ LOCAL_SRC_FILES := \
+     $(local_src_files) \
+     JniInvocation.cpp
+-LOCAL_CFLAGS := -Werror -fvisibility=protected
++LOCAL_CFLAGS :=  -fvisibility=protected
+ LOCAL_C_INCLUDES := libcore/include
+ LOCAL_SHARED_LIBRARIES := liblog
+ LOCAL_LDFLAGS := -ldl
+
+project ndk/
+diff --git a/ndk/build/core/default-build-commands.mk b/ndk/build/core/default-build-commands.mk
+index 3465330..f6be7d5 100644
+--- a/ndk/build/core/default-build-commands.mk
++++ b/ndk/build/core/default-build-commands.mk
+@@ -55,7 +55,7 @@ TARGET_DISABLE_RELRO_LDFLAGS := -Wl,-z,norelro -Wl,-z,lazy
+ 
+ # This flag are used to provide compiler protection against format
+ # string vulnerabilities.
+-TARGET_FORMAT_STRING_CFLAGS := -Wformat -Werror=format-security
++TARGET_FORMAT_STRING_CFLAGS := -Wformat =format-security
+ 
+ # This flag disables the above security checks
+ TARGET_DISABLE_FORMAT_STRING_CFLAGS := -Wno-error=format-security
+@@ -135,7 +135,7 @@ TARGET_CXXFLAGS = $(TARGET_CFLAGS) -fno-exceptions -fno-rtti
+ 
+ TARGET_RS_CC    = $(RENDERSCRIPT_TOOLCHAIN_PREFIX)llvm-rs-cc
+ TARGET_RS_BCC   = $(RENDERSCRIPT_TOOLCHAIN_PREFIX)bcc_compat
+-TARGET_RS_FLAGS = -Wall -Werror
++TARGET_RS_FLAGS = -Wall 
+ ifeq (,$(findstring 64,$(TARGET_ARCH_ABI)))
+ TARGET_RS_FLAGS += -m32
+ else
+diff --git a/ndk/sources/android/crazy_linker/Android.mk b/ndk/sources/android/crazy_linker/Android.mk
+index ec69e49..4824eb7 100644
+--- a/ndk/sources/android/crazy_linker/Android.mk
++++ b/ndk/sources/android/crazy_linker/Android.mk
+@@ -32,7 +32,7 @@ crazy_linker_sources := \
+ include $(CLEAR_VARS)
+ LOCAL_MODULE := crazy_linker
+ LOCAL_C_INCLUDES = $(LOCAL_PATH)/include $(LOCAL_PATH)/src
+-LOCAL_CFLAGS := -Os -fvisibility=hidden -Wall -Werror
++LOCAL_CFLAGS := -Os -fvisibility=hidden -Wall 
+ LOCAL_SRC_FILES := $(crazy_linker_sources)
+ LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/include
+ LOCAL_EXPORT_LDLIBS := -llog
+diff --git a/ndk/sources/cxx-stl/gabi++/Android.mk b/ndk/sources/cxx-stl/gabi++/Android.mk
+index 056a704..d40fe2c 100644
+--- a/ndk/sources/cxx-stl/gabi++/Android.mk
++++ b/ndk/sources/cxx-stl/gabi++/Android.mk
+@@ -15,7 +15,7 @@ ifeq (,$(GABIXX_FORCE_REBUILD))
+   endif
+   LOCAL_EXPORT_C_INCLUDES := $(libgabi++_c_includes)
+   LOCAL_CPP_FEATURES := rtti exceptions
+-  LOCAL_CFLAGS := -Wall -Werror
++  LOCAL_CFLAGS := -Wall 
+   include $(PREBUILT_SHARED_LIBRARY)
+ 
+   include $(CLEAR_VARS)
+@@ -29,7 +29,7 @@ ifeq (,$(GABIXX_FORCE_REBUILD))
+   endif
+   LOCAL_EXPORT_C_INCLUDES := $(libgabi++_c_includes)
+   LOCAL_CPP_FEATURES := rtti exceptions
+-  LOCAL_CFLAGS := -Wall -Werror
++  LOCAL_CFLAGS := -Wall 
+   include $(PREBUILT_STATIC_LIBRARY)
+ 
+ else # ! GABIXX_FORCE_REBUILD
+diff --git a/ndk/tests/build/b8247455-hidden-cxa/jni/Android.mk b/ndk/tests/build/b8247455-hidden-cxa/jni/Android.mk
+index e3ffba4..c2cbc83 100644
+--- a/ndk/tests/build/b8247455-hidden-cxa/jni/Android.mk
++++ b/ndk/tests/build/b8247455-hidden-cxa/jni/Android.mk
+@@ -19,12 +19,12 @@ LOCAL_PATH := $(call my-dir)
+ include $(CLEAR_VARS)
+ LOCAL_MODULE := libidiv
+ LOCAL_SRC_FILES:= idiv.cpp
+-LOCAL_CFLAGS := -Wall -Werror -Wno-unused-parameter
++LOCAL_CFLAGS := -Wall  -Wno-unused-parameter
+ include $(BUILD_SHARED_LIBRARY)
+ 
+ include $(CLEAR_VARS)
+ LOCAL_MODULE := libthrow
+ LOCAL_SRC_FILES:= throw.cpp
+-LOCAL_CFLAGS := -Wall -Werror -frtti -fexceptions
++LOCAL_CFLAGS := -Wall  -frtti -fexceptions
+ LOCAL_SHARED_LIBRARIES = libidiv
+ include $(BUILD_SHARED_LIBRARY)
+\ No newline at end of file
+diff --git a/ndk/tests/build/deprecate-__set_errno/jni/Android.mk b/ndk/tests/build/deprecate-__set_errno/jni/Android.mk
+index e597107..5ccf79b 100644
+--- a/ndk/tests/build/deprecate-__set_errno/jni/Android.mk
++++ b/ndk/tests/build/deprecate-__set_errno/jni/Android.mk
+@@ -3,5 +3,5 @@ LOCAL_PATH := $(call my-dir)
+ include $(CLEAR_VARS)
+ LOCAL_MODULE := deprecate-__set_errno
+ LOCAL_SRC_FILES := deprecate-__set_errno.c foo.c
+-LOCAL_CFLAGS += -Werror
++LOCAL_CFLAGS += 
+ include $(BUILD_EXECUTABLE)
+diff --git a/ndk/tests/build/issue58135-_C_LABEL_STRING/jni/Android.mk b/ndk/tests/build/issue58135-_C_LABEL_STRING/jni/Android.mk
+index 2ac45e9..5289871 100644
+--- a/ndk/tests/build/issue58135-_C_LABEL_STRING/jni/Android.mk
++++ b/ndk/tests/build/issue58135-_C_LABEL_STRING/jni/Android.mk
+@@ -3,5 +3,5 @@ LOCAL_PATH := $(call my-dir)
+ include $(CLEAR_VARS)
+ LOCAL_MODULE := issue58135-_C_LABEL_STRING
+ LOCAL_SRC_FILES := issue58135-_C_LABEL_STRING.cpp
+-LOCAL_CPPFLAGS += -std=c++11 -Werror
++LOCAL_CPPFLAGS += -std=c++11 
+ include $(BUILD_EXECUTABLE)
+diff --git a/ndk/tests/build/pthread-rwlock-initializer/jni/Android.mk b/ndk/tests/build/pthread-rwlock-initializer/jni/Android.mk
+index ed67d57..3e10916 100644
+--- a/ndk/tests/build/pthread-rwlock-initializer/jni/Android.mk
++++ b/ndk/tests/build/pthread-rwlock-initializer/jni/Android.mk
+@@ -2,6 +2,6 @@ LOCAL_PATH := $(call my-dir)
+ 
+ include $(CLEAR_VARS)
+ LOCAL_MODULE := test_pthread_rwlock_initializer
+-LOCAL_CFLAGS := -Wall -Werror
++LOCAL_CFLAGS := -Wall 
+ LOCAL_SRC_FILES := test_pthread_rwlock_initializer.c
+ include $(BUILD_SHARED_LIBRARY)
+diff --git a/ndk/tests/build/stlport-static-assert/jni/Android.mk b/ndk/tests/build/stlport-static-assert/jni/Android.mk
+index d69bbec..3ca5d0c 100644
+--- a/ndk/tests/build/stlport-static-assert/jni/Android.mk
++++ b/ndk/tests/build/stlport-static-assert/jni/Android.mk
+@@ -3,5 +3,5 @@ LOCAL_PATH := $(call my-dir)
+ include $(CLEAR_VARS)
+ LOCAL_MODULE := stlport-static-assert
+ LOCAL_SRC_FILES := stlport-static-assert.cpp
+-LOCAL_CFLAGS += -Wall -Werror
++LOCAL_CFLAGS += -Wall 
+ include $(BUILD_EXECUTABLE)
+diff --git a/ndk/tests/build/test-c-only-flags/jni/Android.mk b/ndk/tests/build/test-c-only-flags/jni/Android.mk
+index f413313..529742f 100644
+--- a/ndk/tests/build/test-c-only-flags/jni/Android.mk
++++ b/ndk/tests/build/test-c-only-flags/jni/Android.mk
+@@ -3,7 +3,7 @@ LOCAL_PATH := $(call my-dir)
+ include $(CLEAR_VARS)
+ LOCAL_MODULE := test-c-only-flags
+ LOCAL_SRC_FILES := test-c-only-flags.cpp
+-LOCAL_CFLAGS += -Werror
++LOCAL_CFLAGS += 
+ 
+ # LOCAL_CFLAGS is passed for C++ compilation as well.  This is by design
+ # to save developers from the trouble of specifying flags twice for both
+
+project system/bt/
+diff --git a/system/bt/btcore/Android.mk b/system/bt/btcore/Android.mk
+index 50006d4..3b607ec 100644
+--- a/system/bt/btcore/Android.mk
++++ b/system/bt/btcore/Android.mk
+@@ -64,7 +64,7 @@ LOCAL_SRC_FILES := \
+     ./test/uuid_test.cpp \
+     ../osi/test/AllocationTestHarness.cpp
+ 
+-LOCAL_CFLAGS := -Wall -Werror -Werror=unused-variable
++LOCAL_CFLAGS := -Wall  =unused-variable
+ LOCAL_MODULE := net_test_btcore
+ 
+ LOCAL_MODULE_TAGS := tests
+diff --git a/system/bt/device/Android.mk b/system/bt/device/Android.mk
+index 56d303f..5c18816 100644
+--- a/system/bt/device/Android.mk
++++ b/system/bt/device/Android.mk
+@@ -64,7 +64,7 @@ LOCAL_SRC_FILES := \
+     ./test/interop_test.cpp \
+     ./test/classic/peer_test.cpp
+ 
+-LOCAL_CFLAGS := -Wall -Werror -Werror=unused-variable
++LOCAL_CFLAGS := -Wall  =unused-variable
+ LOCAL_MODULE := net_test_device
+ LOCAL_MODULE_TAGS := tests
+ LOCAL_SHARED_LIBRARIES := liblog libdl
+diff --git a/system/bt/hci/Android.mk b/system/bt/hci/Android.mk
+index af87285..e4c0073 100644
+--- a/system/bt/hci/Android.mk
++++ b/system/bt/hci/Android.mk
+@@ -71,7 +71,7 @@ LOCAL_SRC_FILES := \
+     $(bdroid_C_INCLUDES)
+ 
+ 
+-LOCAL_CFLAGS := -Wall -Werror $(bdroid_CFLAGS)
++LOCAL_CFLAGS := -Wall  $(bdroid_CFLAGS)
+ LOCAL_MODULE := net_test_hci
+ LOCAL_MODULE_TAGS := tests
+ LOCAL_SHARED_LIBRARIES := liblog libdl
+diff --git a/system/bt/osi/Android.mk b/system/bt/osi/Android.mk
+index 52dc2cf..b356807 100644
+--- a/system/bt/osi/Android.mk
++++ b/system/bt/osi/Android.mk
+@@ -48,7 +48,7 @@ LOCAL_SRC_FILES := \
+     ./src/socket.c \
+     ./src/thread.c
+ 
+-LOCAL_CFLAGS := -std=c99 -Wall -Werror -UNDEBUG
++LOCAL_CFLAGS := -std=c99 -Wall  -UNDEBUG
+ # Many .h files have redefined typedefs
+ LOCAL_CLANG_CFLAGS += -Wno-error=typedef-redefinition
+ LOCAL_MODULE := libosi
+diff --git a/system/bt/test/suite/Android.mk b/system/bt/test/suite/Android.mk
+index 3caec79..3220512 100644
+--- a/system/bt/test/suite/Android.mk
++++ b/system/bt/test/suite/Android.mk
+@@ -48,7 +48,7 @@ LOCAL_STATIC_LIBRARIES += \
+   libbtcore \
+   libosi
+ 
+-LOCAL_CFLAGS += -std=c99 -Wall -Wno-unused-parameter -Wno-missing-field-initializers -Werror
++LOCAL_CFLAGS += -std=c99 -Wall -Wno-unused-parameter -Wno-missing-field-initializers 
+ 
+ LOCAL_MULTILIB := 32
+ 
+
+project system/core/
+diff --git a/system/core/adb/Android.mk b/system/core/adb/Android.mk
+index 425bf9b..1c2ec7c 100644
+--- a/system/core/adb/Android.mk
++++ b/system/core/adb/Android.mk
+@@ -14,7 +14,7 @@ endif
+ adb_version := $(shell git -C $(LOCAL_PATH) rev-parse --short=12 HEAD 2>/dev/null)-android
+ 
+ ADB_COMMON_CFLAGS := \
+-    -Wall -Werror \
++    -Wall  \
+     -Wno-unused-parameter \
+     -DADB_REVISION='"$(adb_version)"' \
+ 
+diff --git a/system/core/adf/libadf/Android.mk b/system/core/adf/libadf/Android.mk
+index 7df354b..71669f7 100644
+--- a/system/core/adf/libadf/Android.mk
++++ b/system/core/adf/libadf/Android.mk
+@@ -18,7 +18,7 @@ include $(CLEAR_VARS)
+ LOCAL_SRC_FILES := adf.c
+ LOCAL_MODULE := libadf
+ LOCAL_MODULE_TAGS := optional
+-LOCAL_CFLAGS += -Werror
++LOCAL_CFLAGS += 
+ LOCAL_EXPORT_C_INCLUDE_DIRS := $(LOCAL_PATH)/include
+ LOCAL_C_INCLUDES += $(LOCAL_EXPORT_C_INCLUDE_DIRS)
+ include $(BUILD_STATIC_LIBRARY)
+diff --git a/system/core/adf/libadf/tests/Android.mk b/system/core/adf/libadf/tests/Android.mk
+index 68e5817..7f222b6 100644
+--- a/system/core/adf/libadf/tests/Android.mk
++++ b/system/core/adf/libadf/tests/Android.mk
+@@ -19,5 +19,5 @@ include $(CLEAR_VARS)
+ LOCAL_SRC_FILES := adf_test.cpp
+ LOCAL_MODULE := adf-unit-tests
+ LOCAL_STATIC_LIBRARIES := libadf
+-LOCAL_CFLAGS += -Werror
++LOCAL_CFLAGS += 
+ include $(BUILD_NATIVE_TEST)
+diff --git a/system/core/adf/libadfhwc/Android.mk b/system/core/adf/libadfhwc/Android.mk
+index 898f9c9..aa3112c 100644
+--- a/system/core/adf/libadfhwc/Android.mk
++++ b/system/core/adf/libadfhwc/Android.mk
+@@ -19,7 +19,7 @@ LOCAL_SRC_FILES := adfhwc.cpp
+ LOCAL_MODULE := libadfhwc
+ LOCAL_MODULE_TAGS := optional
+ LOCAL_STATIC_LIBRARIES := libadf liblog libutils
+-LOCAL_CFLAGS += -DLOG_TAG=\"adfhwc\" -Werror
++LOCAL_CFLAGS += -DLOG_TAG=\"adfhwc\" 
+ LOCAL_EXPORT_C_INCLUDE_DIRS := $(LOCAL_PATH)/include
+ LOCAL_C_INCLUDES += $(LOCAL_EXPORT_C_INCLUDE_DIRS)
+ include $(BUILD_STATIC_LIBRARY)
+diff --git a/system/core/base/Android.mk b/system/core/base/Android.mk
+index ad85c6b..279f715 100644
+--- a/system/core/base/Android.mk
++++ b/system/core/base/Android.mk
+@@ -31,7 +31,7 @@ libbase_test_src_files := \
+ libbase_cppflags := \
+     -Wall \
+     -Wextra \
+-    -Werror \
++     \
+ 
+ # Device
+ # ------------------------------------------------------------------------------
+diff --git a/system/core/cpio/Android.mk b/system/core/cpio/Android.mk
+index 2aa7297..4743471 100644
+--- a/system/core/cpio/Android.mk
++++ b/system/core/cpio/Android.mk
+@@ -8,7 +8,7 @@ LOCAL_SRC_FILES := \
+ 
+ LOCAL_MODULE := mkbootfs
+ 
+-LOCAL_CFLAGS := -Werror
++LOCAL_CFLAGS := 
+ 
+ LOCAL_SHARED_LIBRARIES := libcutils
+ 
+diff --git a/system/core/debuggerd/Android.mk b/system/core/debuggerd/Android.mk
+index 6cfb541..1358c24 100644
+--- a/system/core/debuggerd/Android.mk
++++ b/system/core/debuggerd/Android.mk
+@@ -6,7 +6,7 @@ common_cppflags := \
+     -Wall \
+     -Wextra \
+     -Wunused \
+-    -Werror \
++     \
+ 
+ include $(CLEAR_VARS)
+ 
+@@ -59,7 +59,7 @@ LOCAL_SRC_FILES_x86    := x86/crashglue.S
+ LOCAL_SRC_FILES_x86_64 := x86_64/crashglue.S
+ LOCAL_MODULE_PATH := $(TARGET_OUT_OPTIONAL_EXECUTABLES)
+ LOCAL_MODULE_TAGS := optional
+-LOCAL_CFLAGS += -fstack-protector-all -Werror -Wno-free-nonheap-object
++LOCAL_CFLAGS += -fstack-protector-all  -Wno-free-nonheap-object
+ #LOCAL_FORCE_STATIC_EXECUTABLE := true
+ LOCAL_SHARED_LIBRARIES := libcutils liblog libc
+ 
+diff --git a/system/core/fastboot/Android.mk b/system/core/fastboot/Android.mk
+index 66a470a..a213771 100644
+--- a/system/core/fastboot/Android.mk
++++ b/system/core/fastboot/Android.mk
+@@ -25,7 +25,7 @@ LOCAL_SRC_FILES := protocol.c engine.c bootimg_utils.cpp fastboot.cpp util.c fs.
+ LOCAL_MODULE := fastboot
+ LOCAL_MODULE_TAGS := debug
+ LOCAL_CONLYFLAGS += -std=gnu99
+-LOCAL_CFLAGS += -Wall -Wextra -Werror -Wunreachable-code
++LOCAL_CFLAGS += -Wall -Wextra  -Wunreachable-code
+ 
+ LOCAL_CFLAGS += -DFASTBOOT_REVISION='"$(fastboot_version)"'
+ 
+@@ -102,7 +102,7 @@ ifeq ($(HOST_OS),linux)
+ include $(CLEAR_VARS)
+ LOCAL_SRC_FILES := usbtest.c usb_linux.c util.c
+ LOCAL_MODULE := usbtest
+-LOCAL_CFLAGS := -Werror
++LOCAL_CFLAGS := 
+ include $(BUILD_HOST_EXECUTABLE)
+ endif
+ 
+diff --git a/system/core/fingerprintd/Android.mk b/system/core/fingerprintd/Android.mk
+index 48b9525..f8e1da5 100644
+--- a/system/core/fingerprintd/Android.mk
++++ b/system/core/fingerprintd/Android.mk
+@@ -17,7 +17,7 @@
+ LOCAL_PATH := $(call my-dir)
+ 
+ include $(CLEAR_VARS)
+-LOCAL_CFLAGS := -Wall -Wextra -Werror -Wunused
++LOCAL_CFLAGS := -Wall -Wextra  -Wunused
+ LOCAL_SRC_FILES := \
+ 	FingerprintDaemonProxy.cpp \
+ 	IFingerprintDaemon.cpp \
+diff --git a/system/core/fs_mgr/Android.mk b/system/core/fs_mgr/Android.mk
+index 8ed5cc9..67d2d54 100644
+--- a/system/core/fs_mgr/Android.mk
++++ b/system/core/fs_mgr/Android.mk
+@@ -15,7 +15,7 @@ LOCAL_MODULE:= libfs_mgr
+ LOCAL_STATIC_LIBRARIES := liblogwrap libmincrypt libext4_utils_static libsquashfs_utils
+ LOCAL_C_INCLUDES += system/extras/ext4_utils system/extras/squashfs_utils
+ LOCAL_EXPORT_C_INCLUDE_DIRS := $(LOCAL_PATH)/include
+-LOCAL_CFLAGS := -Werror
++LOCAL_CFLAGS := 
+ 
+ ifneq (,$(filter userdebug,$(TARGET_BUILD_VARIANT)))
+ LOCAL_CFLAGS += -DALLOW_ADBD_DISABLE_VERITY=1
+@@ -42,7 +42,7 @@ LOCAL_STATIC_LIBRARIES := libfs_mgr liblogwrap libcutils liblog libc libmincrypt
+ LOCAL_STATIC_LIBRARIES += libsparse_static libz libselinux
+ LOCAL_CXX_STL := libc++_static
+ 
+-LOCAL_CFLAGS := -Werror
++LOCAL_CFLAGS := 
+ 
+ include $(BUILD_EXECUTABLE)
+ 
+diff --git a/system/core/gatekeeperd/Android.mk b/system/core/gatekeeperd/Android.mk
+index 55b2d5e..ea36a3a 100644
+--- a/system/core/gatekeeperd/Android.mk
++++ b/system/core/gatekeeperd/Android.mk
+@@ -17,7 +17,7 @@
+ LOCAL_PATH := $(call my-dir)
+ 
+ include $(CLEAR_VARS)
+-LOCAL_CFLAGS := -Wall -Wextra -Werror -Wunused
++LOCAL_CFLAGS := -Wall -Wextra  -Wunused
+ LOCAL_SRC_FILES := \
+ 	SoftGateKeeperDevice.cpp \
+ 	IGateKeeperService.cpp \
+diff --git a/system/core/gatekeeperd/tests/Android.mk b/system/core/gatekeeperd/tests/Android.mk
+index 6fc4ac0..d663892 100644
+--- a/system/core/gatekeeperd/tests/Android.mk
++++ b/system/core/gatekeeperd/tests/Android.mk
+@@ -19,7 +19,7 @@ LOCAL_PATH:= $(call my-dir)
+ include $(CLEAR_VARS)
+ LOCAL_MODULE := gatekeeperd-unit-tests
+ LOCAL_ADDITIONAL_DEPENDENCIES := $(LOCAL_PATH)/Android.mk
+-LOCAL_CFLAGS += -g -Wall -Werror -std=gnu++11 -Wno-missing-field-initializers
++LOCAL_CFLAGS += -g -Wall  -std=gnu++11 -Wno-missing-field-initializers
+ LOCAL_SHARED_LIBRARIES := libgatekeeper libcrypto
+ LOCAL_STATIC_LIBRARIES := libscrypt_static
+ LOCAL_C_INCLUDES := external/scrypt/lib/crypto
+diff --git a/system/core/gpttool/Android.mk b/system/core/gpttool/Android.mk
+index 64ad945..6195b78 100644
+--- a/system/core/gpttool/Android.mk
++++ b/system/core/gpttool/Android.mk
+@@ -5,7 +5,7 @@ include $(CLEAR_VARS)
+ 
+ LOCAL_SRC_FILES := gpttool.c
+ LOCAL_STATIC_LIBRARIES := libz
+-LOCAL_CFLAGS := -Werror
++LOCAL_CFLAGS := 
+ 
+ LOCAL_MODULE := gpttool
+ 
+diff --git a/system/core/healthd/Android.mk b/system/core/healthd/Android.mk
+index 07e1d73..382743a 100644
+--- a/system/core/healthd/Android.mk
++++ b/system/core/healthd/Android.mk
+@@ -5,7 +5,7 @@ LOCAL_PATH := $(call my-dir)
+ include $(CLEAR_VARS)
+ LOCAL_SRC_FILES := healthd_board_default.cpp
+ LOCAL_MODULE := libhealthd.default
+-LOCAL_CFLAGS := -Werror
++LOCAL_CFLAGS := 
+ include $(BUILD_STATIC_LIBRARY)
+ 
+ include $(CLEAR_VARS)
+@@ -23,7 +23,7 @@ LOCAL_FORCE_STATIC_EXECUTABLE := true
+ LOCAL_MODULE_PATH := $(TARGET_ROOT_OUT_SBIN)
+ LOCAL_UNSTRIPPED_PATH := $(TARGET_ROOT_OUT_SBIN_UNSTRIPPED)
+ 
+-LOCAL_CFLAGS := -D__STDC_LIMIT_MACROS -Werror
++LOCAL_CFLAGS := -D__STDC_LIMIT_MACROS 
+ 
+ ifeq ($(strip $(BOARD_CHARGER_DISABLE_INIT_BLANK)),true)
+ LOCAL_CFLAGS += -DCHARGER_DISABLE_INIT_BLANK
+diff --git a/system/core/init/Android.mk b/system/core/init/Android.mk
+index de065dc..73c9be8 100644
+--- a/system/core/init/Android.mk
++++ b/system/core/init/Android.mk
+@@ -16,7 +16,7 @@ init_cflags += \
+     $(init_options) \
+     -Wall -Wextra \
+     -Wno-unused-parameter \
+-    -Werror \
++     \
+ 
+ init_clang := true
+ 
+diff --git a/system/core/libbacktrace/Android.mk b/system/core/libbacktrace/Android.mk
+index 6a689a6..6d9ae55 100644
+--- a/system/core/libbacktrace/Android.mk
++++ b/system/core/libbacktrace/Android.mk
+@@ -18,7 +18,7 @@ LOCAL_PATH:= $(call my-dir)
+ 
+ libbacktrace_common_cflags := \
+ 	-Wall \
+-	-Werror \
++	 \
+ 
+ libbacktrace_common_conlyflags := \
+ 	-std=gnu99 \
+diff --git a/system/core/libcutils/Android.mk b/system/core/libcutils/Android.mk
+index 0963076..70be546 100644
+--- a/system/core/libcutils/Android.mk
++++ b/system/core/libcutils/Android.mk
+@@ -73,7 +73,7 @@ LOCAL_MODULE := libcutils
+ LOCAL_SRC_FILES := $(commonSources) $(commonHostSources) dlmalloc_stubs.c
+ LOCAL_STATIC_LIBRARIES := liblog
+ ifneq ($(HOST_OS),windows)
+-LOCAL_CFLAGS += -Werror
++LOCAL_CFLAGS += 
+ endif
+ LOCAL_MULTILIB := both
+ include $(BUILD_HOST_STATIC_LIBRARY)
+@@ -83,7 +83,7 @@ LOCAL_MODULE := libcutils
+ LOCAL_SRC_FILES := $(commonSources) $(commonHostSources) dlmalloc_stubs.c
+ LOCAL_SHARED_LIBRARIES := liblog
+ ifneq ($(HOST_OS),windows)
+-LOCAL_CFLAGS += -Werror
++LOCAL_CFLAGS += 
+ endif
+ LOCAL_MULTILIB := both
+ include $(BUILD_HOST_SHARED_LIBRARY)
+@@ -128,7 +128,7 @@ LOCAL_STATIC_LIBRARIES := liblog
+ ifneq ($(ENABLE_CPUSETS),)
+ LOCAL_CFLAGS += -DUSE_CPUSETS
+ endif
+-LOCAL_CFLAGS += -Werror -std=gnu90
++LOCAL_CFLAGS +=  -std=gnu90
+ include $(BUILD_STATIC_LIBRARY)
+ 
+ include $(CLEAR_VARS)
+@@ -140,7 +140,7 @@ LOCAL_SHARED_LIBRARIES := liblog
+ ifneq ($(ENABLE_CPUSETS),)
+ LOCAL_CFLAGS += -DUSE_CPUSETS
+ endif
+-LOCAL_CFLAGS += -Werror
++LOCAL_CFLAGS += 
+ LOCAL_C_INCLUDES := $(libcutils_c_includes)
+ include $(BUILD_SHARED_LIBRARY)
+ 
+diff --git a/system/core/libdiskconfig/Android.mk b/system/core/libdiskconfig/Android.mk
+index 624e385..c4670a4 100644
+--- a/system/core/libdiskconfig/Android.mk
++++ b/system/core/libdiskconfig/Android.mk
+@@ -12,7 +12,7 @@ LOCAL_SRC_FILES := $(commonSources)
+ LOCAL_MODULE := libdiskconfig
+ LOCAL_MODULE_TAGS := optional
+ LOCAL_SYSTEM_SHARED_LIBRARIES := libcutils liblog libc
+-LOCAL_CFLAGS := -Werror
++LOCAL_CFLAGS := 
+ include $(BUILD_SHARED_LIBRARY)
+ 
+ ifeq ($(HOST_OS),linux)
+@@ -20,6 +20,6 @@ include $(CLEAR_VARS)
+ LOCAL_SRC_FILES := $(commonSources)
+ LOCAL_MODULE := libdiskconfig_host
+ LOCAL_MODULE_TAGS := optional
+-LOCAL_CFLAGS := -O2 -g -W -Wall -Werror -D_LARGEFILE64_SOURCE
++LOCAL_CFLAGS := -O2 -g -W -Wall  -D_LARGEFILE64_SOURCE
+ include $(BUILD_HOST_STATIC_LIBRARY)
+ endif # HOST_OS == linux
+diff --git a/system/core/libion/Android.mk b/system/core/libion/Android.mk
+index 6562cd3..6ff7683 100644
+--- a/system/core/libion/Android.mk
++++ b/system/core/libion/Android.mk
+@@ -7,7 +7,7 @@ LOCAL_MODULE_TAGS := optional
+ LOCAL_SHARED_LIBRARIES := liblog
+ LOCAL_C_INCLUDES := $(LOCAL_PATH)/include $(LOCAL_PATH)/kernel-headers
+ LOCAL_EXPORT_C_INCLUDE_DIRS := $(LOCAL_PATH)/include $(LOCAL_PATH)/kernel-headers
+-LOCAL_CFLAGS := -Werror
++LOCAL_CFLAGS := 
+ include $(BUILD_SHARED_LIBRARY)
+ 
+ include $(CLEAR_VARS)
+@@ -16,7 +16,7 @@ LOCAL_MODULE := iontest
+ LOCAL_MODULE_TAGS := optional tests
+ LOCAL_C_INCLUDES := $(LOCAL_PATH)/include $(LOCAL_PATH)/kernel-headers
+ LOCAL_SHARED_LIBRARIES := liblog
+-LOCAL_CFLAGS := -Werror
++LOCAL_CFLAGS := 
+ include $(BUILD_EXECUTABLE)
+ 
+ include $(call first-makefiles-under,$(LOCAL_PATH))
+diff --git a/system/core/libion/tests/Android.mk b/system/core/libion/tests/Android.mk
+index 894f90e..40dd1ee 100644
+--- a/system/core/libion/tests/Android.mk
++++ b/system/core/libion/tests/Android.mk
+@@ -18,7 +18,7 @@ LOCAL_PATH:= $(call my-dir)
+ 
+ include $(CLEAR_VARS)
+ LOCAL_MODULE := ion-unit-tests
+-LOCAL_CFLAGS += -g -Wall -Werror -std=gnu++11 -Wno-missing-field-initializers
++LOCAL_CFLAGS += -g -Wall  -std=gnu++11 -Wno-missing-field-initializers
+ LOCAL_SHARED_LIBRARIES += libion
+ LOCAL_C_INCLUDES := $(LOCAL_PATH)/../kernel-headers
+ LOCAL_SRC_FILES := \
+diff --git a/system/core/liblog/Android.mk b/system/core/liblog/Android.mk
+index 115dd79..5b2499b 100644
+--- a/system/core/liblog/Android.mk
++++ b/system/core/liblog/Android.mk
+@@ -57,7 +57,7 @@ endif
+ # ========================================================
+ LOCAL_MODULE := liblog
+ LOCAL_SRC_FILES := $(liblog_host_sources)
+-LOCAL_CFLAGS := -DFAKE_LOG_DEVICE=1 -Werror $(liblog_cflags)
++LOCAL_CFLAGS := -DFAKE_LOG_DEVICE=1  $(liblog_cflags)
+ LOCAL_MULTILIB := both
+ include $(BUILD_HOST_STATIC_LIBRARY)
+ 
+@@ -76,13 +76,13 @@ include $(BUILD_HOST_SHARED_LIBRARY)
+ include $(CLEAR_VARS)
+ LOCAL_MODULE := liblog
+ LOCAL_SRC_FILES := $(liblog_target_sources)
+-LOCAL_CFLAGS := -Werror $(liblog_cflags)
++LOCAL_CFLAGS :=  $(liblog_cflags)
+ include $(BUILD_STATIC_LIBRARY)
+ 
+ include $(CLEAR_VARS)
+ LOCAL_MODULE := liblog
+ LOCAL_WHOLE_STATIC_LIBRARIES := liblog
+-LOCAL_CFLAGS := -Werror $(liblog_cflags)
++LOCAL_CFLAGS :=  $(liblog_cflags)
+ 
+ # TODO: This is to work around b/19059885. Remove after root cause is fixed
+ LOCAL_LDFLAGS_arm := -Wl,--hash-style=both
+diff --git a/system/core/liblog/tests/Android.mk b/system/core/liblog/tests/Android.mk
+index a407c50..8144566 100644
+--- a/system/core/liblog/tests/Android.mk
++++ b/system/core/liblog/tests/Android.mk
+@@ -26,7 +26,7 @@ test_tags := tests
+ benchmark_c_flags := \
+     -Ibionic/tests \
+     -Wall -Wextra \
+-    -Werror \
++     \
+     -fno-builtin \
+     -std=gnu++11
+ 
+@@ -52,7 +52,7 @@ test_c_flags := \
+     -fstack-protector-all \
+     -g \
+     -Wall -Wextra \
+-    -Werror \
++     \
+     -fno-builtin \
+     -std=gnu++11
+ 
+diff --git a/system/core/libmemtrack/Android.mk b/system/core/libmemtrack/Android.mk
+index a8fb3eb..5898bd3 100644
+--- a/system/core/libmemtrack/Android.mk
++++ b/system/core/libmemtrack/Android.mk
+@@ -7,7 +7,7 @@ LOCAL_SRC_FILES := memtrack.c
+ LOCAL_MODULE := libmemtrack
+ LOCAL_C_INCLUDES += hardware/libhardware/include
+ LOCAL_SHARED_LIBRARIES := libhardware liblog
+-LOCAL_CFLAGS := -Wall -Werror
++LOCAL_CFLAGS := -Wall 
+ include $(BUILD_SHARED_LIBRARY)
+ 
+ include $(CLEAR_VARS)
+@@ -15,5 +15,5 @@ LOCAL_SRC_FILES := memtrack_test.c
+ LOCAL_MODULE := memtrack_test
+ LOCAL_C_INCLUDES := $(call include-path-for, libpagemap)
+ LOCAL_SHARED_LIBRARIES := libmemtrack libpagemap
+-LOCAL_CFLAGS := -Wall -Werror
++LOCAL_CFLAGS := -Wall 
+ include $(BUILD_EXECUTABLE)
+diff --git a/system/core/libmincrypt/Android.mk b/system/core/libmincrypt/Android.mk
+index 7906986..3a1d9fb 100644
+--- a/system/core/libmincrypt/Android.mk
++++ b/system/core/libmincrypt/Android.mk
+@@ -5,13 +5,13 @@ LOCAL_PATH := $(call my-dir)
+ include $(CLEAR_VARS)
+ LOCAL_MODULE := libmincrypt
+ LOCAL_SRC_FILES := dsa_sig.c p256.c p256_ec.c p256_ecdsa.c rsa.c sha.c sha256.c
+-LOCAL_CFLAGS := -Wall -Werror
++LOCAL_CFLAGS := -Wall 
+ include $(BUILD_STATIC_LIBRARY)
+ 
+ include $(CLEAR_VARS)
+ LOCAL_MODULE := libmincrypt
+ LOCAL_SRC_FILES := dsa_sig.c p256.c p256_ec.c p256_ecdsa.c rsa.c sha.c sha256.c
+-LOCAL_CFLAGS := -Wall -Werror
++LOCAL_CFLAGS := -Wall 
+ include $(BUILD_HOST_STATIC_LIBRARY)
+ 
+ include $(LOCAL_PATH)/tools/Android.mk \
+diff --git a/system/core/libnativebridge/Android.mk b/system/core/libnativebridge/Android.mk
+index 83169eb..a718994 100644
+--- a/system/core/libnativebridge/Android.mk
++++ b/system/core/libnativebridge/Android.mk
+@@ -13,7 +13,7 @@ LOCAL_SRC_FILES:= $(NATIVE_BRIDGE_COMMON_SRC_FILES)
+ LOCAL_SHARED_LIBRARIES := liblog
+ LOCAL_CLANG := true
+ LOCAL_CPP_EXTENSION := .cc
+-LOCAL_CFLAGS += -Werror -Wall
++LOCAL_CFLAGS +=  -Wall
+ LOCAL_CPPFLAGS := -std=gnu++11 -fvisibility=protected
+ LOCAL_LDFLAGS := -ldl
+ LOCAL_MULTILIB := both
+@@ -30,7 +30,7 @@ LOCAL_SRC_FILES:= $(NATIVE_BRIDGE_COMMON_SRC_FILES)
+ LOCAL_SHARED_LIBRARIES := liblog
+ LOCAL_CLANG := true
+ LOCAL_CPP_EXTENSION := .cc
+-LOCAL_CFLAGS += -Werror -Wall
++LOCAL_CFLAGS +=  -Wall
+ LOCAL_CPPFLAGS := -std=gnu++11 -fvisibility=protected
+ LOCAL_LDFLAGS := -ldl
+ LOCAL_MULTILIB := both
+diff --git a/system/core/libnativebridge/tests/Android.nativebridge-dummy.mk b/system/core/libnativebridge/tests/Android.nativebridge-dummy.mk
+index 2efc176..167f8ec 100644
+--- a/system/core/libnativebridge/tests/Android.nativebridge-dummy.mk
++++ b/system/core/libnativebridge/tests/Android.nativebridge-dummy.mk
+@@ -11,7 +11,7 @@ LOCAL_MODULE:= libnativebridge-dummy
+ 
+ LOCAL_SRC_FILES:= $(NATIVE_BRIDGE_COMMON_SRC_FILES)
+ LOCAL_CLANG := true
+-LOCAL_CFLAGS += -Werror -Wall
++LOCAL_CFLAGS +=  -Wall
+ LOCAL_CPPFLAGS := -std=gnu++11 -fvisibility=protected
+ LOCAL_LDFLAGS := -ldl
+ LOCAL_MULTILIB := both
+@@ -26,7 +26,7 @@ LOCAL_MODULE:= libnativebridge-dummy
+ 
+ LOCAL_SRC_FILES:= $(NATIVE_BRIDGE_COMMON_SRC_FILES)
+ LOCAL_CLANG := true
+-LOCAL_CFLAGS += -Werror -Wall
++LOCAL_CFLAGS +=  -Wall
+ LOCAL_CPPFLAGS := -std=gnu++11 -fvisibility=protected
+ LOCAL_LDFLAGS := -ldl
+ LOCAL_MULTILIB := both
+@@ -47,7 +47,7 @@ LOCAL_MODULE:= libnativebridge2-dummy
+ 
+ LOCAL_SRC_FILES:= $(NATIVE_BRIDGE2_COMMON_SRC_FILES)
+ LOCAL_CLANG := true
+-LOCAL_CFLAGS += -Werror -Wall
++LOCAL_CFLAGS +=  -Wall
+ LOCAL_CPPFLAGS := -std=gnu++11 -fvisibility=protected
+ LOCAL_LDFLAGS := -ldl
+ LOCAL_MULTILIB := both
+@@ -62,7 +62,7 @@ LOCAL_MODULE:= libnativebridge2-dummy
+ 
+ LOCAL_SRC_FILES:= $(NATIVE_BRIDGE2_COMMON_SRC_FILES)
+ LOCAL_CLANG := true
+-LOCAL_CFLAGS += -Werror -Wall
++LOCAL_CFLAGS +=  -Wall
+ LOCAL_CPPFLAGS := -std=gnu++11 -fvisibility=protected
+ LOCAL_LDFLAGS := -ldl
+ LOCAL_MULTILIB := both
+diff --git a/system/core/libnetutils/Android.mk b/system/core/libnetutils/Android.mk
+index 2060df4..2908284 100644
+--- a/system/core/libnetutils/Android.mk
++++ b/system/core/libnetutils/Android.mk
+@@ -14,7 +14,7 @@ LOCAL_SHARED_LIBRARIES := \
+ 
+ LOCAL_MODULE := libnetutils
+ 
+-LOCAL_CFLAGS := -Werror
++LOCAL_CFLAGS := 
+ 
+ include $(BUILD_SHARED_LIBRARY)
+ 
+diff --git a/system/core/libprocessgroup/Android.mk b/system/core/libprocessgroup/Android.mk
+index ee6ba58..6560c9a 100644
+--- a/system/core/libprocessgroup/Android.mk
++++ b/system/core/libprocessgroup/Android.mk
+@@ -6,7 +6,7 @@ LOCAL_MODULE := libprocessgroup
+ LOCAL_SHARED_LIBRARIES := liblog libutils
+ LOCAL_C_INCLUDES := $(LOCAL_PATH)/include
+ LOCAL_EXPORT_C_INCLUDE_DIRS := $(LOCAL_PATH)/include
+-LOCAL_CFLAGS := -Wall -Werror
++LOCAL_CFLAGS := -Wall 
+ LOCAL_REQUIRED_MODULE := processgroup_cleanup
+ include $(BUILD_SHARED_LIBRARY)
+ 
+@@ -14,7 +14,7 @@ include $(CLEAR_VARS)
+ LOCAL_SRC_FILES := cleanup.cpp
+ LOCAL_MODULE := processgroup_cleanup
+ LOCAL_C_INCLUDES := $(LOCAL_PATH)/include
+-LOCAL_CFLAGS := -Wall -Werror
++LOCAL_CFLAGS := -Wall 
+ LOCAL_FORCE_STATIC_EXECUTABLE := true
+ LOCAL_STATIC_LIBRARIES := libc libcutils
+ include $(BUILD_EXECUTABLE)
+diff --git a/system/core/libsparse/Android.mk b/system/core/libsparse/Android.mk
+index 925b98b..69a1205 100644
+--- a/system/core/libsparse/Android.mk
++++ b/system/core/libsparse/Android.mk
+@@ -17,7 +17,7 @@ LOCAL_SRC_FILES := $(libsparse_src_files)
+ LOCAL_MODULE := libsparse_host
+ LOCAL_STATIC_LIBRARIES := libz
+ LOCAL_C_INCLUDES := $(LOCAL_PATH)/include
+-LOCAL_CFLAGS := -Werror
++LOCAL_CFLAGS := 
+ include $(BUILD_HOST_STATIC_LIBRARY)
+ 
+ 
+@@ -28,7 +28,7 @@ LOCAL_MODULE := libsparse
+ LOCAL_C_INCLUDES += $(LOCAL_PATH)/include
+ LOCAL_SHARED_LIBRARIES := \
+     libz
+-LOCAL_CFLAGS := -Werror
++LOCAL_CFLAGS := 
+ include $(BUILD_SHARED_LIBRARY)
+ 
+ 
+@@ -38,7 +38,7 @@ LOCAL_SRC_FILES := $(libsparse_src_files)
+ LOCAL_MODULE := libsparse_static
+ LOCAL_C_INCLUDES += $(LOCAL_PATH)/include
+ LOCAL_STATIC_LIBRARIES := libz
+-LOCAL_CFLAGS := -Werror
++LOCAL_CFLAGS := 
+ include $(BUILD_STATIC_LIBRARY)
+ 
+ 
+@@ -51,7 +51,7 @@ LOCAL_MODULE_STEM := simg2img
+ LOCAL_STATIC_LIBRARIES := \
+     libsparse_host \
+     libz
+-LOCAL_CFLAGS := -Werror
++LOCAL_CFLAGS := 
+ include $(BUILD_HOST_EXECUTABLE)
+ 
+ 
+@@ -62,7 +62,7 @@ LOCAL_MODULE := simg2img
+ LOCAL_STATIC_LIBRARIES := \
+     libsparse_static \
+     libz
+-LOCAL_CFLAGS := -Werror
++LOCAL_CFLAGS := 
+ include $(BUILD_EXECUTABLE)
+ 
+ 
+@@ -74,7 +74,7 @@ LOCAL_MODULE_STEM := img2simg
+ LOCAL_STATIC_LIBRARIES := \
+     libsparse_host \
+     libz
+-LOCAL_CFLAGS := -Werror
++LOCAL_CFLAGS := 
+ include $(BUILD_HOST_EXECUTABLE)
+ 
+ 
+@@ -84,7 +84,7 @@ LOCAL_MODULE := img2simg
+ LOCAL_STATIC_LIBRARIES := \
+     libsparse_static \
+     libz
+-LOCAL_CFLAGS := -Werror
++LOCAL_CFLAGS := 
+ include $(BUILD_EXECUTABLE)
+ 
+ 
+@@ -96,7 +96,7 @@ LOCAL_MODULE := append2simg
+ LOCAL_STATIC_LIBRARIES := \
+     libsparse_host \
+     libz
+-LOCAL_CFLAGS := -Werror
++LOCAL_CFLAGS := 
+ include $(BUILD_HOST_EXECUTABLE)
+ 
+ endif
+@@ -106,5 +106,5 @@ LOCAL_MODULE := simg_dump.py
+ LOCAL_SRC_FILES := simg_dump.py
+ LOCAL_MODULE_CLASS := EXECUTABLES
+ LOCAL_IS_HOST_MODULE := true
+-LOCAL_CFLAGS := -Werror
++LOCAL_CFLAGS := 
+ include $(BUILD_PREBUILT)
+diff --git a/system/core/libsuspend/Android.mk b/system/core/libsuspend/Android.mk
+index 1ba2f59..638e402 100644
+--- a/system/core/libsuspend/Android.mk
++++ b/system/core/libsuspend/Android.mk
+@@ -18,7 +18,7 @@ LOCAL_MODULE_TAGS := optional
+ LOCAL_EXPORT_C_INCLUDE_DIRS := $(LOCAL_PATH)/include
+ LOCAL_C_INCLUDES += $(LOCAL_PATH)/include
+ LOCAL_SHARED_LIBRARIES := $(libsuspend_libraries)
+-LOCAL_CFLAGS := -Werror
++LOCAL_CFLAGS := 
+ #LOCAL_CFLAGS += -DLOG_NDEBUG=0
+ include $(BUILD_SHARED_LIBRARY)
+ 
+@@ -28,6 +28,6 @@ LOCAL_MODULE := libsuspend
+ LOCAL_MODULE_TAGS := optional
+ LOCAL_EXPORT_C_INCLUDE_DIRS := $(LOCAL_PATH)/include
+ LOCAL_C_INCLUDES += $(LOCAL_PATH)/include
+-LOCAL_CFLAGS := -Werror
++LOCAL_CFLAGS := 
+ #LOCAL_CFLAGS += -DLOG_NDEBUG=0
+ include $(BUILD_STATIC_LIBRARY)
+diff --git a/system/core/libsync/Android.mk b/system/core/libsync/Android.mk
+index fd1c88c..cac091b 100644
+--- a/system/core/libsync/Android.mk
++++ b/system/core/libsync/Android.mk
+@@ -7,7 +7,7 @@ LOCAL_MODULE_TAGS := optional
+ LOCAL_SHARED_LIBRARIES := liblog
+ LOCAL_C_INCLUDES := $(LOCAL_PATH)/include
+ LOCAL_EXPORT_C_INCLUDE_DIRS := $(LOCAL_PATH)/include
+-LOCAL_CFLAGS := -Werror
++LOCAL_CFLAGS := 
+ include $(BUILD_SHARED_LIBRARY)
+ 
+ include $(CLEAR_VARS)
+@@ -16,5 +16,5 @@ LOCAL_MODULE := sync_test
+ LOCAL_MODULE_TAGS := optional tests
+ LOCAL_SHARED_LIBRARIES := liblog
+ LOCAL_C_INCLUDES := $(LOCAL_PATH)/include
+-LOCAL_CFLAGS := -Werror
++LOCAL_CFLAGS := 
+ include $(BUILD_EXECUTABLE)
+diff --git a/system/core/libsync/tests/Android.mk b/system/core/libsync/tests/Android.mk
+index 8137c7a..f4e8073 100644
+--- a/system/core/libsync/tests/Android.mk
++++ b/system/core/libsync/tests/Android.mk
+@@ -19,7 +19,7 @@ LOCAL_PATH:= $(call my-dir)
+ include $(CLEAR_VARS)
+ LOCAL_CLANG := true
+ LOCAL_MODULE := sync-unit-tests
+-LOCAL_CFLAGS += -g -Wall -Werror -std=gnu++11 -Wno-missing-field-initializers -Wno-sign-compare
++LOCAL_CFLAGS += -g -Wall  -std=gnu++11 -Wno-missing-field-initializers -Wno-sign-compare
+ LOCAL_SHARED_LIBRARIES += libsync
+ LOCAL_STATIC_LIBRARIES += libgtest_main
+ LOCAL_C_INCLUDES += $(LOCAL_PATH)/../include
+diff --git a/system/core/libsysutils/Android.mk b/system/core/libsysutils/Android.mk
+index 7bf53e3..a5ea516 100644
+--- a/system/core/libsysutils/Android.mk
++++ b/system/core/libsysutils/Android.mk
+@@ -14,7 +14,7 @@ LOCAL_SRC_FILES:=                             \
+ 
+ LOCAL_MODULE:= libsysutils
+ 
+-LOCAL_CFLAGS := -Werror
++LOCAL_CFLAGS := 
+ 
+ LOCAL_SHARED_LIBRARIES := \
+         libcutils \
+diff --git a/system/core/libusbhost/Android.mk b/system/core/libusbhost/Android.mk
+index 5c12f2c..7dd1c03 100644
+--- a/system/core/libusbhost/Android.mk
++++ b/system/core/libusbhost/Android.mk
+@@ -25,7 +25,7 @@ include $(CLEAR_VARS)
+ 
+ LOCAL_MODULE := libusbhost
+ LOCAL_SRC_FILES := usbhost.c
+-LOCAL_CFLAGS := -Werror
++LOCAL_CFLAGS := 
+ 
+ include $(BUILD_HOST_STATIC_LIBRARY)
+ 
+@@ -39,7 +39,7 @@ include $(CLEAR_VARS)
+ LOCAL_MODULE := libusbhost
+ LOCAL_SRC_FILES := usbhost.c
+ 
+-LOCAL_CFLAGS := -g -DUSE_LIBLOG -Werror
++LOCAL_CFLAGS := -g -DUSE_LIBLOG 
+ 
+ # needed for logcat
+ LOCAL_SHARED_LIBRARIES := libcutils
+@@ -53,6 +53,6 @@ include $(CLEAR_VARS)
+ 
+ LOCAL_MODULE := libusbhost
+ LOCAL_SRC_FILES := usbhost.c
+-LOCAL_CFLAGS := -Werror
++LOCAL_CFLAGS := 
+ 
+ include $(BUILD_STATIC_LIBRARY)
+diff --git a/system/core/libutils/Android.mk b/system/core/libutils/Android.mk
+index 23a5c59..7993c93 100644
+--- a/system/core/libutils/Android.mk
++++ b/system/core/libutils/Android.mk
+@@ -39,7 +39,7 @@ commonSources:= \
+ 	VectorImpl.cpp \
+ 	misc.cpp \
+ 
+-host_commonCflags := -DLIBUTILS_NATIVE=1 $(TOOL_CFLAGS) -Werror
++host_commonCflags := -DLIBUTILS_NATIVE=1 $(TOOL_CFLAGS) 
+ 
+ ifeq ($(HOST_OS),windows)
+ ifeq ($(strip $(USE_CYGWIN),),)
+@@ -81,7 +81,7 @@ LOCAL_SRC_FILES:= \
+ ifeq ($(TARGET_ARCH),mips)
+ LOCAL_CFLAGS += -DALIGN_DOUBLE
+ endif
+-LOCAL_CFLAGS += -Werror
++LOCAL_CFLAGS += 
+ 
+ LOCAL_STATIC_LIBRARIES := \
+ 	libcutils \
+@@ -106,7 +106,7 @@ LOCAL_SHARED_LIBRARIES := \
+         libcutils \
+         libdl \
+         liblog
+-LOCAL_CFLAGS := -Werror
++LOCAL_CFLAGS := 
+ LOCAL_C_INCLUDES += external/safe-iop/include
+ 
+ include $(BUILD_SHARED_LIBRARY)
+diff --git a/system/core/libziparchive/Android.mk b/system/core/libziparchive/Android.mk
+index a3087ee..e261a9e 100644
+--- a/system/core/libziparchive/Android.mk
++++ b/system/core/libziparchive/Android.mk
+@@ -23,7 +23,7 @@ LOCAL_SRC_FILES := ${source_files}
+ LOCAL_STATIC_LIBRARIES := libz
+ LOCAL_SHARED_LIBRARIES := libutils libbase
+ LOCAL_MODULE:= libziparchive
+-LOCAL_CFLAGS := -Werror -Wall
++LOCAL_CFLAGS :=  -Wall
+ LOCAL_CPPFLAGS := -Wold-style-cast
+ include $(BUILD_STATIC_LIBRARY)
+ 
+@@ -32,7 +32,7 @@ LOCAL_CPP_EXTENSION := .cc
+ LOCAL_SRC_FILES := ${source_files}
+ LOCAL_STATIC_LIBRARIES := libz libutils libbase
+ LOCAL_MODULE:= libziparchive-host
+-LOCAL_CFLAGS := -Werror
++LOCAL_CFLAGS := 
+ ifneq ($(strip $(USE_MINGW)),)
+ 	LOCAL_CFLAGS += -mno-ms-bitfields
+ endif
+@@ -45,7 +45,7 @@ LOCAL_SRC_FILES := ${source_files}
+ LOCAL_STATIC_LIBRARIES := libz libutils
+ LOCAL_SHARED_LIBRARIES := liblog libbase
+ LOCAL_MODULE:= libziparchive-host
+-LOCAL_CFLAGS := -Werror
++LOCAL_CFLAGS := 
+ LOCAL_MULTILIB := both
+ include $(BUILD_HOST_SHARED_LIBRARY)
+ 
+@@ -53,7 +53,7 @@ include $(BUILD_HOST_SHARED_LIBRARY)
+ include $(CLEAR_VARS)
+ LOCAL_MODULE := ziparchive-tests
+ LOCAL_CPP_EXTENSION := .cc
+-LOCAL_CFLAGS := -Werror
++LOCAL_CFLAGS := 
+ LOCAL_SRC_FILES := zip_archive_test.cc entry_name_utils_test.cc
+ LOCAL_SHARED_LIBRARIES := liblog libbase
+ LOCAL_STATIC_LIBRARIES := libziparchive libz libutils
+@@ -63,7 +63,7 @@ include $(CLEAR_VARS)
+ LOCAL_MODULE := ziparchive-tests-host
+ LOCAL_CPP_EXTENSION := .cc
+ LOCAL_CFLAGS += \
+-    -Werror \
++     \
+     -Wno-unnamed-type-template-args
+ LOCAL_SRC_FILES := zip_archive_test.cc entry_name_utils_test.cc
+ LOCAL_SHARED_LIBRARIES := libziparchive-host liblog libbase
+diff --git a/system/core/lmkd/Android.mk b/system/core/lmkd/Android.mk
+index 39081d6..790344a 100644
+--- a/system/core/lmkd/Android.mk
++++ b/system/core/lmkd/Android.mk
+@@ -3,7 +3,7 @@ include $(CLEAR_VARS)
+ 
+ LOCAL_SRC_FILES := lmkd.c
+ LOCAL_SHARED_LIBRARIES := liblog libm libc libprocessgroup
+-LOCAL_CFLAGS := -Werror
++LOCAL_CFLAGS := 
+ 
+ LOCAL_MODULE := lmkd
+ 
+diff --git a/system/core/logcat/Android.mk b/system/core/logcat/Android.mk
+index 7115f9b..d1075dd 100644
+--- a/system/core/logcat/Android.mk
++++ b/system/core/logcat/Android.mk
+@@ -9,7 +9,7 @@ LOCAL_SHARED_LIBRARIES := liblog libbase libcutils
+ 
+ LOCAL_MODULE := logcat
+ 
+-LOCAL_CFLAGS := -Werror
++LOCAL_CFLAGS := 
+ 
+ include $(BUILD_EXECUTABLE)
+ 
+diff --git a/system/core/logcat/tests/Android.mk b/system/core/logcat/tests/Android.mk
+index a28664e..b8eeec0 100644
+--- a/system/core/logcat/tests/Android.mk
++++ b/system/core/logcat/tests/Android.mk
+@@ -23,7 +23,7 @@ test_c_flags := \
+     -fstack-protector-all \
+     -g \
+     -Wall -Wextra \
+-    -Werror \
++     \
+     -fno-builtin \
+     -std=gnu++11
+ 
+diff --git a/system/core/logd/Android.mk b/system/core/logd/Android.mk
+index 615d030..f2427dd 100644
+--- a/system/core/logd/Android.mk
++++ b/system/core/logd/Android.mk
+@@ -37,7 +37,7 @@ LOCAL_SHARED_LIBRARIES := \
+ # so make sure we do not regret hard-coding it as follows:
+ event_flag := -DAUDITD_LOG_TAG=1003 -DLOGD_LOG_TAG=1004
+ 
+-LOCAL_CFLAGS := -Werror $(event_flag)
++LOCAL_CFLAGS :=  $(event_flag)
+ 
+ include $(BUILD_EXECUTABLE)
+ 
+diff --git a/system/core/logd/tests/Android.mk b/system/core/logd/tests/Android.mk
+index 85ca4ac..a523b4c 100644
+--- a/system/core/logd/tests/Android.mk
++++ b/system/core/logd/tests/Android.mk
+@@ -31,7 +31,7 @@ test_c_flags := \
+     -fstack-protector-all \
+     -g \
+     -Wall -Wextra \
+-    -Werror \
++     \
+     -fno-builtin \
+ 
+ ifneq ($(TARGET_USES_LOGD),false)
+diff --git a/system/core/logwrapper/Android.mk b/system/core/logwrapper/Android.mk
+index 61b4659..e5d28fe 100644
+--- a/system/core/logwrapper/Android.mk
++++ b/system/core/logwrapper/Android.mk
+@@ -11,7 +11,7 @@ LOCAL_SRC_FILES := logwrap.c
+ LOCAL_SHARED_LIBRARIES := libcutils liblog
+ LOCAL_EXPORT_C_INCLUDE_DIRS := $(LOCAL_PATH)/include
+ LOCAL_C_INCLUDES := $(LOCAL_PATH)/include
+-LOCAL_CFLAGS := -Werror
++LOCAL_CFLAGS := 
+ include $(BUILD_STATIC_LIBRARY)
+ 
+ # ========================================================
+@@ -23,7 +23,7 @@ LOCAL_SHARED_LIBRARIES := libcutils liblog
+ LOCAL_WHOLE_STATIC_LIBRARIES := liblogwrap
+ LOCAL_EXPORT_C_INCLUDE_DIRS := $(LOCAL_PATH)/include
+ LOCAL_C_INCLUDES := $(LOCAL_PATH)/include
+-LOCAL_CFLAGS := -Werror
++LOCAL_CFLAGS := 
+ include $(BUILD_SHARED_LIBRARY)
+ 
+ # ========================================================
+@@ -33,5 +33,5 @@ include $(CLEAR_VARS)
+ LOCAL_SRC_FILES:= logwrapper.c
+ LOCAL_MODULE := logwrapper
+ LOCAL_STATIC_LIBRARIES := liblog liblogwrap libcutils
+-LOCAL_CFLAGS := -Werror
++LOCAL_CFLAGS := 
+ include $(BUILD_EXECUTABLE)
+diff --git a/system/core/mkbootimg/Android.mk b/system/core/mkbootimg/Android.mk
+index 0c9b0c6..afd077e 100644
+--- a/system/core/mkbootimg/Android.mk
++++ b/system/core/mkbootimg/Android.mk
+@@ -4,7 +4,7 @@ include $(CLEAR_VARS)
+ 
+ LOCAL_SRC_FILES := mkbootimg.c
+ LOCAL_STATIC_LIBRARIES := libmincrypt
+-LOCAL_CFLAGS := -Werror
++LOCAL_CFLAGS := 
+ 
+ LOCAL_MODULE := mkbootimg
+ 
+diff --git a/system/core/reboot/Android.mk b/system/core/reboot/Android.mk
+index 7a24f99..c7ba9bf 100644
+--- a/system/core/reboot/Android.mk
++++ b/system/core/reboot/Android.mk
+@@ -9,6 +9,6 @@ LOCAL_SHARED_LIBRARIES := libcutils
+ 
+ LOCAL_MODULE := reboot
+ 
+-LOCAL_CFLAGS := -Werror
++LOCAL_CFLAGS := 
+ 
+ include $(BUILD_EXECUTABLE)
+diff --git a/system/core/run-as/Android.mk b/system/core/run-as/Android.mk
+index 3774acc..3ac2b6b 100644
+--- a/system/core/run-as/Android.mk
++++ b/system/core/run-as/Android.mk
+@@ -7,6 +7,6 @@ LOCAL_SHARED_LIBRARIES := libselinux
+ 
+ LOCAL_MODULE := run-as
+ 
+-LOCAL_CFLAGS := -Werror
++LOCAL_CFLAGS := 
+ 
+ include $(BUILD_EXECUTABLE)
+diff --git a/system/core/sdcard/Android.mk b/system/core/sdcard/Android.mk
+index cb3a8fb..67e4871 100644
+--- a/system/core/sdcard/Android.mk
++++ b/system/core/sdcard/Android.mk
+@@ -4,7 +4,7 @@ include $(CLEAR_VARS)
+ 
+ LOCAL_SRC_FILES := sdcard.c
+ LOCAL_MODULE := sdcard
+-LOCAL_CFLAGS := -Wall -Wno-unused-parameter -Werror
++LOCAL_CFLAGS := -Wall -Wno-unused-parameter 
+ 
+ LOCAL_SHARED_LIBRARIES := libcutils
+ 
+diff --git a/system/core/toolbox/Android.mk b/system/core/toolbox/Android.mk
+index ad99a39..010a7be 100644
+--- a/system/core/toolbox/Android.mk
++++ b/system/core/toolbox/Android.mk
+@@ -3,7 +3,7 @@ LOCAL_PATH:= $(call my-dir)
+ 
+ common_cflags := \
+     -std=gnu99 \
+-    -Werror -Wno-unused-parameter \
++     -Wno-unused-parameter \
+     -I$(LOCAL_PATH)/upstream-netbsd/include/ \
+     -include bsd-compatibility.h \
+ 
+diff --git a/system/core/tzdatacheck/Android.mk b/system/core/tzdatacheck/Android.mk
+index 0e25f7d..2526fcd 100644
+--- a/system/core/tzdatacheck/Android.mk
++++ b/system/core/tzdatacheck/Android.mk
+@@ -9,13 +9,13 @@ include $(CLEAR_VARS)
+ LOCAL_SRC_FILES:= tzdatacheck.cpp
+ LOCAL_MODULE := tzdatacheck
+ LOCAL_SHARED_LIBRARIES := libbase libcutils liblog
+-LOCAL_CFLAGS := -Werror
++LOCAL_CFLAGS := 
+ include $(BUILD_EXECUTABLE)
+ 
+ include $(CLEAR_VARS)
+ LOCAL_SRC_FILES:= tzdatacheck.cpp
+ LOCAL_MODULE := tzdatacheck
+ LOCAL_SHARED_LIBRARIES := libbase libcutils liblog
+-LOCAL_CFLAGS := -Werror
++LOCAL_CFLAGS := 
+ include $(BUILD_HOST_EXECUTABLE)
+ 
+
+project system/extras/
+diff --git a/system/extras/perfprofd/Android.mk b/system/extras/perfprofd/Android.mk
+index fd1d517..870cfb6 100644
+--- a/system/extras/perfprofd/Android.mk
++++ b/system/extras/perfprofd/Android.mk
+@@ -4,7 +4,7 @@ perfprofd_cppflags := \
+   -Wall \
+   -Wno-sign-compare \
+   -Wno-unused-parameter \
+-  -Werror \
++   \
+   -std=gnu++11 \
+ 
+ #
+@@ -61,7 +61,7 @@ LOCAL_STATIC_LIBRARIES := libperfprofdcore libperfprofdutils
+ LOCAL_SHARED_LIBRARIES := liblog libprotobuf-cpp-lite libbase
+ LOCAL_SYSTEM_SHARED_LIBRARIES := libc libstdc++
+ LOCAL_CPPFLAGS += $(perfprofd_cppflags)
+-LOCAL_CFLAGS := -Wall -Werror -std=gnu++11
++LOCAL_CFLAGS := -Wall  -std=gnu++11
+ LOCAL_MODULE := perfprofd
+ LOCAL_MODULE_PATH := $(TARGET_OUT_OPTIONAL_EXECUTABLES)
+ LOCAL_MODULE_TAGS := debug
+diff --git a/system/extras/perfprofd/tests/Android.mk b/system/extras/perfprofd/tests/Android.mk
+index d8ea10a..beda389 100644
+--- a/system/extras/perfprofd/tests/Android.mk
++++ b/system/extras/perfprofd/tests/Android.mk
+@@ -1,7 +1,7 @@
+ # Build the unit tests.
+ LOCAL_PATH := $(call my-dir)
+ 
+-perfprofd_test_cppflags := -Wall -Wno-sign-compare -Wno-unused-parameter -Werror -std=gnu++11
++perfprofd_test_cppflags := -Wall -Wno-sign-compare -Wno-unused-parameter  -std=gnu++11
+ 
+ #
+ # Static library with mockup utilities layer (called by unit test).
+diff --git a/system/extras/procrank/Android.mk b/system/extras/procrank/Android.mk
+index be7c599..0b2d59a 100644
+--- a/system/extras/procrank/Android.mk
++++ b/system/extras/procrank/Android.mk
+@@ -19,7 +19,7 @@ LOCAL_SRC_FILES := procrank.c
+ 
+ LOCAL_C_INCLUDES := $(call include-path-for, libpagemap)
+ 
+-LOCAL_CFLAGS := -Wall -Wextra -Wformat=2 -Werror
++LOCAL_CFLAGS := -Wall -Wextra -Wformat=2 
+ 
+ LOCAL_SHARED_LIBRARIES := libpagemap
+ 
+diff --git a/system/extras/simpleperf/Android.mk b/system/extras/simpleperf/Android.mk
+index f37c4b0..9efbdb6 100644
+--- a/system/extras/simpleperf/Android.mk
++++ b/system/extras/simpleperf/Android.mk
+@@ -16,7 +16,7 @@
+ 
+ LOCAL_PATH := $(call my-dir)
+ 
+-simpleperf_common_cppflags := -std=c++11 -Wall -Wextra -Werror -Wunused
++simpleperf_common_cppflags := -std=c++11 -Wall -Wextra  -Wunused
+ 
+ simpleperf_common_shared_libraries := \
+   libbase \
+diff --git a/system/extras/slideshow/Android.mk b/system/extras/slideshow/Android.mk
+index 8c782c3..587d382 100644
+--- a/system/extras/slideshow/Android.mk
++++ b/system/extras/slideshow/Android.mk
+@@ -10,7 +10,7 @@ LOCAL_FORCE_STATIC_EXECUTABLE := true
+ LOCAL_MODULE_PATH := $(TARGET_ROOT_OUT_SBIN)
+ LOCAL_UNSTRIPPED_PATH := $(TARGET_ROOT_OUT_SBIN_UNSTRIPPED)
+ 
+-LOCAL_CFLAGS := -D__STDC_LIMIT_MACROS -Werror
++LOCAL_CFLAGS := -D__STDC_LIMIT_MACROS 
+ LOCAL_C_INCLUDES := bootable/recovery
+ LOCAL_STATIC_LIBRARIES := libminui libpng libz libutils libstdc++ libcutils liblog libm libc
+ include $(BUILD_EXECUTABLE)
+diff --git a/system/extras/su/Android.mk b/system/extras/su/Android.mk
+index 297e0a3..0df5be7 100644
+--- a/system/extras/su/Android.mk
++++ b/system/extras/su/Android.mk
+@@ -1,7 +1,7 @@
+ LOCAL_PATH:= $(call my-dir)
+ include $(CLEAR_VARS)
+ 
+-LOCAL_CFLAGS := -std=c11 -Wall -Werror
++LOCAL_CFLAGS := -std=c11 -Wall 
+ 
+ LOCAL_SRC_FILES:= su.c
+ 
+diff --git a/system/extras/tests/suspend_stress/Android.mk b/system/extras/tests/suspend_stress/Android.mk
+index 952f50f..96737c8 100644
+--- a/system/extras/tests/suspend_stress/Android.mk
++++ b/system/extras/tests/suspend_stress/Android.mk
+@@ -3,7 +3,7 @@ LOCAL_PATH := $(call my-dir)
+ include $(CLEAR_VARS)
+ LOCAL_SRC_FILES := suspend_stress.cpp
+ LOCAL_MODULE := suspend_stress
+-LOCAL_CFLAGS := -Wall -Werror
++LOCAL_CFLAGS := -Wall 
+ LOCAL_FORCE_STATIC_EXECUTABLE := true
+ LOCAL_STATIC_LIBRARIES := libc libcutils
+ include $(BUILD_EXECUTABLE)
+diff --git a/system/extras/verity/Android.mk b/system/extras/verity/Android.mk
+index 75face6..52af410 100644
+--- a/system/extras/verity/Android.mk
++++ b/system/extras/verity/Android.mk
+@@ -101,5 +101,5 @@ LOCAL_SRC_FILES := build_verity_tree.cpp
+ LOCAL_MODULE_TAGS := optional
+ LOCAL_STATIC_LIBRARIES := libsparse_host libz
+ LOCAL_SHARED_LIBRARIES := libcrypto-host
+-LOCAL_CFLAGS += -Wall -Werror
++LOCAL_CFLAGS += -Wall 
+ include $(BUILD_HOST_EXECUTABLE)
+
+project system/gatekeeper/
+diff --git a/system/gatekeeper/Android.mk b/system/gatekeeper/Android.mk
+index 0d7e1b6..ceffc86 100644
+--- a/system/gatekeeper/Android.mk
++++ b/system/gatekeeper/Android.mk
+@@ -25,7 +25,7 @@ LOCAL_SRC_FILES := \
+ 	gatekeeper.cpp
+ LOCAL_C_INCLUDES := \
+ 	$(LOCAL_PATH)/include
+-LOCAL_CFLAGS = -Wall -Werror -g
++LOCAL_CFLAGS = -Wall  -g
+ LOCAL_MODULE_TAGS := optional
+ LOCAL_EXPORT_C_INCLUDE_DIRS := $(LOCAL_PATH)/include
+ LOCAL_ADDITIONAL_DEPENDENCIES := $(LOCAL_PATH)/Android.mk
+diff --git a/system/gatekeeper/tests/Android.mk b/system/gatekeeper/tests/Android.mk
+index 203a524..9b08c94 100644
+--- a/system/gatekeeper/tests/Android.mk
++++ b/system/gatekeeper/tests/Android.mk
+@@ -19,7 +19,7 @@ LOCAL_PATH:= $(call my-dir)
+ include $(CLEAR_VARS)
+ LOCAL_MODULE := gatekeeper-unit-tests
+ LOCAL_ADDITIONAL_DEPENDENCIES := $(LOCAL_PATH)/Android.mk
+-LOCAL_CFLAGS += -g -Wall -Werror -std=gnu++11 -Wno-missing-field-initializers
++LOCAL_CFLAGS += -g -Wall  -std=gnu++11 -Wno-missing-field-initializers
+ LOCAL_SHARED_LIBRARIES := libgatekeeper libcrypto libhardware
+ LOCAL_STATIC_LIBRARIES := libscrypt_static
+ LOCAL_C_INCLUDES := external/scrypt/lib/crypto
+
+project system/keymaster/
+diff --git a/system/keymaster/Android.mk b/system/keymaster/Android.mk
+index 5a6dbb4..8091e1b 100644
+--- a/system/keymaster/Android.mk
++++ b/system/keymaster/Android.mk
+@@ -28,7 +28,7 @@ LOCAL_SRC_FILES:= \
+ 		serializable.cpp
+ LOCAL_C_INCLUDES := \
+ 	$(LOCAL_PATH)/include
+-LOCAL_CFLAGS = -Wall -Werror -Wunused
++LOCAL_CFLAGS = -Wall  -Wunused
+ LOCAL_MODULE_TAGS := optional
+ LOCAL_EXPORT_C_INCLUDE_DIRS := $(LOCAL_PATH)/include
+ LOCAL_ADDITIONAL_DEPENDENCIES := $(LOCAL_PATH)/Android.mk
+@@ -74,7 +74,7 @@ LOCAL_SRC_FILES:= \
+ LOCAL_C_INCLUDES := \
+ 	$(LOCAL_PATH)/include
+ LOCAL_SHARED_LIBRARIES := libcrypto libkeymaster_messages
+-LOCAL_CFLAGS = -Wall -Werror -Wunused
++LOCAL_CFLAGS = -Wall  -Wunused
+ LOCAL_CLANG_CFLAGS += -Wno-error=unused-const-variable -Wno-error=unused-private-field
+ # Ignore benign warnings for now.
+ LOCAL_CLANG_CFLAGS += -Wno-error=unused-private-field
+@@ -106,7 +106,7 @@ LOCAL_SRC_FILES := \
+ LOCAL_C_INCLUDES := \
+ 	system/security/keystore \
+ 	$(LOCAL_PATH)/include
+-LOCAL_CFLAGS = -Wall -Werror -Wunused
++LOCAL_CFLAGS = -Wall  -Wunused
+ LOCAL_CLANG_CFLAGS += -Wno-error=unused-const-variable -Wno-error=unused-private-field
+ LOCAL_SHARED_LIBRARIES := libkeymaster_messages libkeymaster1 liblog libcrypto
+ LOCAL_MODULE_TAGS := optional
+@@ -140,7 +140,7 @@ LOCAL_SRC_FILES := \
+ 	keymaster_enforcement_test.cpp
+ LOCAL_C_INCLUDES := \
+ 	$(LOCAL_PATH)/include
+-LOCAL_CFLAGS = -Wall -Werror -Wunused
++LOCAL_CFLAGS = -Wall  -Wunused
+ LOCAL_CLANG_CFLAGS += -Wno-error=unused-const-variable -Wno-error=unused-private-field
+ LOCAL_MODULE_TAGS := tests
+ LOCAL_SHARED_LIBRARIES := \
+
+project system/media/
+diff --git a/system/media/audio_utils/Android.mk b/system/media/audio_utils/Android.mk
+index 03ba817..ce6e677 100644
+--- a/system/media/audio_utils/Android.mk
++++ b/system/media/audio_utils/Android.mk
+@@ -5,6 +5,8 @@ include $(CLEAR_VARS)
+ LOCAL_MODULE := libaudioutils
+ LOCAL_MODULE_TAGS := optional
+ 
++LOCAL_CFLAGS += -isystem $(TOP)/system/media/audio/include
++
+ LOCAL_SRC_FILES:= \
+ 	channels.c \
+ 	fifo.c \
+@@ -89,4 +91,3 @@ LOCAL_C_INCLUDES += \
+ include $(BUILD_STATIC_LIBRARY)
+ 
+ include $(call all-makefiles-under,$(LOCAL_PATH))
+-
+
+project system/netd/
+diff --git a/system/netd/client/Android.mk b/system/netd/client/Android.mk
+index e202534..6feac02 100644
+--- a/system/netd/client/Android.mk
++++ b/system/netd/client/Android.mk
+@@ -18,7 +18,7 @@ include $(CLEAR_VARS)
+ 
+ LOCAL_C_INCLUDES := bionic/libc/dns/include system/netd/include
+ LOCAL_CLANG := true
+-LOCAL_CPPFLAGS := -std=c++11 -Wall -Werror
++LOCAL_CPPFLAGS := -std=c++11 -Wall 
+ LOCAL_MODULE := libnetd_client
+ LOCAL_SRC_FILES := FwmarkClient.cpp NetdClient.cpp
+ 
+diff --git a/system/netd/server/Android.mk b/system/netd/server/Android.mk
+index 5ba45ad..2e8f93b 100644
+--- a/system/netd/server/Android.mk
++++ b/system/netd/server/Android.mk
+@@ -23,7 +23,7 @@ LOCAL_C_INCLUDES := \
+         system/netd/include \
+ 
+ LOCAL_CLANG := true
+-LOCAL_CPPFLAGS := -std=c++11 -Wall -Werror
++LOCAL_CPPFLAGS := -std=c++11 -Wall 
+ LOCAL_MODULE := netd
+ 
+ LOCAL_SHARED_LIBRARIES := \
+@@ -78,7 +78,7 @@ include $(BUILD_EXECUTABLE)
+ 
+ include $(CLEAR_VARS)
+ 
+-LOCAL_CFLAGS := -Wall -Werror
++LOCAL_CFLAGS := -Wall 
+ LOCAL_CLANG := true
+ LOCAL_MODULE := ndc
+ LOCAL_SHARED_LIBRARIES := libcutils
+
+project system/security/
+diff --git a/system/security/keystore-engine/Android.mk b/system/security/keystore-engine/Android.mk
+index 1f5d903..cd0c587 100644
+--- a/system/security/keystore-engine/Android.mk
++++ b/system/security/keystore-engine/Android.mk
+@@ -45,7 +45,7 @@ else
+ endif
+ 
+ LOCAL_MODULE_TAGS := optional
+-LOCAL_CFLAGS := -fvisibility=hidden -Wall -Werror
++LOCAL_CFLAGS := -fvisibility=hidden -Wall 
+ 
+ LOCAL_SHARED_LIBRARIES += \
+ 	libcrypto \
+diff --git a/system/security/keystore/Android.mk b/system/security/keystore/Android.mk
+index e18b2d8..2c9c07f 100644
+--- a/system/security/keystore/Android.mk
++++ b/system/security/keystore/Android.mk
+@@ -20,7 +20,7 @@ include $(CLEAR_VARS)
+ ifeq ($(USE_32_BIT_KEYSTORE), true)
+ LOCAL_MULTILIB := 32
+ endif
+-LOCAL_CFLAGS := -Wall -Wextra -Werror -Wunused
++LOCAL_CFLAGS := -Wall -Wextra  -Wunused
+ LOCAL_SRC_FILES := keystore.cpp keyblob_utils.cpp operation.cpp auth_token_table.cpp
+ LOCAL_SHARED_LIBRARIES := \
+ 	libbinder \
+@@ -45,7 +45,7 @@ include $(CLEAR_VARS)
+ ifeq ($(USE_32_BIT_KEYSTORE), true)
+ LOCAL_MULTILIB := 32
+ endif
+-LOCAL_CFLAGS := -Wall -Wextra -Werror
++LOCAL_CFLAGS := -Wall -Wextra 
+ LOCAL_SRC_FILES := keystore_cli.cpp
+ LOCAL_SHARED_LIBRARIES := libcutils libcrypto libkeystore_binder libutils liblog libbinder
+ LOCAL_MODULE := keystore_cli
+@@ -58,7 +58,7 @@ include $(CLEAR_VARS)
+ ifeq ($(USE_32_BIT_KEYSTORE), true)
+ LOCAL_MULTILIB := 32
+ endif
+-LOCAL_CFLAGS := -Wall -Wextra -Werror
++LOCAL_CFLAGS := -Wall -Wextra 
+ LOCAL_SRC_FILES := IKeystoreService.cpp keystore_get.cpp keyblob_utils.cpp
+ LOCAL_SHARED_LIBRARIES := libbinder libutils liblog libsoftkeymasterdevice
+ LOCAL_MODULE := libkeystore_binder
+@@ -73,7 +73,7 @@ include $(CLEAR_VARS)
+ ifeq ($(USE_32_BIT_KEYSTORE), true)
+ LOCAL_MULTILIB := 32
+ endif
+-LOCAL_CFLAGS := -Wall -Wextra -Werror
++LOCAL_CFLAGS := -Wall -Wextra 
+ LOCAL_SRC_FILES := auth_token_table.cpp
+ LOCAL_MODULE := libkeystore_test
+ LOCAL_C_INCLUDES := $(LOCAL_PATH)/include
+diff --git a/system/security/keystore/tests/Android.mk b/system/security/keystore/tests/Android.mk
+index be8c426..bf7eb11 100644
+--- a/system/security/keystore/tests/Android.mk
++++ b/system/security/keystore/tests/Android.mk
+@@ -21,7 +21,7 @@ include $(CLEAR_VARS)
+ ifeq ($(USE_32_BIT_KEYSTORE), true)
+ LOCAL_MULTILIB := 32
+ endif
+-LOCAL_CFLAGS := -Wall -Wextra -Werror
++LOCAL_CFLAGS := -Wall -Wextra 
+ LOCAL_SRC_FILES := auth_token_table_test.cpp
+ LOCAL_MODULE := auth_token_table_test
+ LOCAL_C_INCLUDES := $(LOCAL_PATH)/include
+diff --git a/system/security/softkeymaster/Android.mk b/system/security/softkeymaster/Android.mk
+index eb32c87..67296d6 100644
+--- a/system/security/softkeymaster/Android.mk
++++ b/system/security/softkeymaster/Android.mk
+@@ -22,7 +22,7 @@ LOCAL_MODULE := keystore.default
+ LOCAL_MODULE_RELATIVE_PATH := hw
+ LOCAL_SRC_FILES := module.cpp
+ LOCAL_C_INCLUDES := system/security/keystore
+-LOCAL_CFLAGS = -fvisibility=hidden -Wall -Werror
++LOCAL_CFLAGS = -fvisibility=hidden -Wall 
+ LOCAL_SHARED_LIBRARIES := libcrypto liblog libkeystore_binder libsoftkeymaster
+ LOCAL_MODULE_TAGS := optional
+ LOCAL_ADDITIONAL_DEPENDENCIES := $(LOCAL_PATH)/Android.mk
+@@ -36,7 +36,7 @@ LOCAL_MODULE := libsoftkeymaster
+ LOCAL_SRC_FILES := keymaster_openssl.cpp
+ LOCAL_C_INCLUDES := system/security/keystore \
+ 	$(LOCAL_PATH)/include
+-LOCAL_CFLAGS = -fvisibility=hidden -Wall -Werror
++LOCAL_CFLAGS = -fvisibility=hidden -Wall 
+ LOCAL_SHARED_LIBRARIES := libcrypto liblog libkeystore_binder
+ LOCAL_MODULE_TAGS := optional
+ LOCAL_EXPORT_C_INCLUDE_DIRS := $(LOCAL_PATH)/include
+
+project system/vold/
+diff --git a/system/vold/Android.mk b/system/vold/Android.mk
+index 1d36312..7a5b39e 100644
+--- a/system/vold/Android.mk
++++ b/system/vold/Android.mk
+@@ -62,7 +62,7 @@ common_static_libraries := \
+ 	libbatteryservice
+ 
+ vold_conlyflags := -std=c11
+-vold_cflags := -Werror -Wall -Wno-missing-field-initializers -Wno-unused-variable -Wno-unused-parameter
++vold_cflags :=  -Wall -Wno-missing-field-initializers -Wno-unused-variable -Wno-unused-parameter
+ 
+ include $(CLEAR_VARS)
+ 
